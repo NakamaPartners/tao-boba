@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Tao Boba Homepage"
+description = "A polished, responsive homepage for Tao Boba — a premium boba tea and pastry shop in Denver, CO. The homepage showcases their artisan drinks and petit gateaux pastries with a dark, cinematic, editorial aesthetic. Features hero, trust bar, local favorites gallery, craft story, menu preview, and order/visit sections."
+version = "1.0.0"
+id = "artifacts/tao-boba"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24880
+
+[services.development]
+run = "pnpm --filter @workspace/tao-boba run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/tao-boba", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/tao-boba/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24880"
+BASE_PATH = "/"

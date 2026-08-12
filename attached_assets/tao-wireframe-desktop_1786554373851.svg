@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="2090" viewBox="0 0 800 2090" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    
+  </defs>
+  <rect x="0" y="0" width="800" height="2090" fill="#FFFFFF"/>
+  <rect x="20" y="20" width="760" height="2050" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+  <rect x="48" y="52" width="150" height="20" fill="#D8D8D8"/>
+  <rect x="360" y="57" width="60" height="8" fill="#D8D8D8"/>
+  <rect x="440" y="57" width="60" height="8" fill="#D8D8D8"/>
+  <rect x="520" y="57" width="60" height="8" fill="#D8D8D8"/>
+  <rect x="620" y="46" width="132" height="34" fill="#111111"/>
+  <text x="686" y="68" font-size="13" font-weight="bold" fill="#FFFFFF" letter-spacing="1" text-anchor="middle">ORDER ONLINE</text>
+  <line x1="20" y1="104" x2="780" y2="104" stroke="#D6D6D6"/>
+  <text x="48" y="134" font-size="14" font-weight="bold" fill="#111111" letter-spacing="1">01  HERO</text>
+  <rect x="404" y="152" width="348" height="290" fill="url(#h)" stroke="#D8D8D8"/>
+  <rect x="48" y="172" width="62" height="12" fill="#111111"/>
+  <rect x="48" y="198" width="252" height="20" fill="#D8D8D8"/>
+  <rect x="48" y="228" width="182" height="20" fill="#D8D8D8"/>
+  <rect x="48" y="264" width="212" height="12" fill="#E4E4E4"/>
+  <rect x="48" y="298" width="158" height="42" fill="#111111"/>
+  <text x="127" y="324" font-size="13" font-weight="bold" fill="#FFFFFF" letter-spacing="1" text-anchor="middle">ORDER ONLINE</text>
+  <rect x="218" y="298" width="120" height="42" fill="none" stroke="#111111" stroke-width="1.5"/>
+  <text x="278" y="324" font-size="13" font-weight="bold" fill="#111111" letter-spacing="1" text-anchor="middle">VIEW MENU</text>
+  <line x1="20" y1="466" x2="780" y2="466" stroke="#D6D6D6"/>
+  <text x="48" y="496" font-size="14" font-weight="bold" fill="#111111" letter-spacing="1">02  TRUST BAR</text>
+  <rect x="48" y="518" width="120" height="34" fill="none" stroke="#111111"/>
+  <text x="108" y="540" font-size="12" fill="#111111" text-anchor="middle">★★★★★ 4.8</text>
+  <rect x="184" y="518" width="112" height="34" fill="none" stroke="#111111"/>
+  <text x="240" y="540" font-size="12" fill="#111111" text-anchor="middle">REVIEWS</text>
+  <rect x="312" y="518" width="164" height="34" fill="none" stroke="#111111"/>
+  <text x="394" y="540" font-size="12" fill="#111111" text-anchor="middle">DENVER FAVORITE</text>
+  <rect x="492" y="518" width="152" height="34" fill="none" stroke="#111111"/>
+  <text x="568" y="540" font-size="12" fill="#111111" text-anchor="middle">VEGAN · DF · GF</text>
+  <circle cx="698" cy="535" r="8" fill="none" stroke="#111111" stroke-width="2"/>
+  <text x="714" y="540" font-size="12" font-weight="bold" fill="#111111">TRUST</text>
+  <line x1="20" y1="588" x2="780" y2="588" stroke="#D6D6D6"/>
+  <text x="48" y="618" font-size="14" font-weight="bold" fill="#111111" letter-spacing="1">03  LOCAL FAVORITES  (gallery, 8)</text>
+  <g stroke="#D8D8D8">
+    <rect x="48" y="642" width="164" height="164" fill="url(#h)"/>
+    <rect x="228" y="642" width="164" height="164" fill="url(#h)"/>
+    <rect x="408" y="642" width="164" height="164" fill="url(#h)"/>
+    <rect x="588" y="642" width="164" height="164" fill="url(#h)"/>
+    <rect x="48" y="828" width="164" height="164" fill="url(#h)"/>
+    <rect x="228" y="828" width="164" height="164" fill="url(#h)"/>
+    <rect x="408" y="828" width="164" height="164" fill="url(#h)"/>
+    <rect x="588" y="828" width="164" height="164" fill="url(#h)"/>
+  </g>
+  <g fill="#D8D8D8">
+    <rect x="90" y="816" width="80" height="10"/><rect x="270" y="816" width="80" height="10"/>
+    <rect x="450" y="816" width="80" height="10"/><rect x="630" y="816" width="80" height="10"/>
+    <rect x="90" y="1002" width="80" height="10"/><rect x="270" y="1002" width="80" height="10"/>
+    <rect x="450" y="1002" width="80" height="10"/><rect x="630" y="1002" width="80" height="10"/>
+  </g>
+  <line x1="20" y1="1034" x2="780" y2="1034" stroke="#D6D6D6"/>
+  <text x="48" y="1064" font-size="14" font-weight="bold" fill="#111111" letter-spacing="1">04  THE CRAFT</text>
+  <rect x="48" y="1086" width="320" height="244" fill="url(#h)" stroke="#D8D8D8"/>
+  <rect x="396" y="1092" width="200" height="20" fill="#D8D8D8"/>
+  <rect x="396" y="1124" width="356" height="12" fill="#E4E4E4"/>
+  <rect x="396" y="1146" width="356" height="12" fill="#E4E4E4"/>
+  <rect x="396" y="1168" width="260" height="12" fill="#E4E4E4"/>
+  <rect x="396" y="1198" width="3" height="34" fill="#111111"/>
+  <rect x="410" y="1210" width="250" height="12" fill="#E4E4E4"/>
+  <rect x="396" y="1254" width="150" height="40" fill="none" stroke="#111111" stroke-width="1.5"/>
+  <text x="471" y="1279" font-size="13" font-weight="bold" fill="#111111" letter-spacing="1" text-anchor="middle">READ OUR STORY</text>
+  <line x1="20" y1="1362" x2="780" y2="1362" stroke="#D6D6D6"/>
+  <text x="48" y="1392" font-size="14" font-weight="bold" fill="#111111" letter-spacing="1">05  MENU PREVIEW</text>
+  <g fill="#D8D8D8">
+    <rect x="48" y="1420" width="200" height="13"/><rect x="688" y="1420" width="64" height="20" fill="none" stroke="#111111"/>
+    <rect x="48" y="1470" width="200" height="13"/><rect x="688" y="1470" width="64" height="20" fill="none" stroke="#111111"/>
+    <rect x="48" y="1520" width="200" height="13"/><rect x="688" y="1520" width="64" height="20" fill="none" stroke="#111111"/>
+    <rect x="48" y="1570" width="200" height="13"/><rect x="688" y="1570" width="64" height="20" fill="none" stroke="#111111"/>
+    <rect x="48" y="1620" width="200" height="13"/><rect x="688" y="1620" width="64" height="20" fill="none" stroke="#111111"/>
+  </g>
+  <g stroke="#ECECEC">
+    <line x1="48" y1="1446" x2="752" y2="1446"/><line x1="48" y1="1496" x2="752" y2="1496"/>
+    <line x1="48" y1="1546" x2="752" y2="1546"/><line x1="48" y1="1596" x2="752" y2="1596"/>
+    <line x1="48" y1="1646" x2="752" y2="1646"/>
+  </g>
+  <rect x="48" y="1666" width="152" height="40" fill="none" stroke="#111111" stroke-width="1.5"/>
+  <text x="124" y="1691" font-size="13" font-weight="bold" fill="#111111" letter-spacing="1" text-anchor="middle">SEE FULL MENU</text>
+  <line x1="20" y1="1726" x2="780" y2="1726" stroke="#D6D6D6"/>
+  <text x="48" y="1756" font-size="14" font-weight="bold" fill="#111111" letter-spacing="1">06  ORDER &amp; VISIT</text>
+  <rect x="48" y="1780" width="330" height="200" fill="none" stroke="#D8D8D8"/>
+  <rect x="70" y="1804" width="240" height="12" fill="#D8D8D8"/>
+  <rect x="70" y="1832" width="92" height="32" fill="#111111"/>
+  <text x="116" y="1853" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">PICKUP</text>
+  <rect x="172" y="1832" width="104" height="32" fill="none" stroke="#111111"/>
+  <text x="224" y="1853" font-size="12" font-weight="bold" fill="#111111" text-anchor="middle">DELIVERY</text>
+  <rect x="70" y="1880" width="158" height="40" fill="#111111"/>
+  <text x="149" y="1905" font-size="13" font-weight="bold" fill="#FFFFFF" letter-spacing="1" text-anchor="middle">ORDER ONLINE</text>
+  <rect x="400" y="1780" width="352" height="200" fill="url(#h)" stroke="#D8D8D8"/>
+  <line x1="20" y1="2000" x2="780" y2="2000" stroke="#D6D6D6"/>
+  <rect x="48" y="2022" width="150" height="18" fill="#D8D8D8"/>
+  <g fill="#E4E4E4">
+    <rect x="300" y="2022" width="90" height="9"/><rect x="300" y="2040" width="120" height="9"/>
+    <rect x="470" y="2022" width="90" height="9"/><rect x="470" y="2040" width="120" height="9"/>
+    <rect x="636" y="2022" width="90" height="9"/><rect x="636" y="2040" width="110" height="9"/>
+  </g>
+</svg>
