@@ -1,0 +1,1 @@
+- [Tao Boba homepage architecture](tao-boba-architecture.md) — cup swap engine is direct DOM (not Framer), series JS engine must be preserved on all edits

@@ -12,38 +12,35 @@
   --font-serif: var(--display);
 }
 
-/* ─── design tokens (reference-faithful) ──────────────────────────── */
+/* ═══════════════════════════════════════════════════════ tokens ═════ */
 :root {
-  --paper:        #ffffff;
-  --paper-warm:   #f7f4ee;   /* drink 1 tint */
-  --paper-cool:   #f0f5ee;   /* drink 2 tint */
-  --paper-mist:   #f5efe6;   /* drink 3 tint */
-
-  --ink:    #1c1c1c;
-  --ink-60: #6f6f6f;
-  --ink-30: #b6b6b6;
-  --ink-12: #e2e0dc;
+  --paper:      #ffffff;
+  --ink:        #1c1c1c;
+  --ink-60:     #6f6f6f;
+  --ink-30:     #b6b6b6;
+  --ink-12:     #e2e0dc;
+  --ink-06:     #f0edea;
 
   --display: "Cormorant Garamond", Georgia, serif;
   --body:    "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
 
-  /* motion — exact numbers from reference teardown */
-  --exit-dur:   .33s;
-  --enter-dur:  .90s;
-  --enter-delay:.12s;
-  --tint-dur:   .60s;
-  --ease-tail:  cubic-bezier(.16,1,.3,1);
-  --ease-exit:  cubic-bezier(.55,0,.85,.35);
+  /* motion — exact reference numbers */
+  --exit-dur:    .33s;
+  --enter-dur:   .90s;
+  --enter-delay: .12s;
+  --tint-dur:    .60s;
+  --ease-tail:   cubic-bezier(.16,1,.3,1);
+  --ease-exit:   cubic-bezier(.55,0,.85,.35);
 
   --gutter:   clamp(18px,4vw,64px);
   --header-h: 76px;
 
-  /* Tailwind compat */
+  /* Tailwind */
   --background: 36 30% 97%;
   --foreground:  20 10% 11%;
 }
 
-/* ─── reset ────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════ reset ══════ */
 *,*::before,*::after { box-sizing: border-box }
 html { -webkit-text-size-adjust: 100% }
 body {
@@ -60,7 +57,52 @@ body {
 img { display: block; max-width: 100% }
 a   { color: inherit; text-decoration: none }
 
-/* ─── header / nav ─────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════ custom cursor ═══════
+   Only on fine-pointer (mouse) devices.
+   Dot snaps immediately (JS-driven). Ring follows with lerp at 0.10.
+   Light variant for the dark hero. Expand variant on hover.
+═════════════════════════════════════════════════════════════════════ */
+@media (pointer: fine) {
+  * { cursor: none !important }
+}
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 6px; height: 6px;
+  background: var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+  transition: background .25s ease;
+}
+.cursor-dot.c--light { background: #fff }
+
+.cursor-ring {
+  position: fixed;
+  top: -22px; left: -22px;
+  width: 44px; height: 44px;
+  border: 1px solid rgba(28,28,28,.35);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  will-change: transform;
+  transition:
+    border-color .25s ease,
+    width  .55s var(--ease-tail),
+    height .55s var(--ease-tail),
+    top    .55s var(--ease-tail),
+    left   .55s var(--ease-tail);
+}
+.cursor-ring.c--light { border-color: rgba(255,255,255,.45) }
+.cursor-ring.c--expand {
+  top: -35px; left: -35px;
+  width: 70px; height: 70px;
+  border-color: rgba(28,28,28,.18);
+}
+.cursor-ring.c--light.c--expand { border-color: rgba(255,255,255,.28) }
+
+/* ═══════════════════════════════════════════════ header / nav ═══════ */
 .masthead {
   position: fixed;
   inset: 0 0 auto 0;
@@ -75,9 +117,12 @@ a   { color: inherit; text-decoration: none }
 .mark__logo {
   height: 28px;
   width: auto;
-  object-fit: contain;
   filter: invert(1);
+  opacity: 0;
+  transition: opacity .8s ease .6s;
 }
+.is-loaded .mark__logo { opacity: 1 }
+
 .nav-link, .nav-order {
   position: fixed;
   top: 28px;
@@ -85,75 +130,90 @@ a   { color: inherit; text-decoration: none }
   font-size: 9px;
   letter-spacing: .28em;
   text-transform: uppercase;
-  color: var(--ink);
-  pointer-events: auto;
-  mix-blend-mode: difference;
   color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity .7s ease .7s;
 }
+.is-loaded .nav-link,
+.is-loaded .nav-order { opacity: 1 }
 .nav-link  { right: calc(var(--gutter) + 72px) }
 .nav-order { right: var(--gutter) }
 
-/* ─── hero ─────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════ hero ═══════════════
+   Full-bleed Summer Sips image. No split grid.
+   JS drives transform on .hero__bg for mouse parallax.
+   .is-loaded on <html> triggers all entrance transitions.
+═════════════════════════════════════════════════════════════════════ */
 .hero {
   height: 100svh;
-  min-height: 560px;
+  min-height: 580px;
   position: relative;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: 1.35fr 1fr;
-}
-.hero__media {
-  position: relative;
-  overflow: hidden;
-}
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 35%;
-}
-.hero__panel {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--paper);
-  overflow: hidden;
-}
-/* Using the original studio JPEG (cream background matches panel naturally).
-   object-fit: cover fills the panel; object-position centres on the cup body. */
-.hero__cup {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 52%;
 }
 
-/* 90-deg rotated looping marquee — the signature element */
+/* ── image ── */
+.hero__bg {
+  position: absolute;
+  /* extra room on all sides so parallax + load-scale never shows white edges */
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  object-fit: cover;
+  object-position: center 62%;
+  will-change: transform;
+  transform: scale(1.07);   /* JS keeps this scale, adds translate on mousemove */
+  filter: saturate(.88) brightness(.96);
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+.is-loaded .hero__bg { opacity: 1 }
+
+/* ── gradient veil ── */
+.hero__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    /* top: darken for nav readability */
+    linear-gradient(to bottom,
+      rgba(0,0,0,.42) 0%,
+      rgba(0,0,0,.12) 22%,
+      transparent    42%),
+    /* bottom: darken for text readability */
+    linear-gradient(to top,
+      rgba(0,0,0,.70) 0%,
+      rgba(0,0,0,.20) 28%,
+      transparent    52%);
+}
+
+/* ── vertical looping marquee ── */
 .marquee-v {
   position: absolute;
-  top: 0; bottom: 0; left: 50%;
+  top: 0; bottom: 0;
+  left: 56%;
   transform: translateX(-50%);
-  width: 1.1em;
-  z-index: 5;
+  width: 1.05em;
+  z-index: 4;
   pointer-events: none;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  font-size: clamp(60px,10.5vw,158px);
+  font-size: clamp(64px,10.5vw,158px);
   font-weight: 200;
-  line-height: .92;
+  line-height: .90;
   letter-spacing: .02em;
-  color: rgba(255,255,255,.80);
+  color: rgba(255,255,255,.70);
   mix-blend-mode: overlay;
   overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.2s ease 1s;
 }
+.is-loaded .marquee-v { opacity: 1 }
 .marquee-v__track {
   display: block;
-  animation: marchDown 28s linear infinite;
+  animation: marchDown 30s linear infinite;
   white-space: nowrap;
 }
 @keyframes marchDown {
@@ -161,42 +221,116 @@ a   { color: inherit; text-decoration: none }
   to   { transform: translateY(-50%) }
 }
 
+/* ── editorial display text — bottom right ── */
+.hero__display {
+  position: absolute;
+  right: var(--gutter);
+  bottom: calc(36px + 56px);   /* above strip + above caption/scroll row */
+  z-index: 6;
+  text-align: right;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1.4s var(--ease-tail) .55s,
+              transform 1.4s var(--ease-tail) .55s;
+}
+.is-loaded .hero__display { opacity: 1; transform: none }
+.hero__eyebrow {
+  margin: 0 0 2px;
+  font-size: clamp(9px,1vw,12px);
+  letter-spacing: .30em;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-family: var(--body);
+  color: rgba(255,255,255,.65);
+  line-height: 1;
+}
+.hero__headline {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(54px,7.5vw,110px);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(255,255,255,.92);
+  line-height: .94;
+  letter-spacing: -.015em;
+}
+
+/* ── bottom-left caption ── */
+.hero__caption {
+  position: absolute;
+  left: var(--gutter);
+  bottom: calc(36px + 34px);
+  z-index: 6;
+  font-size: 10px;
+  letter-spacing: .20em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.60);
+  opacity: 0;
+  transition: opacity 1s ease .9s;
+}
+.is-loaded .hero__caption { opacity: 1 }
+
+/* ── scroll indicator ── */
 .hero__scroll {
   position: absolute;
-  left: 50%; bottom: 34px;
+  left: 50%;
+  bottom: calc(36px + 34px);
   transform: translateX(-50%);
   font-size: 10px;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--ink-60);
+  color: rgba(255,255,255,.55);
   z-index: 6;
   text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease 1.1s;
 }
+.is-loaded .hero__scroll { opacity: 1 }
 .hero__scroll i {
   display: block;
-  width: 1px; height: 26px;
-  background: var(--ink-30);
+  width: 1px; height: 28px;
+  background: rgba(255,255,255,.40);
   margin: 0 auto 10px;
   transform-origin: top;
   animation: drip 2.4s var(--ease-tail) infinite;
 }
 @keyframes drip {
-  0%   { transform: scaleY(0) }
-  45%  { transform: scaleY(1) }
+  0%   { transform: scaleY(0)   }
+  45%  { transform: scaleY(1)   }
   100% { transform: scaleY(1); opacity: 0 }
 }
 
-.hero__caption {
+/* ── horizontal info ticker at very bottom ── */
+.hero__strip {
   position: absolute;
-  left: var(--gutter); bottom: 34px;
-  z-index: 6;
-  font-size: 10px;
-  letter-spacing: .2em;
+  bottom: 0; left: 0; right: 0;
+  height: 36px;
+  background: rgba(0,0,0,.38);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 7;
+  opacity: 0;
+  transition: opacity 1s ease 1.2s;
+}
+.is-loaded .hero__strip { opacity: 1 }
+.hero__strip-track {
+  white-space: nowrap;
+  font-size: 9px;
+  letter-spacing: .28em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.7);
+  color: rgba(255,255,255,.58);
+  font-weight: 300;
+  animation: stripScroll 28s linear infinite;
+}
+@keyframes stripScroll {
+  from { transform: translateX(0)    }
+  to   { transform: translateX(-50%) }
 }
 
-/* ─── series (pinned) ──────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════ series (pinned) ════════ */
 .series { position: relative }
 .series__stage {
   position: sticky;
@@ -204,16 +338,48 @@ a   { color: inherit; text-decoration: none }
   height: 100svh;
   min-height: 560px;
   overflow: hidden;
-  background-color: var(--paper-warm);
   transition: background-color var(--tint-dur) ease;
   display: grid;
-  grid-template-columns: minmax(80px,12%) 1fr minmax(220px,36%);
+  grid-template-columns: minmax(80px,12%) 1fr minmax(220px,38%);
   align-items: start;
   padding: calc(var(--header-h) + 4vh) var(--gutter) 0;
 }
 
-/* left index rail */
-.rail { grid-column: 1; padding-top: 64px }
+/* ── ghost letterform ──
+   Enormous italic serif, nearly invisible, behind the cup.
+   First word of the product name (TAO / MATCHA / BROWN).
+   JS swaps text and triggers ghost-pop class for entrance.
+═════════════════════════════════════════════════════════ */
+.ghost-letter {
+  position: absolute;
+  right: -.06em;
+  bottom: -.18em;
+  font-family: var(--display);
+  font-size: clamp(140px,26vw,380px);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(0,0,0,.045);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  letter-spacing: -.025em;
+  white-space: nowrap;
+}
+.ghost-pop {
+  animation: ghostIn .7s var(--ease-tail) both;
+}
+@keyframes ghostIn {
+  from { opacity: 0; transform: scale(.93) translateY(14px) }
+  to   { opacity: 1; transform: none }
+}
+
+/* ── rail ── */
+.rail {
+  grid-column: 1;
+  padding-top: 64px;
+  position: relative; z-index: 1;
+}
 .rail ul { margin: 0; padding: 0; list-style: none }
 .rail li {
   font-size: 12px;
@@ -231,16 +397,14 @@ a   { color: inherit; text-decoration: none }
   width: 14px; height: 1px;
   background: var(--ink);
 }
-.rail .sub {
-  display: block;
-  color: inherit;
-}
+.rail .sub { display: block; color: inherit }
 
-/* headline + copy */
+/* ── body ── */
 .series__body {
   grid-column: 2;
   padding-right: 6%;
   padding-top: 64px;
+  position: relative; z-index: 1;
 }
 .series__title {
   font-size: clamp(30px,4.4vw,62px);
@@ -254,26 +418,38 @@ a   { color: inherit; text-decoration: none }
   gap: .4em;
   flex-wrap: wrap;
 }
-.series__title .name { color: var(--ink-30); transition: color .5s ease }
-.series__title .suffix { position: relative; padding-left: .7em }
-.series__title .suffix::before {
-  content: "";
-  position: absolute;
-  left: 0; top: .62em;
-  width: .5em; height: 1px;
-  background: var(--ink);
+.series__title .name {
+  color: var(--ink-30);
+  transition: color .5s ease;
 }
-.notes { max-width: 46ch; display: grid; gap: clamp(18px,3.4vh,34px) }
+.series__title .suffix {
+  position: relative;
+  padding-left: .9em;
+  display: flex;
+  align-items: baseline;
+  gap: .3em;
+}
+/* Coloured accent bar — replaces the static ::before line */
+.suffix__bar {
+  position: absolute;
+  left: 0; top: .58em;
+  width: .55em; height: 2px;
+  border-radius: 1px;
+  display: block;
+  transition: background .6s ease;
+}
+
+.notes {
+  max-width: 46ch;
+  display: grid;
+  gap: clamp(18px,3.4vh,34px);
+}
 .note h3 {
   margin: 0 0 8px;
   font-size: 13px;
   font-weight: 500;
   letter-spacing: .04em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
-.note h3 em { font-style: normal; font-size: 11px; color: var(--ink-30) }
 .note p {
   margin: 0;
   font-size: 12.5px;
@@ -282,13 +458,14 @@ a   { color: inherit; text-decoration: none }
   max-width: 44ch;
 }
 
-/* right column: the cup stack */
+/* ── cup stack ── */
 .series__stack {
   grid-column: 3;
   position: relative;
   height: 74vh;
   align-self: center;
-  overflow: hidden;   /* clips scaled-up cup edges */
+  overflow: hidden;
+  z-index: 1;
 }
 .cup-wrap {
   position: absolute;
@@ -297,22 +474,57 @@ a   { color: inherit; text-decoration: none }
   place-items: center;
   will-change: transform;
 }
-/* The transparent PNG retains original canvas — cup occupies ~50% of canvas height
-   and sits slightly below centre. We scale up and shift up to make the cup fill the
-   container at Andtea's product scale. transform is on the img, not the wrapper,
-   so cupIn/cupOut animations on .cup-wrap compose correctly. */
 .cup-img {
   height: 74vh;
   width: auto;
   object-fit: contain;
+  /* Scale up to compensate for transparent canvas around cup */
   transform: scale(2.1) translateY(-8%);
   transform-origin: center center;
-  filter: drop-shadow(0 28px 44px rgba(0,0,0,.09));
+  filter: drop-shadow(0 28px 44px rgba(0,0,0,.08));
   user-select: none;
   pointer-events: none;
   display: block;
 }
 
+/* ── cup swap animations — exact reference keyframes ── */
+.cup-wrap.is-entering {
+  animation: cupIn var(--enter-dur) var(--ease-tail) var(--enter-delay) both;
+}
+.cup-wrap.is-exiting {
+  animation: cupOut var(--exit-dur) var(--ease-exit) both;
+}
+.cup-wrap.is-entering.rev { animation-name: cupInRev  }
+.cup-wrap.is-exiting.rev  { animation-name: cupOutRev }
+
+@keyframes cupOut {
+  from { transform: translate3d(0,0,0)      rotate(0)      scale(1);    opacity: 1; filter: blur(0)   }
+  to   { transform: translate3d(8%,-100%,0) rotate(35deg)  scale(.75);  opacity: 0; filter: blur(3px) }
+}
+@keyframes cupIn {
+  from { transform: translate3d(0,100%,0)   rotate(-20deg) scale(.76);  opacity: 0; filter: blur(2px) }
+  60%  { opacity: 1; filter: blur(0) }
+  to   { transform: translate3d(0,0,0)      rotate(0)      scale(1);    opacity: 1; filter: blur(0)   }
+}
+@keyframes cupOutRev {
+  from { transform: translate3d(0,0,0)       rotate(0)      scale(1);   opacity: 1; filter: blur(0)   }
+  to   { transform: translate3d(-8%,100%,0)  rotate(-35deg) scale(.75); opacity: 0; filter: blur(3px) }
+}
+@keyframes cupInRev {
+  from { transform: translate3d(0,-100%,0)  rotate(20deg)  scale(.76);  opacity: 0; filter: blur(2px) }
+  60%  { opacity: 1; filter: blur(0) }
+  to   { transform: translate3d(0,0,0)      rotate(0)      scale(1);    opacity: 1; filter: blur(0)   }
+}
+
+/* staggered text fade-swap */
+.fade-swap    { animation: fadeSwap .55s ease both }
+.fade-swap.d2 { animation-delay: .12s }
+@keyframes fadeSwap {
+  from { opacity: 0; transform: translateY(6px) }
+  to   { opacity: 1; transform: none }
+}
+
+/* ── cta + word band ── */
 .cta-series {
   position: absolute;
   right: var(--gutter); top: 50%;
@@ -323,14 +535,13 @@ a   { color: inherit; text-decoration: none }
   display: flex;
   align-items: center;
   gap: 10px;
+  z-index: 1;
 }
 .cta-series i {
   display: block;
   width: 34px; height: 1px;
   background: var(--ink-30);
 }
-
-/* word band at foot of pinned stage — static, text swaps */
 .wordband {
   position: absolute;
   left: 0; right: 0; bottom: -.18em;
@@ -343,47 +554,33 @@ a   { color: inherit; text-decoration: none }
   overflow: hidden;
   pointer-events: none;
   padding-left: var(--gutter);
+  z-index: 0;
 }
 
-/* ── cup swap animations ─────────────────────────────────────────── */
-.cup-wrap.is-entering {
-  animation: cupIn var(--enter-dur) var(--ease-tail) var(--enter-delay) both;
+/* ═══════════════════════════════════════ scroll reveal ══════════════
+   Elements with [data-reveal] start hidden.
+   IntersectionObserver adds .revealed when ≥12% is visible.
+   Sibling stagger via nth-child delay so a column reveals top→down.
+═════════════════════════════════════════════════════════════════════ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity  .90s var(--ease-tail),
+    transform .90s var(--ease-tail);
 }
-.cup-wrap.is-exiting {
-  animation: cupOut var(--exit-dur) var(--ease-exit) both;
+[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
 }
-.cup-wrap.is-entering.rev { animation-name: cupInRev }
-.cup-wrap.is-exiting.rev  { animation-name: cupOutRev }
+/* Stagger for col--copy children */
+.col--copy > [data-reveal]:nth-child(2) { transition-delay: .10s }
+.col--copy > [data-reveal]:nth-child(3) { transition-delay: .20s }
+/* Stagger for col--media frames */
+.col--media [data-reveal]:nth-child(2)  { transition-delay: .08s }
+.col--media [data-reveal]:nth-child(3)  { transition-delay: .16s }
 
-@keyframes cupOut {
-  from { transform: translate3d(0,0,0)    rotate(0)     scale(1);    opacity: 1; filter: blur(0) }
-  to   { transform: translate3d(8%,-100%,0) rotate(35deg) scale(.75); opacity: 0; filter: blur(3px) }
-}
-@keyframes cupIn {
-  from { transform: translate3d(0,100%,0) rotate(-20deg) scale(.76); opacity: 0; filter: blur(2px) }
-  60%  { opacity: 1; filter: blur(0) }
-  to   { transform: translate3d(0,0,0)   rotate(0)      scale(1);   opacity: 1; filter: blur(0) }
-}
-@keyframes cupOutRev {
-  from { transform: translate3d(0,0,0)     rotate(0)      scale(1);    opacity: 1; filter: blur(0) }
-  to   { transform: translate3d(-8%,100%,0) rotate(-35deg) scale(.75); opacity: 0; filter: blur(3px) }
-}
-@keyframes cupInRev {
-  from { transform: translate3d(0,-100%,0) rotate(20deg)  scale(.76); opacity: 0; filter: blur(2px) }
-  60%  { opacity: 1; filter: blur(0) }
-  to   { transform: translate3d(0,0,0)    rotate(0)       scale(1);   opacity: 1; filter: blur(0) }
-}
-
-/* staggered text fade */
-.fade-swap    { animation: fadeSwap .5s ease both }
-.fade-swap.d1 { animation-delay: .08s }
-.fade-swap.d2 { animation-delay: .12s }
-@keyframes fadeSwap {
-  from { opacity: 0; transform: translateY(6px) }
-  to   { opacity: 1; transform: none }
-}
-
-/* ─── editorial parallax ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════ editorial parallax ═════════ */
 .editorial {
   position: relative;
   padding: 14vh var(--gutter) 18vh;
@@ -396,9 +593,10 @@ a   { color: inherit; text-decoration: none }
 .col { will-change: transform }
 .col--media { display: grid; gap: clamp(24px,7vh,90px) }
 .col--copy  { display: grid; gap: clamp(60px,16vh,180px); padding-top: 22vh }
-.frame { aspect-ratio: 4/3; overflow: hidden; background: #ddd8d0 }
+.frame { aspect-ratio: 4/3; overflow: hidden; background: var(--ink-06) }
 .frame img { width: 100%; height: 100%; object-fit: cover }
 .frame.tall { aspect-ratio: 3/4 }
+
 .eyebrow {
   font-size: 10px;
   letter-spacing: .24em;
@@ -409,11 +607,12 @@ a   { color: inherit; text-decoration: none }
 .col--copy h2 {
   font-family: var(--display);
   font-weight: 300;
-  font-size: clamp(26px,3.4vw,44px);
-  margin: 0 0 18px;
-  line-height: 1.15;
+  font-size: clamp(26px,3.4vw,46px);
+  margin: 0 0 20px;
+  line-height: 1.12;
+  letter-spacing: -.005em;
 }
-.col--copy p { margin: 0 0 20px; color: var(--ink-60); font-size: 13px; max-width: 40ch }
+.col--copy p  { margin: 0 0 24px; color: var(--ink-60); font-size: 13px; max-width: 40ch }
 .more {
   font-size: 10.5px;
   letter-spacing: .16em;
@@ -425,7 +624,7 @@ a   { color: inherit; text-decoration: none }
 }
 .more i { width: 30px; height: 1px; background: var(--ink-30); display: block }
 
-/* ─── origin / velocity marquee ───────────────────────────────────── */
+/* ═══════════════════════════════════════ origin / velocity marquee ══ */
 .origin {
   position: relative;
   height: 78vh;
@@ -445,7 +644,7 @@ a   { color: inherit; text-decoration: none }
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,.42);
+  background: rgba(0,0,0,.44);
 }
 .origin__type {
   position: relative;
@@ -454,14 +653,14 @@ a   { color: inherit; text-decoration: none }
   font-family: var(--display);
   font-weight: 300;
   letter-spacing: .02em;
-  color: rgba(255,255,255,.58);
+  color: rgba(255,255,255,.55);
   will-change: transform;
   user-select: none;
   z-index: 1;
 }
 .origin__type span { padding-right: .6em }
 
-/* ─── footer ───────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════ footer ═════════ */
 .foot {
   padding: 10vh var(--gutter) 5vh;
   display: grid;
@@ -472,27 +671,30 @@ a   { color: inherit; text-decoration: none }
 }
 .foot__meta { font-size: 11px; color: var(--ink-60); line-height: 2 }
 .foot__mark { text-align: center }
-.foot__logo { height: 28px; width: auto; object-fit: contain; margin: 0 auto; filter: invert(0) }
+.foot__logo { height: 28px; width: auto; margin: 0 auto }
 .totop {
   justify-self: end;
   width: 46px; height: 46px;
   border: 1px solid var(--ink-12);
   border-radius: 50%;
   background: none;
-  cursor: pointer;
   font-size: 9px;
-  letter-spacing: .1em;
+  letter-spacing: .10em;
   color: var(--ink-60);
   display: grid;
   place-items: center;
   line-height: 1.3;
   font-family: var(--body);
+  transition: border-color .3s ease, color .3s ease;
 }
+.totop:hover { border-color: var(--ink-30); color: var(--ink) }
 
-/* ─── responsive ───────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════ responsive ══════════ */
 @media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; grid-template-rows: 1.1fr .9fr }
   .marquee-v { left: auto; right: 6%; transform: none }
+  .hero__display { right: var(--gutter); bottom: calc(36px + 72px) }
+  .hero__headline { font-size: clamp(38px,8vw,64px) }
+
   .series__stage {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr;
@@ -503,16 +705,22 @@ a   { color: inherit; text-decoration: none }
   .series__body { grid-column: 1; grid-row: 2; padding-right: 0 }
   .series__stack { grid-column: 1; grid-row: 3; height: 34vh }
   .cta-series { display: none }
+  .ghost-letter { font-size: clamp(90px,24vw,160px) }
+
   .editorial { grid-template-columns: 1fr }
   .col--copy { padding-top: 0 }
+  [data-reveal] { opacity: 1; transform: none }   /* disable reveal on mobile — avoid jank */
+
   .foot { grid-template-columns: 1fr; gap: 40px }
   .totop { justify-self: start }
 }
 
+/* ═══════════════════════════════════ reduced motion ═════════════════ */
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after {
     animation-duration: .001s !important;
     transition-duration: .001s !important;
   }
-  .marquee-v__track { animation: none }
+  .marquee-v__track,
+  .hero__strip-track { animation: none }
 }
