@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import logoPath          from "@assets/image_1786554649837.png";
-import heroSummerPath    from "@assets/image_1786729078505.png";
+import heroSummerPath    from "@assets/hero_clean.png";
 import heroOriginPath    from "@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Mango_Breeze—spar_1786554450238.jpg";
 import edit1Path         from "@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554467811.jpg";
 import edit2Path         from "@assets/Have_you_tried_Petit_Gateau_at_Tao_Boba_yet_🍰_Its_the_kind_of_1786554447103.jpg";
@@ -9,6 +9,9 @@ import edit3Path         from "@assets/Float_into_summer_with_every_sip._☁️�
 import cupTaoLuxePath    from "@assets/cup_tao_luxe_no_bg.png";
 import cupMatchaPath     from "@assets/cup_matcha_no_bg.png";
 import cupBrownSugarPath from "@assets/cup_brown_sugar_no_bg.png";
+import matchaMango       from "@assets/Experience_the_Art_of_Denver_MatchaSavor_the_unique_flavors_of_1786731625374.jpg";
+import matchaBanana      from "@assets/Experience_the_Art_of_Denver_MatchaSavor_the_unique_flavors_of_1786731628291.jpg";
+import matchaUbe         from "@assets/Experience_the_Art_of_Denver_MatchaSavor_the_unique_flavors_of_1786731632771.jpg";
 
 /* ─── content ─────────────────────────────────────────────────────── */
 const PRODUCTS = [
@@ -281,7 +284,48 @@ export default function Home() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════
-          02 — SERIES  Pinned scroll, 3-drink catalog
+          02 — MATCHA COLLECTION  Three-column editorial product grid
+          ════════════════════════════════════════════════════════════ */}
+      <section className="mcollection">
+        <div className="mcollection__header" data-reveal>
+          <div className="mcollection__label">
+            <span className="eyebrow">Seasonal Series &nbsp;·&nbsp; Summer 2026</span>
+            <h2 className="mcollection__title">
+              Four flavors.<br /><em>One Matcha Journey.</em>
+            </h2>
+          </div>
+          <a
+            href="https://www.thetaoboba.com/menu"
+            className="cta-line mcollection__cta"
+          >
+            Explore the menu <i />
+          </a>
+        </div>
+
+        <div className="mcollection__grid">
+          {[
+            { src: matchaMango,  name: 'Mango Matcha',           note: 'Tropical mango meets ceremonial matcha — bright, fruity, and electric.' },
+            { src: matchaBanana, name: 'Banana Pudding Matcha',  note: 'Smooth banana layered under a creamy matcha pour. Naturally sweet.' },
+            { src: matchaUbe,    name: 'Ube Matcha',             note: 'Earthy purple ube blended with deep-green matcha. Striking in the cup.' },
+          ].map(({ src, name, note }, i) => (
+            <article className="mcollection__item" key={i} data-reveal>
+              <div className="mcollection__frame">
+                <img src={src} alt={name} />
+              </div>
+              <div className="mcollection__meta">
+                <span className="mcollection__num">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3 className="mcollection__name">{name}</h3>
+                  <p className="mcollection__note">{note}</p>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════
+          03 — SERIES  Pinned scroll, 3-drink catalog
           ════════════════════════════════════════════════════════════ */}
       <section
         className="series"
