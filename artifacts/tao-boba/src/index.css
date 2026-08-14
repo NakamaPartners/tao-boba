@@ -15,16 +15,17 @@
 /* ═══════════════════════════════════════════════════════ tokens ═════ */
 :root {
   --paper:      #ffffff;
+  --paper-warm: #f4f0e8;
   --ink:        #1c1c1c;
   --ink-60:     #6f6f6f;
   --ink-30:     #b6b6b6;
-  --ink-12:     #e2e0dc;
+  --ink-12:     #e4e1dc;
   --ink-06:     #f0edea;
 
   --display: "Cormorant Garamond", Georgia, serif;
   --body:    "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
 
-  /* motion — exact reference numbers */
+  /* motion */
   --exit-dur:    .33s;
   --enter-dur:   .90s;
   --enter-delay: .12s;
@@ -32,11 +33,12 @@
   --ease-tail:   cubic-bezier(.16,1,.3,1);
   --ease-exit:   cubic-bezier(.55,0,.85,.35);
 
-  --gutter:   clamp(18px,4vw,64px);
-  --header-h: 76px;
+  --gutter:    clamp(20px,4vw,64px);
+  --header-h:  68px;
+  /* panel gutter — breathing room inside split panels */
+  --pg:        clamp(36px,5.5vw,88px);
 
-  /* Tailwind */
-  --background: 36 30% 97%;
+  --background: 36 20% 97%;
   --foreground:  20 10% 11%;
 }
 
@@ -57,52 +59,10 @@ body {
 img { display: block; max-width: 100% }
 a   { color: inherit; text-decoration: none }
 
-/* ═══════════════════════════════════════════════ custom cursor ═══════
-   Only on fine-pointer (mouse) devices.
-   Dot snaps immediately (JS-driven). Ring follows with lerp at 0.10.
-   Light variant for the dark hero. Expand variant on hover.
+/* ═══════════════════════════════════════════════ header / nav ═══════
+   Logo centered, mix-blend-mode: difference so it reads on both photo
+   (left) and white panel (right). Nav links dark — always on light bg.
 ═════════════════════════════════════════════════════════════════════ */
-@media (pointer: fine) {
-  * { cursor: none !important }
-}
-.cursor-dot {
-  position: fixed;
-  top: 0; left: 0;
-  width: 6px; height: 6px;
-  background: var(--ink);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  will-change: transform;
-  transition: background .25s ease;
-}
-.cursor-dot.c--light { background: #fff }
-
-.cursor-ring {
-  position: fixed;
-  top: -22px; left: -22px;
-  width: 44px; height: 44px;
-  border: 1px solid rgba(28,28,28,.35);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  will-change: transform;
-  transition:
-    border-color .25s ease,
-    width  .55s var(--ease-tail),
-    height .55s var(--ease-tail),
-    top    .55s var(--ease-tail),
-    left   .55s var(--ease-tail);
-}
-.cursor-ring.c--light { border-color: rgba(255,255,255,.45) }
-.cursor-ring.c--expand {
-  top: -35px; left: -35px;
-  width: 70px; height: 70px;
-  border-color: rgba(28,28,28,.18);
-}
-.cursor-ring.c--light.c--expand { border-color: rgba(255,255,255,.28) }
-
-/* ═══════════════════════════════════════════════ header / nav ═══════ */
 .masthead {
   position: fixed;
   inset: 0 0 auto 0;
@@ -115,222 +75,158 @@ a   { color: inherit; text-decoration: none }
   mix-blend-mode: difference;
 }
 .mark__logo {
-  height: 28px;
+  height: 26px;
   width: auto;
   filter: invert(1);
-  opacity: 0;
-  transition: opacity .8s ease .6s;
 }
-.is-loaded .mark__logo { opacity: 1 }
 
 .nav-link, .nav-order {
   position: fixed;
-  top: 28px;
+  top: 24px;
   z-index: 61;
   font-size: 9px;
-  letter-spacing: .28em;
+  letter-spacing: .26em;
   text-transform: uppercase;
-  color: #fff;
-  mix-blend-mode: difference;
+  color: var(--ink);
   pointer-events: auto;
-  opacity: 0;
-  transition: opacity .7s ease .7s;
 }
-.is-loaded .nav-link,
-.is-loaded .nav-order { opacity: 1 }
-.nav-link  { right: calc(var(--gutter) + 72px) }
+.nav-link  { right: calc(var(--gutter) + 68px) }
 .nav-order { right: var(--gutter) }
 
-/* ═══════════════════════════════════════════════ hero ═══════════════
-   Full-bleed Summer Sips image. No split grid.
-   JS drives transform on .hero__bg for mouse parallax.
-   .is-loaded on <html> triggers all entrance transitions.
+/* ═══════════════════════════════════════════════════════ hero ═══════
+   Static catalog spread — no animations, no parallax.
+   Two equal columns: left = photo, right = editorial text.
+   Like opening a lookbook: the image grabs you, the right page tells you who.
 ═════════════════════════════════════════════════════════════════════ */
 .hero {
   height: 100svh;
   min-height: 580px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+
+/* ── photo column ── */
+.hero__media {
   position: relative;
   overflow: hidden;
+  /* thin right border — the catalog gutter line */
+  border-right: 1px solid var(--ink-12);
 }
-
-/* ── image ── */
 .hero__bg {
   position: absolute;
-  /* extra room on all sides so parallax + load-scale never shows white edges */
-  inset: -6%;
-  width: 112%;
-  height: 112%;
-  object-fit: cover;
-  object-position: center 62%;
-  will-change: transform;
-  transform: scale(1.07);   /* JS keeps this scale, adds translate on mousemove */
-  filter: saturate(.88) brightness(.96);
-  opacity: 0;
-  transition: opacity 1.6s ease;
-}
-.is-loaded .hero__bg { opacity: 1 }
-
-/* ── gradient veil ── */
-.hero__veil {
-  position: absolute;
   inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background:
-    /* top: darken for nav readability */
-    linear-gradient(to bottom,
-      rgba(0,0,0,.42) 0%,
-      rgba(0,0,0,.12) 22%,
-      transparent    42%),
-    /* bottom: darken for text readability */
-    linear-gradient(to top,
-      rgba(0,0,0,.70) 0%,
-      rgba(0,0,0,.20) 28%,
-      transparent    52%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
 }
 
-/* ── vertical looping marquee ── */
-.marquee-v {
-  position: absolute;
-  top: 0; bottom: 0;
-  left: 56%;
-  transform: translateX(-50%);
-  width: 1.05em;
-  z-index: 4;
-  pointer-events: none;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  font-size: clamp(64px,10.5vw,158px);
-  font-weight: 200;
-  line-height: .90;
-  letter-spacing: .02em;
-  color: rgba(255,255,255,.70);
-  mix-blend-mode: overlay;
-  overflow: hidden;
-  opacity: 0;
-  transition: opacity 1.2s ease 1s;
-}
-.is-loaded .marquee-v { opacity: 1 }
-.marquee-v__track {
-  display: block;
-  animation: marchDown 30s linear infinite;
-  white-space: nowrap;
-}
-@keyframes marchDown {
-  from { transform: translateY(0)    }
-  to   { transform: translateY(-50%) }
+/* ── text column ── */
+.hero__panel {
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--header-h) + 7vh) var(--pg) 7vh;
 }
 
-/* ── editorial display text — bottom right ── */
-.hero__display {
-  position: absolute;
-  right: var(--gutter);
-  bottom: calc(36px + 56px);   /* above strip + above caption/scroll row */
-  z-index: 6;
-  text-align: right;
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 1.4s var(--ease-tail) .55s,
-              transform 1.4s var(--ease-tail) .55s;
+/* top row: brand tag + page index */
+.hero__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0;
 }
-.is-loaded .hero__display { opacity: 1; transform: none }
-.hero__eyebrow {
-  margin: 0 0 2px;
-  font-size: clamp(9px,1vw,12px);
-  letter-spacing: .30em;
+.hero__tag {
+  font-size: 9px;
+  letter-spacing: .26em;
   text-transform: uppercase;
-  font-weight: 300;
-  font-family: var(--body);
-  color: rgba(255,255,255,.65);
-  line-height: 1;
-}
-.hero__headline {
+  color: var(--ink-30);
   margin: 0;
-  font-family: var(--display);
-  font-size: clamp(54px,7.5vw,110px);
   font-weight: 300;
+  line-height: 1.6;
+}
+.hero__idx {
+  font-size: 9px;
+  letter-spacing: .14em;
+  color: var(--ink-30);
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+}
+
+/* center: headline + sub — auto margins push it to vertical center */
+.hero__center {
+  margin: auto 0;
+  padding: 4vh 0;
+}
+.hero__title {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(48px, 6vw, 88px);
+  line-height: .96;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  margin: 0 0 clamp(18px, 3.5vh, 34px);
+}
+.hero__title em {
   font-style: italic;
-  color: rgba(255,255,255,.92);
-  line-height: .94;
-  letter-spacing: -.015em;
+  /* second line: lighter — creates depth without a second font */
+  color: var(--ink-60);
+}
+.hero__sub {
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--ink-60);
+  margin: 0;
+  letter-spacing: .01em;
+  max-width: 32ch;
 }
 
-/* ── bottom-left caption ── */
-.hero__caption {
-  position: absolute;
-  left: var(--gutter);
-  bottom: calc(36px + 34px);
-  z-index: 6;
-  font-size: 10px;
-  letter-spacing: .20em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.60);
-  opacity: 0;
-  transition: opacity 1s ease .9s;
-}
-.is-loaded .hero__caption { opacity: 1 }
-
-/* ── scroll indicator ── */
-.hero__scroll {
-  position: absolute;
-  left: 50%;
-  bottom: calc(36px + 34px);
-  transform: translateX(-50%);
-  font-size: 10px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.55);
-  z-index: 6;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 1s ease 1.1s;
-}
-.is-loaded .hero__scroll { opacity: 1 }
-.hero__scroll i {
-  display: block;
-  width: 1px; height: 28px;
-  background: rgba(255,255,255,.40);
-  margin: 0 auto 10px;
-  transform-origin: top;
-  animation: drip 2.4s var(--ease-tail) infinite;
-}
-@keyframes drip {
-  0%   { transform: scaleY(0)   }
-  45%  { transform: scaleY(1)   }
-  100% { transform: scaleY(1); opacity: 0 }
-}
-
-/* ── horizontal info ticker at very bottom ── */
-.hero__strip {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 36px;
-  background: rgba(0,0,0,.38);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  overflow: hidden;
+/* bottom: CTAs */
+.hero__ctas {
   display: flex;
   align-items: center;
-  z-index: 7;
-  opacity: 0;
-  transition: opacity 1s ease 1.2s;
+  gap: 28px;
+  flex-wrap: wrap;
 }
-.is-loaded .hero__strip { opacity: 1 }
-.hero__strip-track {
-  white-space: nowrap;
-  font-size: 9px;
-  letter-spacing: .28em;
+/* text link with a rule */
+.cta-line {
+  font-size: 9.5px;
+  letter-spacing: .24em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.58);
-  font-weight: 300;
-  animation: stripScroll 28s linear infinite;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-@keyframes stripScroll {
-  from { transform: translateX(0)    }
-  to   { transform: translateX(-50%) }
+.cta-line i {
+  display: block;
+  width: 30px; height: 1px;
+  background: var(--ink-30);
+  flex-shrink: 0;
+}
+/* bordered pill — intentionally no border-radius (catalog aesthetic) */
+.cta-box {
+  font-size: 9.5px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--ink-12);
+  padding: 13px 26px;
+  display: block;
+  transition: background .22s ease, color .22s ease, border-color .22s ease;
+}
+.cta-box:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
 }
 
-/* ═══════════════════════════════════════════ series (pinned) ════════ */
+/* ═══════════════════════════════════════════ series (pinned) ════════
+   Outer element is tall (3 × 100svh). Inner is sticky.
+   Scroll progress drives the drink index.
+   Ghost letter sits behind — letterform from each drink's word.
+═════════════════════════════════════════════════════════════════════ */
 .series { position: relative }
 .series__stage {
   position: sticky;
@@ -342,23 +238,19 @@ a   { color: inherit; text-decoration: none }
   display: grid;
   grid-template-columns: minmax(80px,12%) 1fr minmax(220px,38%);
   align-items: start;
-  padding: calc(var(--header-h) + 4vh) var(--gutter) 0;
+  padding: calc(var(--header-h) + 5vh) var(--gutter) 0;
 }
 
-/* ── ghost letterform ──
-   Enormous italic serif, nearly invisible, behind the cup.
-   First word of the product name (TAO / MATCHA / BROWN).
-   JS swaps text and triggers ghost-pop class for entrance.
-═════════════════════════════════════════════════════════ */
+/* Ghost letterform — enormous italic, nearly invisible, behind the cup */
 .ghost-letter {
   position: absolute;
   right: -.06em;
-  bottom: -.18em;
+  bottom: -.20em;
   font-family: var(--display);
-  font-size: clamp(140px,26vw,380px);
+  font-size: clamp(130px,24vw,360px);
   font-weight: 300;
   font-style: italic;
-  color: rgba(0,0,0,.045);
+  color: rgba(0,0,0,.042);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -366,20 +258,14 @@ a   { color: inherit; text-decoration: none }
   letter-spacing: -.025em;
   white-space: nowrap;
 }
-.ghost-pop {
-  animation: ghostIn .7s var(--ease-tail) both;
-}
+.ghost-pop { animation: ghostIn .65s var(--ease-tail) both }
 @keyframes ghostIn {
-  from { opacity: 0; transform: scale(.93) translateY(14px) }
+  from { opacity: 0; transform: scale(.94) translateY(10px) }
   to   { opacity: 1; transform: none }
 }
 
-/* ── rail ── */
-.rail {
-  grid-column: 1;
-  padding-top: 64px;
-  position: relative; z-index: 1;
-}
+/* Left index rail */
+.rail { grid-column: 1; padding-top: 64px; position: relative; z-index: 1 }
 .rail ul { margin: 0; padding: 0; list-style: none }
 .rail li {
   font-size: 12px;
@@ -399,13 +285,8 @@ a   { color: inherit; text-decoration: none }
 }
 .rail .sub { display: block; color: inherit }
 
-/* ── body ── */
-.series__body {
-  grid-column: 2;
-  padding-right: 6%;
-  padding-top: 64px;
-  position: relative; z-index: 1;
-}
+/* Headline + notes */
+.series__body { grid-column: 2; padding-right: 6%; padding-top: 64px; position: relative; z-index: 1 }
 .series__title {
   font-size: clamp(30px,4.4vw,62px);
   font-family: var(--display);
@@ -418,10 +299,7 @@ a   { color: inherit; text-decoration: none }
   gap: .4em;
   flex-wrap: wrap;
 }
-.series__title .name {
-  color: var(--ink-30);
-  transition: color .5s ease;
-}
+.series__title .name { color: var(--ink-30); transition: color .5s ease }
 .series__title .suffix {
   position: relative;
   padding-left: .9em;
@@ -429,36 +307,30 @@ a   { color: inherit; text-decoration: none }
   align-items: baseline;
   gap: .3em;
 }
-/* Coloured accent bar — replaces the static ::before line */
 .suffix__bar {
   position: absolute;
   left: 0; top: .58em;
   width: .55em; height: 2px;
   border-radius: 1px;
-  display: block;
   transition: background .6s ease;
 }
-
-.notes {
-  max-width: 46ch;
-  display: grid;
-  gap: clamp(18px,3.4vh,34px);
-}
+.notes { max-width: 46ch; display: grid; gap: clamp(18px,3.4vh,34px) }
 .note h3 {
-  margin: 0 0 8px;
-  font-size: 13px;
+  margin: 0 0 7px;
+  font-size: 12.5px;
   font-weight: 500;
   letter-spacing: .04em;
+  color: var(--ink);
 }
 .note p {
   margin: 0;
-  font-size: 12.5px;
-  line-height: 1.95;
+  font-size: 12px;
+  line-height: 2;
   color: var(--ink-60);
   max-width: 44ch;
 }
 
-/* ── cup stack ── */
+/* Cup stack — direct DOM */
 .series__stack {
   grid-column: 3;
   position: relative;
@@ -474,62 +346,56 @@ a   { color: inherit; text-decoration: none }
   place-items: center;
   will-change: transform;
 }
+/* Scale compensates for transparent canvas padding around each cup PNG */
 .cup-img {
   height: 74vh;
   width: auto;
   object-fit: contain;
-  /* Scale up to compensate for transparent canvas around cup */
   transform: scale(2.1) translateY(-8%);
   transform-origin: center center;
-  filter: drop-shadow(0 28px 44px rgba(0,0,0,.08));
+  filter: drop-shadow(0 28px 44px rgba(0,0,0,.07));
   user-select: none;
   pointer-events: none;
   display: block;
 }
 
-/* ── cup swap animations — exact reference keyframes ── */
-.cup-wrap.is-entering {
-  animation: cupIn var(--enter-dur) var(--ease-tail) var(--enter-delay) both;
-}
-.cup-wrap.is-exiting {
-  animation: cupOut var(--exit-dur) var(--ease-exit) both;
-}
+/* ── cup swap keyframes — exact Andtea reference numbers ── */
+.cup-wrap.is-entering { animation: cupIn  var(--enter-dur) var(--ease-tail) var(--enter-delay) both }
+.cup-wrap.is-exiting  { animation: cupOut var(--exit-dur)  var(--ease-exit) both }
 .cup-wrap.is-entering.rev { animation-name: cupInRev  }
 .cup-wrap.is-exiting.rev  { animation-name: cupOutRev }
 
 @keyframes cupOut {
-  from { transform: translate3d(0,0,0)      rotate(0)      scale(1);    opacity: 1; filter: blur(0)   }
-  to   { transform: translate3d(8%,-100%,0) rotate(35deg)  scale(.75);  opacity: 0; filter: blur(3px) }
+  from { transform:translate3d(0,0,0)       rotate(0)      scale(1);   opacity:1; filter:blur(0)   }
+  to   { transform:translate3d(8%,-100%,0)  rotate(35deg)  scale(.75); opacity:0; filter:blur(3px) }
 }
 @keyframes cupIn {
-  from { transform: translate3d(0,100%,0)   rotate(-20deg) scale(.76);  opacity: 0; filter: blur(2px) }
-  60%  { opacity: 1; filter: blur(0) }
-  to   { transform: translate3d(0,0,0)      rotate(0)      scale(1);    opacity: 1; filter: blur(0)   }
+  from { transform:translate3d(0,100%,0)    rotate(-20deg) scale(.76); opacity:0; filter:blur(2px) }
+  60%  { opacity:1; filter:blur(0) }
+  to   { transform:translate3d(0,0,0)       rotate(0)      scale(1);   opacity:1; filter:blur(0)   }
 }
 @keyframes cupOutRev {
-  from { transform: translate3d(0,0,0)       rotate(0)      scale(1);   opacity: 1; filter: blur(0)   }
-  to   { transform: translate3d(-8%,100%,0)  rotate(-35deg) scale(.75); opacity: 0; filter: blur(3px) }
+  from { transform:translate3d(0,0,0)       rotate(0)       scale(1);   opacity:1; filter:blur(0)   }
+  to   { transform:translate3d(-8%,100%,0)  rotate(-35deg)  scale(.75); opacity:0; filter:blur(3px) }
 }
 @keyframes cupInRev {
-  from { transform: translate3d(0,-100%,0)  rotate(20deg)  scale(.76);  opacity: 0; filter: blur(2px) }
-  60%  { opacity: 1; filter: blur(0) }
-  to   { transform: translate3d(0,0,0)      rotate(0)      scale(1);    opacity: 1; filter: blur(0)   }
+  from { transform:translate3d(0,-100%,0)   rotate(20deg)  scale(.76); opacity:0; filter:blur(2px) }
+  60%  { opacity:1; filter:blur(0) }
+  to   { transform:translate3d(0,0,0)       rotate(0)      scale(1);   opacity:1; filter:blur(0)   }
 }
 
-/* staggered text fade-swap */
-.fade-swap    { animation: fadeSwap .55s ease both }
+.fade-swap    { animation: fadeSwap .5s ease both }
 .fade-swap.d2 { animation-delay: .12s }
 @keyframes fadeSwap {
-  from { opacity: 0; transform: translateY(6px) }
-  to   { opacity: 1; transform: none }
+  from { opacity:0; transform:translateY(6px) }
+  to   { opacity:1; transform:none }
 }
 
-/* ── cta + word band ── */
 .cta-series {
   position: absolute;
   right: var(--gutter); top: 50%;
   transform: translateY(-50%);
-  font-size: 10.5px;
+  font-size: 10px;
   letter-spacing: .16em;
   color: var(--ink-60);
   display: flex;
@@ -537,11 +403,8 @@ a   { color: inherit; text-decoration: none }
   gap: 10px;
   z-index: 1;
 }
-.cta-series i {
-  display: block;
-  width: 34px; height: 1px;
-  background: var(--ink-30);
-}
+.cta-series i { display:block; width:34px; height:1px; background:var(--ink-30) }
+
 .wordband {
   position: absolute;
   left: 0; right: 0; bottom: -.18em;
@@ -558,29 +421,25 @@ a   { color: inherit; text-decoration: none }
 }
 
 /* ═══════════════════════════════════════ scroll reveal ══════════════
-   Elements with [data-reveal] start hidden.
-   IntersectionObserver adds .revealed when ≥12% is visible.
-   Sibling stagger via nth-child delay so a column reveals top→down.
+   [data-reveal] elements start transparent + shifted.
+   IntersectionObserver adds .revealed when ≥10% enters viewport.
 ═════════════════════════════════════════════════════════════════════ */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(32px);
-  transition:
-    opacity  .90s var(--ease-tail),
-    transform .90s var(--ease-tail);
+  transform: translateY(26px);
+  transition: opacity .85s var(--ease-tail), transform .85s var(--ease-tail);
 }
-[data-reveal].revealed {
-  opacity: 1;
-  transform: none;
-}
-/* Stagger for col--copy children */
-.col--copy > [data-reveal]:nth-child(2) { transition-delay: .10s }
-.col--copy > [data-reveal]:nth-child(3) { transition-delay: .20s }
-/* Stagger for col--media frames */
-.col--media [data-reveal]:nth-child(2)  { transition-delay: .08s }
-.col--media [data-reveal]:nth-child(3)  { transition-delay: .16s }
+[data-reveal].revealed { opacity:1; transform:none }
+.col--copy > [data-reveal]:nth-child(2) { transition-delay: .08s }
+.col--copy > [data-reveal]:nth-child(3) { transition-delay: .16s }
+.col--media [data-reveal]:nth-child(2)  { transition-delay: .06s }
+.col--media [data-reveal]:nth-child(3)  { transition-delay: .12s }
 
-/* ═══════════════════════════════════════ editorial parallax ═════════ */
+/* ═══════════════════════════════════════ editorial parallax ═════════
+   Left col: photos move at rate 1 (±110px).
+   Right col: copy moves at rate 0.2 (±22px).
+   JS writes transform. Warm cream bg differentiates from hero.
+═════════════════════════════════════════════════════════════════════ */
 .editorial {
   position: relative;
   padding: 14vh var(--gutter) 18vh;
@@ -588,18 +447,18 @@ a   { color: inherit; text-decoration: none }
   grid-template-columns: 1fr 1fr;
   gap: clamp(24px,6vw,110px);
   align-items: start;
-  background: var(--paper);
+  background: var(--paper-warm);
 }
 .col { will-change: transform }
-.col--media { display: grid; gap: clamp(24px,7vh,90px) }
-.col--copy  { display: grid; gap: clamp(60px,16vh,180px); padding-top: 22vh }
-.frame { aspect-ratio: 4/3; overflow: hidden; background: var(--ink-06) }
-.frame img { width: 100%; height: 100%; object-fit: cover }
-.frame.tall { aspect-ratio: 3/4 }
+.col--media { display:grid; gap:clamp(24px,7vh,90px) }
+.col--copy  { display:grid; gap:clamp(60px,16vh,180px); padding-top:22vh }
+.frame { aspect-ratio:4/3; overflow:hidden; background:var(--ink-06) }
+.frame img { width:100%; height:100%; object-fit:cover }
+.frame.tall { aspect-ratio:3/4 }
 
 .eyebrow {
-  font-size: 10px;
-  letter-spacing: .24em;
+  font-size: 9.5px;
+  letter-spacing: .26em;
   text-transform: uppercase;
   color: var(--ink-30);
   margin: 0 0 14px;
@@ -608,21 +467,21 @@ a   { color: inherit; text-decoration: none }
   font-family: var(--display);
   font-weight: 300;
   font-size: clamp(26px,3.4vw,46px);
-  margin: 0 0 20px;
-  line-height: 1.12;
-  letter-spacing: -.005em;
+  margin: 0 0 18px;
+  line-height: 1.1;
+  letter-spacing: -.01em;
 }
-.col--copy p  { margin: 0 0 24px; color: var(--ink-60); font-size: 13px; max-width: 40ch }
+.col--copy p { margin:0 0 22px; color:var(--ink-60); font-size:12.5px; max-width:40ch; line-height:1.95 }
 .more {
-  font-size: 10.5px;
-  letter-spacing: .16em;
+  font-size: 9.5px;
+  letter-spacing: .22em;
   text-transform: uppercase;
   display: inline-flex;
   gap: 10px;
   align-items: center;
   color: var(--ink);
 }
-.more i { width: 30px; height: 1px; background: var(--ink-30); display: block }
+.more i { width:28px; height:1px; background:var(--ink-30); display:block }
 
 /* ═══════════════════════════════════════ origin / velocity marquee ══ */
 .origin {
@@ -668,13 +527,14 @@ a   { color: inherit; text-decoration: none }
   align-items: end;
   gap: 24px;
   border-top: 1px solid var(--ink-12);
+  background: var(--paper);
 }
-.foot__meta { font-size: 11px; color: var(--ink-60); line-height: 2 }
-.foot__mark { text-align: center }
-.foot__logo { height: 28px; width: auto; margin: 0 auto }
+.foot__meta { font-size:11px; color:var(--ink-60); line-height:2.2 }
+.foot__mark { text-align:center }
+.foot__logo { height:26px; width:auto; margin:0 auto }
 .totop {
   justify-self: end;
-  width: 46px; height: 46px;
+  width: 44px; height: 44px;
   border: 1px solid var(--ink-12);
   border-radius: 50%;
   background: none;
@@ -685,34 +545,44 @@ a   { color: inherit; text-decoration: none }
   place-items: center;
   line-height: 1.3;
   font-family: var(--body);
-  transition: border-color .3s ease, color .3s ease;
+  transition: border-color .25s ease, color .25s ease;
 }
-.totop:hover { border-color: var(--ink-30); color: var(--ink) }
+.totop:hover { border-color:var(--ink-30); color:var(--ink) }
 
 /* ═══════════════════════════════════════════════ responsive ══════════ */
 @media (max-width: 900px) {
-  .marquee-v { left: auto; right: 6%; transform: none }
-  .hero__display { right: var(--gutter); bottom: calc(36px + 72px) }
-  .hero__headline { font-size: clamp(38px,8vw,64px) }
+  /* Hero stacks vertically: photo on top, text below */
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: 55svh 1fr;
+    height: auto;
+    min-height: 0;
+  }
+  .hero__media { border-right: none; border-bottom: 1px solid var(--ink-12) }
+  .hero__panel { padding: 6vw var(--gutter) 8vw }
+  .hero__center { margin: 5vh 0 }
 
+  /* Series */
   .series__stage {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr;
     padding-top: calc(var(--header-h) + 2vh);
   }
-  .rail { grid-column: 1; grid-row: 1; padding-top: 0; display: flex; gap: 16px; flex-wrap: wrap; line-height: 1.6 }
-  .rail li.is-on::before { display: none }
-  .series__body { grid-column: 1; grid-row: 2; padding-right: 0 }
-  .series__stack { grid-column: 1; grid-row: 3; height: 34vh }
-  .cta-series { display: none }
-  .ghost-letter { font-size: clamp(90px,24vw,160px) }
+  .rail { grid-column:1; grid-row:1; padding-top:0; display:flex; gap:16px; flex-wrap:wrap; line-height:1.6 }
+  .rail li.is-on::before { display:none }
+  .series__body { grid-column:1; grid-row:2; padding-right:0 }
+  .series__stack { grid-column:1; grid-row:3; height:36vh }
+  .cta-series { display:none }
+  .ghost-letter { font-size:clamp(80px,22vw,140px) }
 
-  .editorial { grid-template-columns: 1fr }
-  .col--copy { padding-top: 0 }
-  [data-reveal] { opacity: 1; transform: none }   /* disable reveal on mobile — avoid jank */
+  /* Editorial */
+  .editorial { grid-template-columns:1fr; background:var(--paper-warm) }
+  .col--copy { padding-top:0 }
+  [data-reveal] { opacity:1; transform:none } /* skip on mobile */
 
-  .foot { grid-template-columns: 1fr; gap: 40px }
-  .totop { justify-self: start }
+  /* Footer */
+  .foot { grid-template-columns:1fr; gap:40px }
+  .totop { justify-self:start }
 }
 
 /* ═══════════════════════════════════ reduced motion ═════════════════ */
@@ -721,6 +591,4 @@ a   { color: inherit; text-decoration: none }
     animation-duration: .001s !important;
     transition-duration: .001s !important;
   }
-  .marquee-v__track,
-  .hero__strip-track { animation: none }
 }
