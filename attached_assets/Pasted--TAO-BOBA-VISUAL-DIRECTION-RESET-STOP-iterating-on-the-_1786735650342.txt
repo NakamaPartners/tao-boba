@@ -1,0 +1,520 @@
+## TAO BOBA — VISUAL DIRECTION RESET
+
+STOP iterating on the current homepage design.
+
+The current direction is rejected aesthetically.
+
+It looks like a conventional “premium restaurant / café website” decorated with elegant fonts. That is **not** what we want.
+
+You may completely redesign the homepage composition and styling. Do not feel obligated to preserve the current section architecture.
+
+Keep the existing project/deployment setup intact, but treat the current homepage design as disposable.
+
+---
+
+# STUDY THESE REFERENCES FIRST
+
+These are the visual references:
+
+* https://brand.en-tea.com/concept
+* https://saboe.jp/tool/
+* https://saboe.jp/t/about/
+* https://www.higashiya.com/en/about/
+* https://sakurai-tea.jp/en/japanesetea
+* https://kettl.co/pages/our-story
+* https://www.rishi-tea.com/pages/about
+
+Andtea remains the primary reference for **product choreography and motion**:
+
+* https://andtea.com/
+
+Do NOT interpret these references simply as:
+
+“Japanese”
+“premium”
+“minimal”
+“luxury”
+“editorial”
+
+Those adjectives are too vague.
+
+Study their actual:
+
+* spacing
+* scale relationships
+* image positioning
+* text widths
+* amount of empty space
+* asymmetry
+* pacing
+* restraint
+* visual hierarchy
+* section transitions
+* relationship between photography and typography
+
+---
+
+# THE MAIN IDEA
+
+Do NOT design a premium boba website.
+
+### Design an editorial brand composition about tea that happens to belong to Tao Boba.
+
+It should feel closer to:
+
+* a Japanese art book
+* a contemporary brand monograph
+* an exhibition catalogue
+* an architecture editorial
+* a beautifully art-directed product campaign
+
+than a restaurant website template.
+
+The website should feel **quiet, confident, unusual and intentional**.
+
+---
+
+# THE BIGGEST RULE
+
+## EMPTY SPACE IS PART OF THE DESIGN.
+
+Do not fill empty areas because they look unfinished.
+
+Some viewports should intentionally feel almost empty.
+
+A single image may occupy only 30–50% of the screen.
+
+A paragraph may sit alone in one corner.
+
+There may be hundreds of pixels between one thought and the next.
+
+This is intentional.
+
+When deciding between:
+
+**adding another visual element**
+
+or
+
+**leaving the space empty**
+
+choose the empty space.
+
+---
+
+# COMPOSITION RULES
+
+## 1. ONE IDEA PER VISUAL MOMENT
+
+Do not constantly combine:
+
+image + heading + paragraph + CTA + label + decorative element.
+
+Sometimes a viewport should contain:
+
+* one cup
+* one photograph
+* one sentence
+* one title
+
+and almost nothing else.
+
+Let individual elements have importance.
+
+---
+
+## 2. AGGRESSIVE WHITESPACE
+
+Desktop sections should commonly use approximately:
+
+**160–300px vertical breathing room**
+
+where appropriate.
+
+Some transitions may use even more.
+
+Do not automatically constrain everything inside a conventional 1200px marketing-site container.
+
+Allow compositions to breathe.
+
+---
+
+## 3. TEXT SHOULD OFTEN BE NARROW
+
+Editorial body copy should generally remain around:
+
+**320–480px wide**
+
+unless there is a strong visual reason otherwise.
+
+Do not create huge blocks of body copy stretching across half the viewport.
+
+Use typography like editorial material, not website filler.
+
+---
+
+## 4. AVOID OBVIOUS GRIDS
+
+Do not make the underlying grid visually obvious.
+
+Avoid default compositions such as:
+
+50% image / 50% text
+
+three equal cards
+
+three-product grid
+
+alternating image-left / text-right / image-right / text-left
+
+bento layouts
+
+equal columns everywhere
+
+Instead use intentionally unequal relationships.
+
+Examples:
+
+* small image far left + narrow text far right
+* image occupying 40% of viewport with 30% completely empty
+* oversized product positioned unusually low
+* tiny paragraph near the bottom edge
+* typography extending beyond the normal content column
+* object slightly off-center with nothing balancing it
+
+The asymmetry should feel composed, not random.
+
+---
+
+# HERO — START AGAIN
+
+The current 50/50 hero must be removed.
+
+DO NOT use:
+
+* split-screen hero
+* giant marketing headline on one side
+* photo on the other side
+* “01” section number
+* two CTA buttons
+* outlined button
+* generic “View Menu / Order Now” hero arrangement
+* multiple cups fighting for attention
+* floating decorative objects
+
+The hero should make **one confident visual statement**.
+
+Prefer one strong subject.
+
+For example:
+
+one Tao drink
+or one carefully cropped photograph
+or typography and one isolated product
+
+with significant negative space.
+
+Do not be afraid if the first viewport looks sparse.
+
+Sparse is desirable.
+
+---
+
+# PHOTOGRAPHY
+
+Treat each Tao product like a designed object.
+
+Not like an ecommerce thumbnail.
+
+Prefer:
+
+### ONE PRODUCT AT A TIME.
+
+Avoid presenting five colorful drinks together whenever possible.
+
+Avoid product mosaics.
+
+Avoid generic product grids.
+
+Avoid rounded image cards.
+
+Avoid automatic hover zoom effects.
+
+Photography should feel almost like an object being displayed in a gallery.
+
+Scale can vary dramatically.
+
+An image does not always need to fill its container.
+
+---
+
+# TYPOGRAPHY
+
+Do not use the formula:
+
+“serif = premium.”
+
+Do not italicize every poetic heading.
+
+Do not repeat the same:
+
+small uppercase label
+
+* horizontal line
+* serif heading
+* paragraph
+
+on every section.
+
+That repetition makes the site look templated.
+
+Create hierarchy primarily through:
+
+* scale
+* weight
+* spacing
+* positioning
+* contrast
+* cropping
+
+Some typography can be enormous.
+
+Other typography can be extremely small.
+
+Use the contrast deliberately.
+
+---
+
+# NAVIGATION
+
+Keep navigation extremely quiet.
+
+Do not make it visually compete with the page.
+
+Avoid oversized CTA buttons in the navigation.
+
+The site should feel like the brand is confident enough not to constantly ask for attention.
+
+---
+
+# DO NOT BUILD “SECTIONS”
+
+Avoid thinking:
+
+Hero
+Featured Products
+About Us
+Our Process
+Testimonials
+CTA
+Footer
+
+That is precisely what we are trying to escape.
+
+Think instead in **scenes**:
+
+### Scene
+
+A product.
+
+### Pause
+
+Whitespace.
+
+### Observation
+
+A short piece of writing.
+
+### Scene
+
+A photograph.
+
+### Transition
+
+Typography.
+
+### Scene
+
+Another drink.
+
+### Story
+
+A longer editorial passage.
+
+The page should feel like one continuous visual narrative rather than stacked landing-page modules.
+
+---
+
+# REMOVE THESE CURRENT DESIGN TROPES
+
+Do not reuse:
+
+* split hero
+* section numbers such as “01”
+* repeated hairline + label + italic title section headers
+* three-product featured grid
+* alternating “our process” blocks
+* boxed CTA buttons everywhere
+* generic image hover scaling
+* giant “MADE IN DENVER” DTC-style marquee section
+* feature-card layouts
+* tasting notes displayed like SaaS feature bullets
+* excessive Framer-style fade-up animations
+* decorative gradients
+* glassmorphism
+* floating shapes
+* excessive rounded corners
+
+---
+
+# TAO SHOULD STILL FEEL LIKE TAO
+
+Do not copy:
+
+* EN TEA branding
+* SABOE branding
+* HIGASHIYA branding
+* Andtea branding
+* Japanese copy
+* their logos
+* their exact page layouts
+
+Use their **design discipline**.
+
+Use Tao's:
+
+* logo
+* photography
+* drinks
+* brand colors where appropriate
+* Denver identity where meaningful
+* own wording
+
+We are borrowing the **spatial intelligence**, not their brand identity.
+
+---
+
+# ANDTEA MOTION
+
+The Andtea-inspired pinned drink interaction is one of the strongest ideas.
+
+Keep it.
+
+The drink sequence should feel choreographed rather than animated for decoration.
+
+Outgoing drink:
+
+* exits upward
+* small horizontal displacement
+* slight rotation
+* slight scale reduction
+
+Incoming drink:
+
+* enters from below
+* slight opposite tilt
+* settles slowly and elegantly
+
+IMPORTANT:
+
+### Once a drink settles, it must become COMPLETELY STILL.
+
+No idle floating.
+
+No perpetual movement.
+
+No unnecessary rotation.
+
+Stillness is part of the elegance.
+
+If the existing Claude motion teardown is available in the project, use it as the engineering reference for this behavior.
+
+---
+
+# VERY IMPORTANT — DO NOT BUILD THE WHOLE HOMEPAGE YET
+
+For this pass, build ONLY:
+
+## 1. Navigation
+
+## 2. Hero
+
+## 3. Transition from hero
+
+## 4. Beginning / first state of the pinned drink experience
+
+STOP THERE.
+
+Do not build the About section.
+
+Do not build the footer.
+
+Do not build additional content sections.
+
+Do not extrapolate the design system across the whole website yet.
+
+We need to approve the visual language first.
+
+---
+
+# BEFORE FINISHING THIS PASS
+
+Look at the result and ask:
+
+### Does this look like a Webflow/Framer restaurant template?
+
+If yes, redesign it.
+
+### Is every part of the screen being used?
+
+If yes, remove something.
+
+### Are image and text neatly balancing each other?
+
+If yes, make the composition less predictable.
+
+### Are there unnecessary labels, buttons or decorations?
+
+Remove them.
+
+### Could this design work equally well for a skincare brand, restaurant, hotel and coffee shop simply by replacing the photos?
+
+If yes, it is still too generic.
+
+### Does it feel slightly uncomfortable because of how much space has been left unused?
+
+Good.
+
+### Does a single Tao drink feel important enough to deserve an entire visual moment?
+
+That is the target.
+
+---
+
+# TARGET FEELING
+
+Quiet.
+
+Cultured.
+
+Precise.
+
+Restrained.
+
+Editorial.
+
+Contemporary Asian.
+
+Art-directed.
+
+A little unexpected.
+
+Never busy.
+
+Never obviously “website-y.”
+
+Never luxury for the sake of luxury.
+
+Never generic.
+
+### Tao Boba should feel like a brand with taste, not a website trying to prove that it has taste.
