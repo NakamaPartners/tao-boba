@@ -1,0 +1,310 @@
+# Replit Prompt — Tao Boba Website Mockup
+
+We are creating a **new homepage mockup for Tao Boba**.
+
+The client provided **Andtea.com** as the main creative reference.
+
+IMPORTANT: The client specifically said:
+
+> They do NOT want a copied version of Andtea. They shared it so we understand the type of website, motion, creativity, and overall direction they are imagining.
+
+## Goal
+
+Create a Tao Boba homepage that feels:
+
+* highly art-directed
+* premium
+* modern
+* editorial
+* product-focused
+* interactive
+* smooth and intentional in motion
+
+Use **Andtea.com as the reference for creative direction, interaction philosophy, pacing, typography scale, whitespace, scrolling behavior, and product presentation**.
+
+But the final design must still clearly feel like **Tao Boba**, not &TEA.
+
+---
+
+## Existing Project
+
+Use the existing Tao Boba project/repository.
+
+Do NOT rebuild the project from scratch.
+
+Do NOT change deployment configuration.
+
+Do NOT restore any Replit branding, Replit banner, Replit Vite plugins, or Replit deployment integrations that were previously removed.
+
+For now, this is a **design mockup for client approval**.
+
+Do not implement Square/POS integration yet.
+
+---
+
+# 1. HERO
+
+The opening should immediately feel more experimental and premium than a conventional restaurant website.
+
+Use:
+
+* strong Tao Boba photography
+* oversized typography
+* large negative space
+* unusual/asymmetric composition
+* subtle continuous typography movement inspired by Andtea
+* minimal navigation
+
+Do NOT use a generic split-screen SaaS/restaurant hero with a large heading + paragraph + two pill buttons.
+
+The hero should feel like a brand experience.
+
+Use Tao Boba's own branding, photography and product identity.
+
+---
+
+# 2. FEATURED DRINK EXPERIENCE
+
+Create the main signature interaction inspired by Andtea's drink section.
+
+For the mockup, use approximately **5 Tao Boba drinks** from the existing assets/menu.
+
+The section should be **pinned/sticky while the user scrolls**.
+
+As the user progresses through the section:
+
+* one drink is presented at a time
+* outgoing drink exits upward
+* slight horizontal movement
+* rotates approximately +35°
+* shrinks slightly
+* next drink enters from below
+* enters around −20° rotation
+* unwinds naturally into its final position
+* animations overlap slightly
+
+Target motion:
+
+* exit ≈ 0.33s
+* entry ≈ 0.9s
+* entry delay ≈ 0.12s
+* settling easing similar to `cubic-bezier(.16,1,.3,1)`
+
+MOST IMPORTANT:
+
+**Once the drink finishes entering, it must remain completely still.**
+
+NO floating animation.
+NO idle bobbing.
+NO endless rotation.
+NO unnecessary movement.
+
+The stillness between transitions is intentional.
+
+Scrolling upward should naturally reverse the visual direction.
+
+Each drink should also have:
+
+* drink name
+* short product story / description
+* category or series indicator
+* subtle background/tint variation
+
+For the mockup, existing Tao Boba content can be used temporarily.
+
+---
+
+# 3. PRODUCT TYPOGRAPHY BAND
+
+Create oversized repeated typography near the drink section.
+
+Example concept:
+
+`MATCHA  MATCHA  MATCHA  MATCHA`
+
+or another phrase/category appropriate to the current drink.
+
+This should **change when the featured drink changes**.
+
+It should NOT automatically scroll like a marquee.
+
+Treat it as a static typographic composition that swaps with each product.
+
+---
+
+# 4. EDITORIAL / BRAND STORY SECTION
+
+After the product sequence, create an editorial storytelling section using Tao Boba imagery.
+
+Use approximately two visual columns.
+
+The two columns should move at **different speeds while scrolling**.
+
+Reference behavior:
+
+* image/media column moves noticeably faster
+* text/story column moves much more slowly
+* approximate motion ratio around 1 : 0.2
+
+The parallax should feel intentional and obvious, but elegant.
+
+Use this section to communicate things such as:
+
+* ingredients
+* craftsmanship
+* drink preparation
+* Tao Boba philosophy
+* creativity behind the drinks
+
+Do not turn this into standard alternating cards.
+
+---
+
+# 5. LARGE ATMOSPHERIC SECTION
+
+Create a strong full-width visual section later on the page.
+
+Use one of Tao Boba's strongest available photographs.
+
+Overlay a very large repeating Tao-specific phrase.
+
+The typography can move continuously and may react subtly to scroll velocity.
+
+Do NOT use `MADE IN TAIWAN`.
+
+Create something appropriate to Tao Boba using existing brand information.
+
+If there is not enough factual information to create a meaningful phrase, use temporary mockup wording and clearly keep it easy to replace later.
+
+---
+
+# 6. FINAL CONTENT
+
+Finish with a restrained section such as:
+
+* latest / seasonal products
+* store/location information
+* simple brand information
+
+and a minimal footer.
+
+Keep this portion intentionally calmer.
+
+The visual climax should happen earlier through product storytelling.
+
+---
+
+# Visual Direction
+
+Do NOT simply recreate the current dark Tao Boba homepage.
+
+Explore a much lighter, cleaner and more editorial visual system inspired by Andtea.
+
+However, choose colors based on Tao Boba's actual identity and photography.
+
+Prioritize:
+
+* huge typography
+* photography
+* whitespace
+* subtle brand details
+* elegant spacing
+* asymmetry
+* visual rhythm
+
+Avoid:
+
+* excessive rounded cards
+* generic restaurant sections
+* grids of feature cards
+* excessive shadows
+* glowing buttons
+* glassmorphism
+* animated gradients
+* random floating objects
+* excessive fade-up animations
+* effects simply because they look “cool”
+
+Motion should have a reason.
+
+---
+
+# Tao Boba Identity
+
+Use existing Tao Boba:
+
+* logo
+* product photography
+* menu/product names
+* brand content
+* visual assets already available in the repository
+
+Do NOT use:
+
+* &TEA logo
+* &TEA product names
+* &TEA copy
+* Taiwan-related branding
+* &TEA photographs
+* exact &TEA layouts copied pixel-for-pixel
+
+The goal is:
+
+**Andtea-level creative direction and interaction quality applied to Tao Boba's own identity.**
+
+Not:
+
+**Tao Boba pasted into an Andtea clone.**
+
+---
+
+# Motion Reference
+
+I may also provide a separate HTML prototype / motion teardown based on Andtea.
+
+If provided:
+
+Treat that file as a **motion engineering reference**, NOT as the website to copy.
+
+Study its:
+
+* pinned product behavior
+* drink transition timing
+* reverse-scroll behavior
+* asymmetric parallax
+* typography bands
+* marquee logic
+* velocity-linked movement
+
+Port the useful behavior into the existing Tao Boba React/Vite project.
+
+Do NOT replace the Tao project with the standalone HTML prototype.
+
+---
+
+# Mockup Scope
+
+For this phase, prioritize:
+
+1. Hero
+2. Featured drink scroll interaction
+3. Editorial/parallax storytelling
+4. Strong Tao-specific visual identity
+5. Responsive desktop + mobile presentation
+
+The goal is to create something polished enough that we can show the client:
+
+**“This is how we interpreted the Andtea reference for Tao Boba.”**
+
+Do NOT spend time on:
+
+* Square POS
+* payment integration
+* backend ordering
+* full menu system
+* CMS
+* all remaining website pages
+
+Those come after the client approves the creative direction.
+
+Before considering the mockup complete, review it and remove anything that looks like a generic AI-generated restaurant website.
