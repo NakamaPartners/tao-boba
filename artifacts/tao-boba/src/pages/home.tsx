@@ -5,7 +5,6 @@ import heroSummerPath    from "@assets/hero_clean.png";
 import heroOriginPath    from "@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Mango_Breeze—spar_1786554450238.jpg";
 import edit1Path         from "@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554467811.jpg";
 import edit2Path         from "@assets/Have_you_tried_Petit_Gateau_at_Tao_Boba_yet_🍰_Its_the_kind_of_1786554447103.jpg";
-import edit3Path         from "@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554470275.jpg";
 import cupTaoLuxePath    from "@assets/cup_tao_luxe_no_bg.png";
 import cupMatchaPath     from "@assets/cup_matcha_no_bg.png";
 import cupBrownSugarPath from "@assets/cup_brown_sugar_no_bg.png";
@@ -13,7 +12,7 @@ import matchaMango       from "@assets/Experience_the_Art_of_Denver_MatchaSavor_
 import matchaBanana      from "@assets/Experience_the_Art_of_Denver_MatchaSavor_the_unique_flavors_of_1786731628291.jpg";
 import matchaUbe         from "@assets/Experience_the_Art_of_Denver_MatchaSavor_the_unique_flavors_of_1786731632771.jpg";
 
-/* ─── content ─────────────────────────────────────────────────────── */
+/* ─── drinks ──────────────────────────────────────────────────────── */
 const PRODUCTS = [
   {
     name:   'Tao Luxe',
@@ -58,20 +57,16 @@ const REDUCED =
   matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export default function Home() {
-  /* series refs */
+  /* series */
   const seriesEl   = useRef<HTMLElement>(null);
   const stageEl    = useRef<HTMLDivElement>(null);
   const stackEl    = useRef<HTMLDivElement>(null);
   const nameEl     = useRef<HTMLSpanElement>(null);
   const notesEl    = useRef<HTMLDivElement>(null);
-  const bandEl     = useRef<HTMLDivElement>(null);
   const railEl     = useRef<HTMLUListElement>(null);
   const ghostEl    = useRef<HTMLDivElement>(null);
   const accentEl   = useRef<HTMLSpanElement>(null);
-  /* editorial parallax */
-  const editEl     = useRef<HTMLElement>(null);
-  const editCols   = useRef<HTMLDivElement[]>([]);
-  /* origin marquee */
+  /* origin */
   const originEl   = useRef<HTMLElement>(null);
   const originType = useRef<HTMLDivElement>(null);
   const originBg   = useRef<HTMLDivElement>(null);
@@ -80,7 +75,7 @@ export default function Home() {
   const liveCup    = useRef<HTMLDivElement | null>(null);
   const [activeIdx, setActiveIdx] = useState(0);
 
-  /* ── cup transition ── */
+  /* ── cup swap (direct DOM — Andtea pattern, preserved exactly) ── */
   function goTo(i: number, dir: number) {
     if (i === currentRef.current) return;
     if (!stackEl.current || !stageEl.current) return;
@@ -111,11 +106,7 @@ export default function Home() {
     liveCup.current = incoming;
 
     stageEl.current.style.backgroundColor = p.tint;
-
     if (accentEl.current) accentEl.current.style.background = p.accent;
-
-    if (bandEl.current)
-      bandEl.current.textContent = (p.word + '\u00A0\u00A0').repeat(10);
 
     if (ghostEl.current) {
       ghostEl.current.textContent = p.word;
@@ -123,14 +114,12 @@ export default function Home() {
       void ghostEl.current.offsetWidth;
       ghostEl.current.classList.add('ghost-pop');
     }
-
     if (nameEl.current) {
       nameEl.current.textContent = p.name;
       nameEl.current.classList.remove('fade-swap');
       void nameEl.current.offsetWidth;
       nameEl.current.classList.add('fade-swap');
     }
-
     if (notesEl.current) {
       notesEl.current.innerHTML = '';
       p.notes.forEach(([h, b]) => {
@@ -148,7 +137,7 @@ export default function Home() {
   useEffect(() => {
     goTo(0, 1);
 
-    /* series scrub */
+    /* scroll → series drink index */
     function updateSeries() {
       const el = seriesEl.current; if (!el) return;
       const rect  = el.getBoundingClientRect();
@@ -158,20 +147,7 @@ export default function Home() {
       if (i !== currentRef.current) goTo(i, i > currentRef.current ? 1 : -1);
     }
 
-    /* editorial parallax */
-    function updateParallax() {
-      const el = editEl.current; if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const vh   = window.innerHeight;
-      if (rect.bottom < -200 || rect.top > vh + 200) return;
-      const p = (vh - rect.top) / (vh + rect.height);
-      editCols.current.forEach(col => {
-        const rate = parseFloat(col.dataset.rate ?? '1');
-        col.style.transform = `translate3d(0,${(-(p - 0.5) * 220 * rate).toFixed(2)}px,0)`;
-      });
-    }
-
-    /* velocity marquee */
+    /* velocity marquee + origin parallax */
     let mqX = 0, vel = 0, lastY = window.scrollY, typeW = 0, rafId = 0;
     function measure() {
       if (originType.current) typeW = originType.current.scrollWidth / 4;
@@ -189,7 +165,7 @@ export default function Home() {
         const r = originEl.current.getBoundingClientRect();
         if (r.bottom > 0 && r.top < window.innerHeight) {
           const pp = (window.innerHeight - r.top) / (window.innerHeight + r.height);
-          originBg.current.style.transform = `translate3d(0,${((pp - 0.5) * -90).toFixed(2)}px,0)`;
+          originBg.current.style.transform = `translate3d(0,${((pp - 0.5) * -80).toFixed(2)}px,0)`;
         }
       }
       rafId = requestAnimationFrame(tick);
@@ -197,21 +173,20 @@ export default function Home() {
     rafId = requestAnimationFrame(tick);
     measure();
 
-    /* scroll reveals */
+    /* scroll reveals — opacity only, no translate */
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); }
       });
-    }, { threshold: 0.10 });
+    }, { threshold: 0.08 });
     document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
 
     updateSeries();
-    updateParallax();
 
     let queued = false;
     function onScroll() {
       if (queued) return; queued = true;
-      requestAnimationFrame(() => { updateSeries(); updateParallax(); queued = false; });
+      requestAnimationFrame(() => { updateSeries(); queued = false; });
     }
     const onResize = () => { measure(); onScroll(); };
     addEventListener('scroll', onScroll, { passive: true });
@@ -228,38 +203,34 @@ export default function Home() {
 
   return (
     <>
-      {/* ── HEADER ──────────────────────────────────────────────── */}
+      {/* ── NAV ─────────────────────────────────────────────────── */}
       <header className="masthead">
         <img src={logoPath} className="mark__logo" alt="Tao Boba" />
       </header>
       <a href="https://www.thetaoboba.com/menu"     className="nav-link">Menu</a>
       <a href="https://www.exploretock.com/taoboba" className="nav-order">Order</a>
 
-      {/* ════════════════════════════════════════════════════════════
-          01 — HERO  Static catalog spread
-          Left: Summer Sips photo  |  Right: editorial brand panel
-          ════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════
+          01 — HERO
+          Static split. Left: Summer Sips photo. Right: brand text.
+          Pattern from Rishi / Kettl: label top-left, headline anchored
+          low, CTAs at floor, vast whitespace in between.
+      ══════════════════════════════════════════════════════════════ */}
       <section className="hero">
 
-        {/* Photo side */}
         <div className="hero__media">
           <img
             src={heroSummerPath}
             className="hero__bg"
-            alt="Tao Boba Summer Sips — five seasonal drinks on concrete pedestals"
+            alt="Tao Boba — five seasonal drinks on concrete pedestals"
           />
         </div>
 
-        {/* Text side */}
         <div className="hero__panel">
-
           <div className="hero__top">
-            <p className="hero__tag">
-              Tao Boba &nbsp;·&nbsp; Denver, CO &nbsp;·&nbsp; Est. 2021
-            </p>
+            <p className="hero__tag">Tao Boba &nbsp;·&nbsp; Denver, CO &nbsp;·&nbsp; Est. 2021</p>
             <span className="hero__idx">01</span>
           </div>
-
           <div className="hero__center">
             <h1 className="hero__title">
               The Art<br />
@@ -270,7 +241,6 @@ export default function Home() {
               Open daily, 11 — 21.
             </p>
           </div>
-
           <nav className="hero__ctas">
             <a href="https://www.thetaoboba.com/menu" className="cta-line">
               View Menu <i />
@@ -279,54 +249,62 @@ export default function Home() {
               Order Now
             </a>
           </nav>
-
         </div>
+
       </section>
 
-      {/* ════════════════════════════════════════════════════════════
-          02 — MATCHA COLLECTION  Three-column editorial product grid
-          ════════════════════════════════════════════════════════════ */}
-      <section className="mcollection">
-        <div className="mcollection__header" data-reveal>
-          <div className="mcollection__label">
-            <span className="eyebrow">Seasonal Series &nbsp;·&nbsp; Summer 2026</span>
-            <h2 className="mcollection__title">
-              Four flavors.<br /><em>One Matcha Journey.</em>
-            </h2>
+      {/* ══════════════════════════════════════════════════════════════
+          02 — COLLECTION
+          Images float as objects — two-column bleed spread.
+          No frames, no cards. Section opener: thin rule + label.
+          Grammar from en-tea / saboe: objects in space, not in containers.
+      ══════════════════════════════════════════════════════════════ */}
+      <section className="collection">
+
+        <div className="collection__top">
+          <div className="sec-head" data-reveal>
+            <div>
+              <span className="sec-label">Seasonal Collection · Summer 2026</span>
+              <h2 className="sec-title">
+                Four flavors.<br /><em>One Matcha Journey.</em>
+              </h2>
+            </div>
+            <a href="https://www.thetaoboba.com/menu" className="cta-line collection__cta">
+              Full menu <i />
+            </a>
           </div>
-          <a
-            href="https://www.thetaoboba.com/menu"
-            className="cta-line mcollection__cta"
-          >
-            Explore the menu <i />
-          </a>
         </div>
 
-        <div className="mcollection__grid">
-          {[
-            { src: matchaMango,  name: 'Mango Matcha',           note: 'Tropical mango meets ceremonial matcha — bright, fruity, and electric.' },
-            { src: matchaBanana, name: 'Banana Pudding Matcha',  note: 'Smooth banana layered under a creamy matcha pour. Naturally sweet.' },
-            { src: matchaUbe,    name: 'Ube Matcha',             note: 'Earthy purple ube blended with deep-green matcha. Striking in the cup.' },
-          ].map(({ src, name, note }, i) => (
-            <article className="mcollection__item" key={i} data-reveal>
-              <div className="mcollection__frame">
-                <img src={src} alt={name} />
-              </div>
-              <div className="mcollection__meta">
-                <span className="mcollection__num">{String(i + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3 className="mcollection__name">{name}</h3>
-                  <p className="mcollection__note">{note}</p>
-                </div>
-              </div>
-            </article>
-          ))}
+        {/* Two-column bleed spread: left = two squares, right = one tall */}
+        <div className="collection__spread">
+          <div className="collection__col-a">
+            <div className="collection__slot">
+              <img src={matchaMango}  alt="Mango Matcha" />
+            </div>
+            <div className="collection__slot">
+              <img src={matchaBanana} alt="Banana Pudding Matcha" />
+            </div>
+          </div>
+          <div className="collection__col-b">
+            <img src={matchaUbe} alt="Ube Matcha" />
+          </div>
         </div>
+
+        {/* Three italic names beneath — aligned to the image columns */}
+        <div className="collection__names" aria-hidden="true">
+          <span><em>Mango Matcha</em></span>
+          <span><em>Banana Pudding Matcha</em></span>
+          <span><em>Ube Matcha</em></span>
+        </div>
+
       </section>
 
-      {/* ════════════════════════════════════════════════════════════
-          03 — SERIES  Pinned scroll, 3-drink catalog
-          ════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════
+          03 — SERIES
+          Pinned scroll. Tinted stage differentiates this from the
+          white sections — intentional: interactive vs. editorial.
+          Cup swap engine preserved exactly.
+      ══════════════════════════════════════════════════════════════ */}
       <section
         className="series"
         ref={seriesEl}
@@ -337,7 +315,6 @@ export default function Home() {
           ref={stageEl}
           style={{ backgroundColor: PRODUCTS[0].tint }}
         >
-          {/* Ghost letterform — behind everything */}
           <div className="ghost-letter" ref={ghostEl} aria-hidden="true" />
 
           <nav className="rail" aria-label="Drink index">
@@ -352,6 +329,7 @@ export default function Home() {
           </nav>
 
           <div className="series__body">
+            <p className="sec-label series__opener">The Drinks</p>
             <h1 className="series__title">
               <span className="name" ref={nameEl}>{PRODUCTS[0].name}</span>
               <span className="suffix">
@@ -371,74 +349,71 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="wordband" ref={bandEl} aria-hidden="true" />
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════════
-          03 — CRAFT  Editorial spread — image col / copy col
-          ════════════════════════════════════════════════════════════ */}
-      <section className="editorial" ref={editEl}>
-        <div
-          className="col col--media"
-          data-rate="1"
-          ref={el => { if (el) editCols.current[0] = el }}
-        >
-          <div className="frame" data-reveal>
-            <img src={edit1Path} alt="Craft 01" />
-          </div>
-          <div className="frame tall" data-reveal>
-            <img src={edit2Path} alt="Craft 02" />
-          </div>
-          <div className="frame" data-reveal>
-            <img src={edit3Path} alt="Craft 03" />
+      {/* ══════════════════════════════════════════════════════════════
+          04 — CRAFT
+          Two alternating spreads: image bleeds to one edge, text floats
+          on the other side in open space.
+          No frames. No boxes. Generous inter-spread gap.
+          Same sec-head opener as every other section.
+      ══════════════════════════════════════════════════════════════ */}
+      <section className="craft">
+
+        <div className="collection__top">
+          <div className="sec-head" data-reveal>
+            <div>
+              <span className="sec-label">The Craft</span>
+              <h2 className="sec-title">
+                What goes into<br /><em>every cup.</em>
+              </h2>
+            </div>
           </div>
         </div>
 
-        <div
-          className="col col--copy"
-          data-rate="0.2"
-          ref={el => { if (el) editCols.current[1] = el }}
-        >
-          <div data-reveal>
-            <p className="eyebrow">The tea</p>
-            <h2>Premium leaves,<br />brewed for the cup</h2>
+        {/* Spread 1: image left (bleeds), text right */}
+        <div className="craft__spread" data-reveal>
+          <div className="craft__img craft__img--left">
+            <img src={edit1Path} alt="" />
+          </div>
+          <div className="craft__text">
+            <span className="sec-label">The Tea</span>
+            <h3>Ceremonial grade,<br />cold-brewed for clarity</h3>
             <p>
-              Single-origin teas prepared to extract what makes each
+              Single-origin teas steeped cold to extract what makes each
               varietal distinct. No blending to mask. No shortcuts in the brew.
             </p>
-            <a className="more" href="https://www.thetaoboba.com/menu">
+            <a href="https://www.thetaoboba.com/menu" className="cta-line">
               Our menu <i />
             </a>
           </div>
-          <div data-reveal>
-            <p className="eyebrow">The pour</p>
-            <h2>Layers that hold<br />from first sip to last</h2>
+        </div>
+
+        {/* Spread 2: text left, image right (bleeds) */}
+        <div className="craft__spread craft__spread--flip" data-reveal>
+          <div className="craft__text">
+            <span className="sec-label">The Cup</span>
+            <h3>Assembled in order.<br />Never premixed.</h3>
             <p>
-              Cream is folded, not poured. Two layers meet without mixing.
-              The cup holds its line long after it leaves the counter.
+              Every drink is built in sequence. Cream folded, not poured.
+              Two layers that hold their line from first sip to last.
             </p>
-            <a className="more" href="https://www.thetaoboba.com/menu">
-              View drinks <i />
-            </a>
-          </div>
-          <div data-reveal>
-            <p className="eyebrow">The pearls</p>
-            <h2>Made the same morning.<br />No carry-over.</h2>
-            <p>
-              Tapioca pearls cooked fresh each morning. If they run out,
-              the drink is pulled — not replaced with yesterday's batch.
-            </p>
-            <a className="more" href="https://www.exploretock.com/taoboba">
+            <a href="https://www.exploretock.com/taoboba" className="cta-line">
               Order now <i />
             </a>
           </div>
+          <div className="craft__img craft__img--right">
+            <img src={edit2Path} alt="" />
+          </div>
         </div>
+
       </section>
 
-      {/* ════════════════════════════════════════════════════════════
-          04 — ORIGIN  Velocity-coupled marquee
-          ════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════
+          05 — ORIGIN
+          The one moment of atmosphere. Velocity marquee over dark photo.
+      ══════════════════════════════════════════════════════════════ */}
       <section className="origin" ref={originEl}>
         <div
           className="origin__bg"
