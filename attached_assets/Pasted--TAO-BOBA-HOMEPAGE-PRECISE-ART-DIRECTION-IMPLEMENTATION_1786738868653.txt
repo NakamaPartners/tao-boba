@@ -1,0 +1,1653 @@
+# TAO BOBA HOMEPAGE — PRECISE ART DIRECTION / IMPLEMENTATION SPEC
+
+## READ THIS BEFORE CHANGING ANYTHING
+
+Do not “interpret” this brief into another design concept.
+
+Do not improvise a premium café website.
+
+Do not add decorative elements because an area appears empty.
+
+For this iteration, follow the **layout measurements, positioning, hierarchy and spacing below as closely as possible**.
+
+### Primary creative reference
+
+**Andtea.com**
+
+This is the reference the CLIENT gave us.
+
+Andtea should guide:
+
+* product presentation
+* drink choreography
+* scrolling behavior
+* motion
+* visual richness
+* interaction between product, type and imagery
+
+### Spatial/layout reference
+
+**Velora**
+https://velora-template.framer.website/
+
+Velora should guide:
+
+* hero composition
+* image placement
+* asymmetric spacing
+* typography positioning
+* relationship between large image and smaller text
+* calmness of the UI
+
+### Other aesthetic references
+
+EN TEA, SABOE, HIGASHIYA, Sakurai, Kettl and Rishi Tea are references for:
+
+* elegance
+* rhythm
+* photography treatment
+* editorial pacing
+* spacing
+* visual hierarchy
+
+Do NOT turn those references into extreme emptiness.
+
+---
+
+# CENTRAL PRINCIPLE
+
+## VISUALLY RICH, STRUCTURALLY MINIMAL.
+
+We want:
+
+* lots of beautiful Tao imagery
+* very little visible UI
+* varied compositions
+* photography that changes in scale and position
+* elegant typography
+* carefully controlled motion
+* substantial breathing room
+
+We do NOT want:
+
+* barren whitespace with a single cup
+* obvious cards
+* conventional website sections
+* 50/50 hero
+* product grids
+* generic “luxury café” styling
+
+---
+
+# BASE ARTBOARD
+
+Design desktop FIRST at:
+
+## 1440 × 900 px
+
+Use this as the reference viewport.
+
+Everything below should be visually calibrated against this size first.
+
+### Global page rules
+
+**Page width:** 100%
+
+**Desktop outer horizontal gutter:**
+72px minimum
+
+Preferred visual alignment lines:
+
+* X = 72px
+* X = 96px
+* X = 640px
+* X = 900px
+* X = 1040px
+* X = 1368px
+
+Do not constrain the entire website to one centered 1200px container.
+
+Different visual scenes may use different alignment lines.
+
+### Background
+
+Use a very light neutral tone.
+
+Approximately:
+
+`#F4F2ED` to `#F8F6F1`
+
+Do NOT use pure white everywhere.
+
+Do NOT use beige so heavily that the site becomes “Japanese museum aesthetic.”
+
+The colorful Tao drinks should provide much of the color.
+
+### Main text
+
+Use dark charcoal rather than absolute black:
+
+`#161616` approximately.
+
+---
+
+# HEADER
+
+Reference viewport: 1440 × 900.
+
+### Header dimensions
+
+Height:
+
+**88px**
+
+Position:
+
+**fixed or absolute over hero**
+
+Top:
+
+`0px`
+
+Left/right padding:
+
+**72px**
+
+Display:
+
+horizontal.
+
+### Tao logo
+
+Position:
+
+X = 72px
+Y = approximately 30px
+
+Maximum visual height:
+
+**28–34px**
+
+Do not enlarge the logo.
+
+It should feel quiet.
+
+### Navigation
+
+Right aligned.
+
+X ending approximately:
+
+**1368px**
+
+Y center:
+
+**44px**
+
+Typography:
+
+* 11–13px
+* medium weight
+* slight tracking approximately `0.04em–0.08em`
+
+For the mockup, use only:
+
+`MENU`
+
+and optionally:
+
+`ORDER`
+
+Do NOT use a large button.
+
+If ORDER exists, it should look like text navigation, not SaaS CTA UI.
+
+Navigation gap:
+
+**28–36px**
+
+---
+
+# SCENE 01 — HERO
+
+## Hero total height
+
+At desktop:
+
+**900px minimum**
+
+Prefer:
+
+`min-height: 100svh`
+
+At 1440 × 900, hero should occupy essentially exactly one viewport.
+
+---
+
+# HERO COMPOSITION
+
+The composition should take inspiration from Velora:
+
+### LARGE PHOTOGRAPH LOWER-LEFT
+
+*
+
+### SMALL EDITORIAL TEXT UPPER-RIGHT
+
+*
+
+### LARGE TAO BOBA WORDMARK BELOW / NEAR IMAGE
+
+Do NOT create another separate product floating on the right.
+
+Do NOT use two competing photos.
+
+There should be one main photographic scene.
+
+---
+
+# HERO IMAGE
+
+## Placement at 1440px viewport
+
+Left:
+
+**88px**
+
+Top:
+
+approximately **300–320px**
+
+Recommended exact starting target:
+
+`left: 88px`
+`top: 306px`
+
+Width:
+
+**620px**
+
+Height:
+
+**390px**
+
+Aspect ratio approximately:
+
+**1.59 : 1**
+
+Allow approximately:
+
+`object-fit: cover`
+
+No rounded corners.
+
+`border-radius: 0`
+
+No shadow.
+
+No border.
+
+---
+
+# HERO PHOTO CONTENT
+
+Use one of Tao Boba's strongest photographs.
+
+A photograph with multiple drinks is acceptable **if the photograph itself is art-directed beautifully**.
+
+The mistake is NOT “multiple drinks are forbidden.”
+
+The mistake is using an image that looks like:
+
+> five ecommerce products lined up to show the menu.
+
+Prefer imagery where the drinks form a composition.
+
+Possible:
+
+* two or three drinks with interesting crops
+* drinks at different heights
+* dramatic close crop
+* hand entering frame
+* table composition
+* preparation scene with finished drinks
+* product + ingredient environment
+
+The photograph needs visual atmosphere.
+
+---
+
+# HERO IMAGE CROP
+
+Avoid showing every cup perfectly from top to bottom.
+
+Crop deliberately.
+
+At least one object may:
+
+* approach image edge
+* partially leave the frame
+* overlap another object visually
+* be significantly larger than another
+
+The image should feel editorial, not informational.
+
+---
+
+# HERO RIGHT TEXT
+
+Position approximately:
+
+Left:
+
+**930–960px**
+
+Preferred:
+
+`left: 955px`
+
+Top:
+
+**135–155px**
+
+Preferred:
+
+`top: 145px`
+
+Width:
+
+**320–345px**
+
+Preferred:
+
+`width: 330px`
+
+Do not vertically center it with the photograph.
+
+Its position MUST be significantly higher than the photograph.
+
+That difference creates the composition.
+
+---
+
+# RIGHT TEXT CONTENT
+
+Use something very restrained.
+
+Structure:
+
+small contextual line
+
+then
+
+short brand thought
+
+then optionally one quiet link.
+
+Example hierarchy:
+
+`TAO BOBA · DENVER`
+
+then approximately 30–40px below:
+
+2–4 lines of brand copy.
+
+Do not put a giant marketing headline here.
+
+---
+
+# HERO CONTEXT LABEL
+
+Font size:
+
+**10–11px**
+
+Weight:
+
+500
+
+Tracking:
+
+**0.12em**
+
+Line height:
+
+1.3
+
+Uppercase acceptable.
+
+Color:
+
+approximately 60–70% charcoal.
+
+---
+
+# HERO BODY / INTRO
+
+Font size:
+
+**18–22px**
+
+Recommended:
+
+**20px**
+
+Line height:
+
+**1.4–1.5**
+
+Max width:
+
+**330px**
+
+Weight:
+
+regular.
+
+Do not use Cormorant Garamond italic.
+
+Do not use an obviously “luxury” serif just because it looks premium.
+
+If using a serif, it should feel editorial and contemporary rather than wedding/luxury.
+
+---
+
+# HERO LINK
+
+If needed:
+
+`ABOUT TAO ↓`
+
+Font size:
+
+**11px**
+
+Margin-top:
+
+**28–34px**
+
+No button.
+
+No border box.
+
+No pill.
+
+---
+
+# LARGE TAO BOBA TYPOGRAPHY
+
+Place below the image.
+
+Position:
+
+Left:
+
+**88px**
+
+Top:
+
+approximately **720–745px**
+
+Preferred baseline region:
+
+`top: 726px`
+
+Text:
+
+## TAO BOBA
+
+Font size:
+
+**68–82px**
+
+Initial target:
+
+**76px**
+
+Line height:
+
+**0.88–0.95**
+
+Letter spacing:
+
+approximately `-0.04em`
+
+Weight:
+
+500–600 depending on selected typeface.
+
+This should feel like a graphic element.
+
+Not a slogan.
+
+No italics.
+
+---
+
+# HERO BOTTOM ELEMENT
+
+Small scroll indicator only if necessary.
+
+Position:
+
+Right:
+
+**72px**
+
+Bottom:
+
+**32–42px**
+
+NOT centered in the viewport.
+
+Never place it on a vertical seam.
+
+Example:
+
+`SCROLL ↓`
+
+Font size:
+
+10px.
+
+Opacity:
+
+0.55.
+
+---
+
+# HERO VISUAL BALANCE
+
+At 1440 × 900:
+
+Approximately:
+
+### left 50%:
+
+main photographic weight
+
+### upper-right:
+
+small amount of text
+
+### lower-left:
+
+large TAO BOBA type
+
+### middle / upper-middle:
+
+intentional breathing room
+
+There should be **3 primary attention points only**:
+
+1. image
+2. Tao Boba typography
+3. small intro
+
+Not seven.
+
+---
+
+# HERO MOTION
+
+Very restrained.
+
+On initial load:
+
+### image
+
+Opacity 0 → 1
+
+Duration:
+**0.8–1.0 sec**
+
+Scale:
+`1.02 → 1`
+
+Translation:
+maximum `12–20px`
+
+Do NOT fly it into the screen.
+
+### right text
+
+Delay:
+
+**0.15–0.25 sec after image starts**
+
+Opacity:
+0 → 1
+
+Y:
+`12px → 0`
+
+Duration:
+
+**0.7 sec**
+
+### TAO BOBA type
+
+Delay:
+
+approximately **0.25–0.35 sec**
+
+Reveal using:
+
+* clipping/mask
+  or
+* subtle Y movement
+
+Maximum movement:
+
+**20px**
+
+No dramatic animation.
+
+---
+
+# HERO SCROLL BEHAVIOR
+
+As user scrolls from 0 → approximately 500px:
+
+Main hero image may translate upward slightly:
+
+maximum:
+
+**35–55px**
+
+Right copy moves at approximately:
+
+**0.25–0.35 × page scroll speed**
+
+This creates gentle parallax.
+
+TAO BOBA typography can move approximately:
+
+**0.1–0.2 × scroll speed**
+
+Do not let elements float independently.
+
+---
+
+# TRANSITION AFTER HERO
+
+Do NOT immediately create a hard “Section 2.”
+
+Create a visual transition.
+
+Height:
+
+approximately **280–360px**
+
+Recommended:
+
+**320px**
+
+Use this region to move from the Velora-inspired opening into the richer Andtea storytelling.
+
+May contain:
+
+one small sentence or label.
+
+Position intentionally off-center.
+
+Example:
+
+Left:
+
+**720–820px**
+
+Width:
+
+**260–340px**
+
+Do not center it.
+
+---
+
+# SCENE 02 — EDITORIAL IMAGE COMPOSITION
+
+This scene begins the rich photographic storytelling.
+
+Desktop section height:
+
+approximately:
+
+**1100–1250px**
+
+Recommended:
+
+**1180px**
+
+Do not make it look like a gallery component.
+
+---
+
+# SCENE 02 — IMAGE A
+
+Large image.
+
+Position approximately:
+
+Left:
+
+**72px**
+
+Top relative to scene:
+
+**120px**
+
+Width:
+
+**540px**
+
+Height:
+
+**680px**
+
+Use:
+
+* preparation
+* hand
+* tea
+* matcha
+* foam
+* pouring
+* ingredient
+* cup close-up
+
+Prefer portrait orientation.
+
+No border radius.
+
+---
+
+# SCENE 02 — IMAGE B
+
+Smaller image.
+
+Position approximately:
+
+Left:
+
+**850–900px**
+
+Top:
+
+**410–470px**
+
+Width:
+
+**330–380px**
+
+Height:
+
+**260–330px**
+
+Do not align its top with Image A.
+
+The vertical offset is essential.
+
+---
+
+# SCENE 02 — TEXT
+
+Position:
+
+Left:
+
+approximately **820–880px**
+
+Top:
+
+**120–180px**
+
+Width:
+
+**330px**
+
+Use a small title / paragraph.
+
+Body:
+
+15–17px.
+
+Line-height:
+
+1.55.
+
+Do not turn it into:
+
+* heading
+* subheading
+* three bullet points
+* button.
+
+It should read more like editorial writing.
+
+---
+
+# EDITORIAL PARALLAX
+
+Image A:
+
+scroll multiplier:
+
+approximately **1.0**
+
+Image B:
+
+approximately **0.35–0.45**
+
+Text:
+
+approximately **0.18–0.25**
+
+This should create visible but smooth depth.
+
+No bouncing.
+
+No idle motion.
+
+---
+
+# SCENE 03 — ANDTEA-INSPIRED PRODUCT EXPERIENCE
+
+THIS IS THE CLIENT'S PRIMARY REFERENCE MOMENT.
+
+Do not replace this with a carousel.
+
+Do not build cards.
+
+Do not build a horizontal product slider.
+
+Use a sticky / pinned scrolling composition.
+
+---
+
+# PRODUCT SEQUENCE
+
+Use approximately:
+
+## FIVE FEATURED TAO DRINKS
+
+One drink per state.
+
+The drink changes according to scroll progress.
+
+---
+
+# PRODUCT SECTION TOTAL SCROLL HEIGHT
+
+Approximately:
+
+**450–550vh**
+
+Target:
+
+**500vh**
+
+Sticky viewport:
+
+**100vh**
+
+At any given moment:
+
+one featured drink dominates.
+
+---
+
+# PRODUCT STICKY CONTAINER
+
+Width:
+
+100vw
+
+Height:
+
+100vh
+
+Position:
+
+sticky
+
+Top:
+
+0
+
+Overflow:
+
+hidden
+
+---
+
+# PRODUCT IMAGE SIZE
+
+At 1440 × 900:
+
+visible drink height:
+
+approximately **620–720px**
+
+Recommended target:
+
+**670px**
+
+Do not make it tiny.
+
+The product should feel monumental.
+
+---
+
+# PRODUCT POSITION
+
+Cup center:
+
+approximately:
+
+X = **790–850px**
+
+Y = **470px**
+
+Slight variation per product is allowed.
+
+Avoid exact dead center.
+
+---
+
+# PRODUCT NAME
+
+Position:
+
+Left:
+
+**80–100px**
+
+Top:
+
+approximately **175–220px**
+
+Width:
+
+approximately **430px**
+
+Font size:
+
+**60–82px**
+
+Depending on drink-name length.
+
+Line-height:
+
+**0.9–1.0**
+
+Do NOT use italic as the standard “premium” device.
+
+---
+
+# PRODUCT DESCRIPTION
+
+Position:
+
+Left:
+
+**90px**
+
+Bottom:
+
+approximately **125–155px**
+
+Width:
+
+**320–390px**
+
+Font:
+
+15–17px
+
+Line-height:
+
+1.55
+
+One short paragraph.
+
+No tasting-note cards.
+
+No feature bullets.
+
+---
+
+# PRODUCT INDEX
+
+Small.
+
+Example:
+
+`01 / 05`
+
+Position:
+
+Left:
+
+**94px**
+
+Top:
+
+**120px**
+
+Font:
+
+10px
+
+Tracking:
+
+0.1em.
+
+Quiet.
+
+---
+
+# PRODUCT BACKGROUND TYPOGRAPHY
+
+May use oversized type behind the product.
+
+But it MUST interact spatially with the cup.
+
+Do NOT place a giant word in an unrelated corner.
+
+Possible:
+
+`MATCHA`
+
+`BROWN SUGAR`
+
+or product-series terminology.
+
+Font size:
+
+approximately:
+
+**180–300px**
+
+Opacity:
+
+roughly **5–12%**
+
+Position it so:
+
+* cup overlaps letters
+* letters extend behind cup
+* typography becomes architectural background
+
+Not decoration.
+
+---
+
+# PRODUCT TRANSITION MOTION
+
+Follow the Andtea/Claude motion reference.
+
+## Outgoing product
+
+Duration:
+
+approximately **0.33 sec**
+
+Y:
+
+`0 → -100%`
+
+X:
+
+`0 → +8%`
+
+Rotation:
+
+`0deg → +35deg`
+
+Scale:
+
+`1 → 0.75`
+
+Easing:
+
+approximately:
+
+`cubic-bezier(.55,0,.85,.35)`
+
+---
+
+## Incoming product
+
+Duration:
+
+approximately **0.90 sec**
+
+Initial Y:
+
+`+100%`
+
+Final Y:
+
+`0`
+
+Initial rotation:
+
+`-20deg`
+
+Final rotation:
+
+`0deg`
+
+Initial scale:
+
+`0.76`
+
+Final scale:
+
+`1`
+
+Delay after outgoing movement begins:
+
+approximately:
+
+**0.12 sec**
+
+Easing:
+
+`cubic-bezier(.16,1,.3,1)`
+
+Overlap transitions by approximately:
+
+**0.20 sec**
+
+---
+
+# CRITICAL MOTION RULE
+
+Once the drink reaches the final position:
+
+## IT BECOMES COMPLETELY STILL.
+
+No idle float.
+
+No bobbing.
+
+No rotating.
+
+No looping movement.
+
+No “alive” animation.
+
+The elegance comes from motion followed by stillness.
+
+Reverse scrolling should mirror the interaction naturally.
+
+---
+
+# PRODUCT COLOR CHANGES
+
+Each product state may subtly shift background color.
+
+Use soft colors sampled from Tao drinks.
+
+Examples:
+
+matcha:
+muted pale green
+
+ube:
+muted lavender
+
+brown sugar:
+warm cream / caramel
+
+strawberry:
+very pale blush
+
+tea:
+warm neutral
+
+Do NOT use saturated full-screen gradients.
+
+Transitions:
+
+**500–800ms**
+
+smooth.
+
+---
+
+# SCENE 04 — PHOTOGRAPHY AFTER PRODUCT
+
+After the intense product sequence, return to photography.
+
+Section height:
+
+approximately **1300–1600px**
+
+Recommended:
+
+**1450px**
+
+---
+
+# SCENE 04 IMAGE ARRANGEMENT
+
+Use 3 photographic moments.
+
+Not a grid.
+
+### Image 1
+
+Width:
+**45vw** approximately
+
+Height:
+**620px**
+
+Left:
+**0 or 72px**
+
+### Image 2
+
+Width:
+**280–340px**
+
+Height:
+**400–480px**
+
+Position:
+far right
+
+Top offset:
+approximately **300px later than Image 1**
+
+### Image 3
+
+Width:
+**500–620px**
+
+Height:
+**330–420px**
+
+Position:
+approximately center-right lower down.
+
+They should never share identical top coordinates.
+
+---
+
+# SECTION RHYTHM
+
+Important:
+
+Do NOT use the same spacing repeatedly.
+
+Example desktop rhythm:
+
+Scene 1:
+900px
+
+Transition:
+320px
+
+Scene 2:
+1180px
+
+Gap:
+180px
+
+Pinned product:
+500vh
+
+Breathing area:
+220px
+
+Scene 4:
+1450px
+
+The page should have changes in tempo.
+
+---
+
+# TYPOGRAPHY SYSTEM
+
+Do not use Cormorant Garamond as the automatic answer.
+
+Aim for one strong primary sans / grotesk and optionally one contrasting editorial serif.
+
+### Large display text
+
+Desktop:
+
+60–90px normally.
+
+Special background typography:
+
+180–300px.
+
+### Medium titles
+
+30–42px.
+
+### Body
+
+15–18px.
+
+### Micro text
+
+9–12px.
+
+The elegance comes partly from **extreme scale contrast**.
+
+---
+
+# LINE LENGTHS
+
+Body copy:
+
+maximum around:
+
+**36–48 characters per line**
+
+Most paragraphs:
+
+320–420px wide.
+
+Avoid 600–800px wide paragraphs.
+
+---
+
+# BUTTONS
+
+Avoid visible button UI whenever possible.
+
+For editorial pages:
+
+use text links.
+
+For actual commerce:
+
+Order button may eventually be more obvious, but not in this visual mockup.
+
+No:
+
+* pill buttons
+* gradient buttons
+* giant black rectangles
+* glow
+* shadows
+
+---
+
+# IMAGE RULES
+
+Across homepage target approximately:
+
+## 10–15 photographic moments
+
+This includes:
+
+* hero
+* preparation
+* ingredients
+* cup details
+* store/interior
+* products
+* lifestyle
+* additional close-ups
+
+We are NOT trying to show one cup repeatedly.
+
+Photography should build Tao's world.
+
+---
+
+# NEVER DO THIS
+
+Do not create:
+
+### Generic hero
+
+headline + paragraph + two buttons + photo.
+
+### Generic product section
+
+three equal cards.
+
+### Generic story section
+
+photo left / text right, followed by text left / photo right.
+
+### Generic luxury styling
+
+serif + italics + cream + black.
+
+### Generic DTC section
+
+giant marquee over a dark image.
+
+### Generic portfolio section
+
+Selected Work / Services / Testimonials patterns from Velora.
+
+Velora is ONLY providing compositional inspiration.
+
+---
+
+# TABLET — 1024PX
+
+At widths approximately 768–1100px:
+
+Global gutter:
+
+**40px**
+
+Hero image:
+
+width approximately **54–58vw**
+
+Height:
+
+approximately **360px**
+
+Hero intro:
+
+width approximately **280px**
+
+Right margin:
+
+40px.
+
+Large TAO BOBA:
+
+font-size:
+
+**58–66px**
+
+Keep asymmetry.
+
+Do not collapse into generic centered layout.
+
+---
+
+# MOBILE — 390PX REFERENCE
+
+Reference artboard:
+
+## 390 × 844px
+
+Global gutter:
+
+**20px**
+
+Header height:
+
+**68px**
+
+Logo:
+
+24–28px high.
+
+---
+
+# MOBILE HERO
+
+Do NOT shrink the desktop composition proportionally.
+
+Recompose it.
+
+Hero height:
+
+approximately **900–980px**
+
+### intro text
+
+Top:
+
+110–130px
+
+Left:
+
+20px
+
+Width:
+
+approximately **260px**
+
+### main image
+
+Top:
+
+approximately **300px**
+
+Left:
+
+20px
+
+Width:
+
+**350px**
+
+Height:
+
+**430–470px**
+
+Portrait crop on mobile is acceptable even if desktop is landscape.
+
+### TAO BOBA
+
+Below image.
+
+Font-size:
+
+**48–56px**
+
+Line-height:
+
+0.9.
+
+Margin-top:
+
+20–28px.
+
+---
+
+# MOBILE PRODUCT STICKY SECTION
+
+Do not disable the concept entirely.
+
+Sticky sequence can remain.
+
+Cup visible height:
+
+approximately **410–480px**
+
+Position:
+
+centered/slightly right.
+
+Product name:
+
+32–44px.
+
+Description:
+
+14px.
+
+Large background typography:
+
+80–130px.
+
+Make sure the cup does not obscure all text.
+
+---
+
+# PERFORMANCE
+
+Use transforms and opacity for motion whenever possible.
+
+Avoid triggering layout every frame.
+
+Preload the five hero/product assets required for the pinned sequence.
+
+Do not introduce unnecessary animation libraries merely for simple effects.
+
+Respect `prefers-reduced-motion`.
+
+---
+
+# FINAL VISUAL TEST AT 1440 × 900
+
+Before considering the design complete, capture the homepage at 1440 × 900 and review the first viewport.
+
+Ask:
+
+### Can I identify one dominant image immediately?
+
+Must be YES.
+
+### Does the first viewport contain more than 3 strong focal points?
+
+If YES, simplify.
+
+### Does the image feel intentionally positioned rather than centered automatically?
+
+Must be YES.
+
+### Does this look like Velora with Tao photos copied in?
+
+If YES, it is too literal.
+
+### Does this look like Andtea copied with Tao branding?
+
+If YES, it is too literal.
+
+### Does it feel like Tao's own art-directed world while clearly understanding why the client referenced Andtea?
+
+That is the target.
+
+---
+
+# SIMPLE SUMMARY
+
+### Velora gives us:
+
+the opening spatial grammar.
+
+### Andtea gives us:
+
+the product choreography and motion language.
+
+### EN TEA / SABOE / HIGASHIYA / Sakurai / Kettl:
+
+give us editorial discipline and elegance.
+
+### Tao Boba gives us:
+
+the color, photography, products, personality and story.
+
+Build from that equation.
+
+DO NOT improvise another aesthetic direction.
