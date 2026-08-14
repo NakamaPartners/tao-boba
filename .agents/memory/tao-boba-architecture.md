@@ -1,56 +1,64 @@
 ---
 name: Tao Boba homepage architecture
-description: Design system, visual grammar, and preserved engine for the Tao Boba homepage
+description: Design system, visual grammar, and preserved engine for the Tao Boba homepage (post-reset)
 ---
 
-## Visual grammar (unified — applied to every section)
+## Design direction (reset — previous direction rejected)
 
-Every section below the hero opens with **the same gesture**:
-- `border-top: 1px solid var(--ink-12)` thin rule
-- `.sec-label` — 9px, letter-spacing .30em, uppercase, ink-30 color
-- `.sec-title` — Cormorant Garamond italic, 300 weight, clamp(26px→48px)
+The previous direction ("premium cafe/restaurant template with editorial fonts") was explicitly rejected.
+New direction: **editorial brand composition** — closer to a Japanese art book, brand monograph, or exhibition catalogue.
+References: EN TEA concept, SABOE, Higashiya, Sakurai Tea, Kettl, Rishi Tea (spatial intelligence only — not their branding).
+Andtea remains the reference for **product choreography and motion only**.
 
-This is the one repeated pattern that makes all sections feel like one website.
+Key brief rules (must be enforced on all future additions):
+- Empty space is part of the design — do not fill it
+- One idea per visual moment
+- No sec-head pattern (label + rule + italic heading repeated on every section)
+- No section numbers ("01")
+- No boxed CTA buttons
+- No hover zoom on images
+- No obvious grids (50/50, 3-column, alternating spreads)
+- No three-product grids
+- No marquee bands over dark photos
+- Text narrow: 280–400px max-width
+- Aggressive whitespace: 160–300px vertical breathing room between thoughts
+- Think in **scenes**, not sections
 
-## Section inventory
+## Current page state (approved to this point)
 
-| Section | Class | Background | Notes |
-|---------|-------|------------|-------|
-| Hero    | `.hero` | paper white | 50/50 split grid. Photo left, text right. |
-| Collection | `.collection` | paper white | Images bleed to page edges. No frames. 45/55 split. |
-| Series  | `.series` | tinted (per-drink) | Pinned sticky scroll. Intentionally different bg. |
-| Craft   | `.craft` | paper white | Two alternating spreads. Images bleed to edges. |
-| Origin  | `.origin` | dark photo | Velocity marquee. Only atmospheric section. |
-| Footer  | `.foot` | paper white | 3-col grid |
+Only three things have been built and approved for visual language review:
+1. **Nav** — phoenix mark top-left (inverted filter), "Menu" text link top-right. Nothing else.
+2. **Hero** — one Tao Luxe cup PNG on `#f7f4ef` warm off-white. Cup right-of-center, bottom-anchored. "Denver, CO" bottom-left only. No headline, no CTA, no split.
+3. **Observation transition** — `clamp(120px,22vh,280px)` empty breath, then a single 3-line sentence left-offset at `clamp(10%,16vw,220px)` padding-left.
+4. **Series first state** — pinned scroll, cup dominant right, drink name large Cormorant upper-left, single note sentence (not bullets), index counter "01 — 03", ghost letter, tint transitions.
+
+**Do not add new sections until the user approves this visual language.**
 
 ## Cup swap engine — DO NOT MODIFY
-- Direct DOM manipulation inside `useEffect` (mirrors Andtea `goTo()`)
-- Keyframes on `.cup-wrap` (NOT `.cup-img`)
-- **Exact timing:** exit 0.33s ease-exit, enter 0.90s ease-tail delay 0.12s
-- Cup PNGs have transparent canvas padding → compensate with `transform: scale(2.1) translateY(-8%)` on `.cup-img`
-- `bandEl` ref removed — wordband was removed from series
-- `editEl`, `editCols` refs removed — editorial parallax was removed
 
-## Images
-- Hero photo: `hero_clean.png` (AI-cleaned, no Summer Sips text/logo)
-- Original: `image_1786729078505.png` (has baked-in text — don't use as hero)
-- Matcha series: `Experience_the_Art_of_Denver_Matcha...1625374/1628291/1632771.jpg`
-- Cup PNGs: `cup_tao_luxe_no_bg.png`, `cup_matcha_no_bg.png`, `cup_brown_sugar_no_bg.png`
+- Direct DOM manipulation inside `useEffect`
+- Keyframe classes: `.is-entering`, `.is-exiting`, `.rev`
+- **Exact timing:** exit 0.33s ease-exit, enter 0.90s ease-tail, delay 0.12s
+- Cup PNGs have large transparent canvas padding → compensate with `transform: scale(2.1) translateY(-8%)` on `.cup-img` in the **series stack only**
+- In the **hero**, no scale compensation is applied — the transparent areas are intentional negative space
+- Once settled, cups must be completely still — no idle animation
 
-## Scroll reveals
-- Opacity only — no translateY. `[data-reveal]` → `.revealed`
-- References (Higashiya/Saboe): content appears, doesn't slide
+## Hero cup note
 
-**Why:** translateY reveals feel like UI feedback. Opacity-only feels like breath — content materializes.
+`cup_tao_luxe_no_bg.png` has significant transparent padding (hence the scale(2.1) need in series).
+In the hero: `height: 96svh`, no scale. Cup object appears at ~46svh effective — surrounded by transparent air.
+This is correct and intentional — the space is part of the composition.
 
-## What NOT to reintroduce
-- Custom cursor (removed, was slowing interactions)
-- Hero mouse parallax (removed, user asked for static hero)
-- Word band / `.wordband` on series (removed, too loud against quiet aesthetic)
-- Editorial parallax columns — replaced with static craft spreads
-- Warm cream background on editorial — all sections now white except series tint + origin
+## Images available
 
-## Key design tokens
-- `--gutter`: clamp(24px, 4.5vw, 72px) — outer page margin
-- `--pg`: clamp(40px, 5.5vw, 96px) — panel interior padding (hero text panel)
-- Collection spread bleeds via `no-gutter` on parent + negative margin on craft images
+- `cup_tao_luxe_no_bg.png`, `cup_matcha_no_bg.png`, `cup_brown_sugar_no_bg.png` — transparent cup PNGs
+- `image_1786554649837.png` — phoenix logo (white on transparent → `filter: invert(1)` to darken)
+- `hero_clean.png` — cleaned Summer Sips photo (usable later)
+- Various editorial/social photos in attached_assets
+
+## Key CSS tokens
+
+- `--edge: clamp(28px, 4.5vw, 68px)` — distance from page edge
+- `--paper: #fafaf8`, `--hero-bg: #f7f4ef`
+- No `--gutter` container concept. No max-width anywhere.
+- Each element positioned specifically — not inside a shared container
