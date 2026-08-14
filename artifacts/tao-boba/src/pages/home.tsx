@@ -5,57 +5,57 @@ import { Menu, X } from 'lucide-react';
 import logoPath from "@assets/image_1786554649837.png";
 import petitGateauPath from "@assets/Have_you_tried_Petit_Gateau_at_Tao_Boba_yet_🍰_Its_the_kind_of_1786554447103.jpg";
 import butterflyMangoBreezeHeroPath from "@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Mango_Breeze—spar_1786554450238.jpg";
-import matchaFloatPath from "@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554467811.jpg";
-import amberFloatPath from "@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554470275.jpg";
-import summerSipsLineupPath from "@assets/Five_signature_sips._One_beautiful_lineup._🧋✨Designed_to_be_a_1786554551803.jpg";
-import sip2Path from "@assets/Five_signature_sips._One_beautiful_lineup._🧋✨Designed_to_be_a_1786554579731.jpg";
-import sip3Path from "@assets/Five_signature_sips._One_beautiful_lineup._🧋✨Designed_to_be_a_1786554582662.jpg";
 import sip4Path from "@assets/Five_signature_sips._One_beautiful_lineup._🧋✨Designed_to_be_a_1786554597701.jpg";
-import sip5Path from "@assets/Five_signature_sips._One_beautiful_lineup._🧋✨Designed_to_be_a_1786554600646.jpg";
-import sip6Path from "@assets/Five_signature_sips._One_beautiful_lineup._🧋✨Designed_to_be_a_1786554603857.jpg";
 import cookie1Path from "@assets/The_cookie_everyone_comes_back_for._🤎Now_AVAILABLE_@thetaobob_1786554694737.jpg";
 import cookie2Path from "@assets/The_cookie_everyone_comes_back_for._🤎Now_AVAILABLE_@thetaobob_1786554697585.jpg";
 
+// Transparent drink PNGs for carousel (background-removed)
+import drinkButterflyPath from "@assets/drink_butterfly_mango_no_bg.png";
+import drinkMatchaPath from "@assets/drink_matcha_float_no_bg.png";
+import drinkAmberPath from "@assets/drink_amber_float_no_bg.png";
+import drinkSip2Path from "@assets/drink_sip2_no_bg.png";
+import drinkSip3Path from "@assets/drink_sip3_no_bg.png";
+
 const drinks = [
   {
-    image: summerSipsLineupPath,
-    name: "Summer Sips",
-    series: "Seasonal Collection",
-    description: "Five signature flavors born from summer. Sparkling, layered, and impossible to resist.",
-    typographyWord: "SUMMER",
-    bg: "#f5f0e8",
+    image: drinkButterflyPath,
+    name: "Butterfly Mango Breeze",
+    series: "Tao Luxe Line · Fruit Tea Series",
+    description: "Butterfly pea flower tea blooms from amber to violet with mango. Sparkling, layered, and impossible to resist.",
+    typographyWord: "MANGO",
+    bg: "#ede8f5",
   },
   {
-    image: matchaFloatPath,
-    name: "Cloud Foam Matcha",
-    series: "Signature Series",
+    image: drinkMatchaPath,
+    name: "Matcha Madness",
+    series: "Tao Luxe Line · Matcha Series",
     description: "Premium ceremonial matcha meets our house cloud foam. Rich, grassy, impossibly smooth.",
     typographyWord: "MATCHA",
-    bg: "#edf0e8",
+    bg: "#edf2e8",
   },
   {
-    image: amberFloatPath,
-    name: "Amber Cream Float",
-    series: "Signature Series",
-    description: "A golden amber tea base finished with slow-poured cream foam. Warm and unhurried.",
-    typographyWord: "AMBER",
+    image: drinkAmberPath,
+    name: "Roasted Brown Sugar",
+    series: "Tao Luxe Line · Brown Sugar Series",
+    description: "Slow-roasted brown sugar syrup swirled through house milk tea. Deep, caramelized, warm.",
+    typographyWord: "BROWN",
     bg: "#f5ede0",
   },
   {
-    image: sip2Path,
-    name: "Butterfly Mango Breeze",
-    series: "Summer Limited",
-    description: "Butterfly pea flower transforms with mango, blooming from amber to violet before your eyes.",
-    typographyWord: "MANGO",
-    bg: "#f0ecf5",
+    image: drinkSip2Path,
+    name: "Classic Milk Tea",
+    series: "Tao Luxe Line · Classic Milk Tea Series",
+    description: "Our foundation. Premium black tea, silky house milk, and chewy tapioca pearls cooked fresh each morning.",
+    typographyWord: "CLASSIC",
+    bg: "#f5f0e8",
   },
   {
-    image: sip3Path,
-    name: "Rose Water Lychee",
-    series: "Signature Series",
-    description: "Delicate rose water, fresh lychee, and sparkling water. Light, floral, and precise.",
-    typographyWord: "ROSE",
-    bg: "#f5ecea",
+    image: drinkSip3Path,
+    name: "Signature Bubble Tea",
+    series: "Tao Luxe Line · Bubble Tea Series",
+    description: "The drink that started it all — elevated. House-brewed tea, fresh pearls, and cloud foam that lingers.",
+    typographyWord: "BUBBLE",
+    bg: "#eaf0f5",
   },
 ];
 
@@ -284,7 +284,7 @@ export default function Home() {
                   exit="exit"
                   src={drinks[currentIndex].image}
                   alt={drinks[currentIndex].name}
-                  className="absolute max-h-[60vh] md:max-h-[75vh] w-[80%] md:w-[70%] object-contain mix-blend-multiply"
+                  className="absolute max-h-[60vh] md:max-h-[75vh] w-[80%] md:w-[70%] object-contain drop-shadow-2xl"
                 />
               </AnimatePresence>
             </div>
