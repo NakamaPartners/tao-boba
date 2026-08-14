@@ -1,449 +1,424 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
-import logoPath from "@assets/image_1786554649837.png";
-import petitGateauPath from "@assets/Have_you_tried_Petit_Gateau_at_Tao_Boba_yet_🍰_Its_the_kind_of_1786554447103.jpg";
-import butterflyMangoBreezeHeroPath from "@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Mango_Breeze—spar_1786554450238.jpg";
-import sip4Path from "@assets/Five_signature_sips._One_beautiful_lineup._🧋✨Designed_to_be_a_1786554597701.jpg";
-import cookie1Path from "@assets/The_cookie_everyone_comes_back_for._🤎Now_AVAILABLE_@thetaobob_1786554694737.jpg";
-import cookie2Path from "@assets/The_cookie_everyone_comes_back_for._🤎Now_AVAILABLE_@thetaobob_1786554697585.jpg";
+import logoPath        from "@assets/image_1786554649837.png";
+import heroPhotoPath   from "@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Mango_Breeze—spar_1786554450238.jpg";
+// Original studio shot for hero panel — cream background blends with white panel naturally
+import heroCupJpgPath  from "@assets/Tao_Luxe_Line_1786723849605.jpeg";
+import edit1Path       from "@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554467811.jpg";
+import edit2Path       from "@assets/Have_you_tried_Petit_Gateau_at_Tao_Boba_yet_🍰_Its_the_kind_of_1786554447103.jpg";
+import edit3Path       from "@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554470275.jpg";
+// Transparent PNGs for the series floating cup (needed for the tinted backgrounds)
+import cupTaoLuxePath  from "@assets/cup_tao_luxe_no_bg.png";
+import cupMatchaPath   from "@assets/cup_matcha_no_bg.png";
+import cupBrownSugarPath from "@assets/cup_brown_sugar_no_bg.png";
 
-// Transparent drink PNGs for carousel (background-removed)
-import drinkButterflyPath from "@assets/drink_butterfly_mango_no_bg.png";
-import drinkMatchaPath from "@assets/drink_matcha_float_no_bg.png";
-import drinkAmberPath from "@assets/drink_amber_float_no_bg.png";
-import drinkSip2Path from "@assets/drink_sip2_no_bg.png";
-import drinkSip3Path from "@assets/drink_sip3_no_bg.png";
+/* ─── content ─────────────────────────────────────────────────────── */
+const PRODUCTS = [
+  {
+    name:  'Tao Luxe',
+    tint:  '#f7f4ee',
+    word:  'TAO LUXE',
+    cup:   cupTaoLuxePath,
+    notes: [
+      ['Golden Oolong & Butterfly Pea', 'A two-tone gradient that shifts from golden amber to deep violet as it rises. The layering is the point — stirring is optional.'],
+      ['Signature Luxe Foam', 'House-whipped cream poured slow so the two layers meet without mixing. Holds its line from first sip to last.'],
+      ['Hand-Assembled to Order', 'Every Tao Luxe is built per order. The sequence of layering matters. Nothing is premixed, nothing is held.'],
+    ],
+  },
+  {
+    name:  'Matcha Madness',
+    tint:  '#f0f5ee',
+    word:  'MATCHA',
+    cup:   cupMatchaPath,
+    notes: [
+      ['Ceremonial Grade', 'Japanese ceremonial-grade matcha prepared cold for a clean, grassy finish — not the bitterness that comes from hot extraction.'],
+      ['Three-Layer Build', 'Matcha over strawberry over taro. Three distinct flavors. Drink them layered or stirred — both are the right answer.'],
+      ['Fresh Pearls Daily', 'Tapioca pearls cooked each morning in brown sugar syrup. None carry over. If we run out, the drink is pulled for the day.'],
+    ],
+  },
+  {
+    name:  'Brown Sugar',
+    tint:  '#f5efe6',
+    word:  'BROWN SUGAR',
+    cup:   cupBrownSugarPath,
+    notes: [
+      ['Slow-Roasted Syrup', 'Brown sugar cooked over low heat until it deeply caramelizes. Complex and dark — not just sweet.'],
+      ['House Milk Tea Base', 'Strong black tea steeped twice for body, blended with whole milk. No creamers. No shortcuts.'],
+      ['Same-Day Pearls', 'Fresh tapioca every morning in the same brown sugar syrup. Soft all the way through. Never hard at the center.'],
+    ],
+  },
+] as const;
 
-const drinks = [
-  {
-    image: drinkButterflyPath,
-    name: "Butterfly Mango Breeze",
-    series: "Tao Luxe Line · Fruit Tea Series",
-    description: "Butterfly pea flower tea blooms from amber to violet with mango. Sparkling, layered, and impossible to resist.",
-    typographyWord: "MANGO",
-    bg: "#ede8f5",
-  },
-  {
-    image: drinkMatchaPath,
-    name: "Matcha Madness",
-    series: "Tao Luxe Line · Matcha Series",
-    description: "Premium ceremonial matcha meets our house cloud foam. Rich, grassy, impossibly smooth.",
-    typographyWord: "MATCHA",
-    bg: "#edf2e8",
-  },
-  {
-    image: drinkAmberPath,
-    name: "Roasted Brown Sugar",
-    series: "Tao Luxe Line · Brown Sugar Series",
-    description: "Slow-roasted brown sugar syrup swirled through house milk tea. Deep, caramelized, warm.",
-    typographyWord: "BROWN",
-    bg: "#f5ede0",
-  },
-  {
-    image: drinkSip2Path,
-    name: "Classic Milk Tea",
-    series: "Tao Luxe Line · Classic Milk Tea Series",
-    description: "Our foundation. Premium black tea, silky house milk, and chewy tapioca pearls cooked fresh each morning.",
-    typographyWord: "CLASSIC",
-    bg: "#f5f0e8",
-  },
-  {
-    image: drinkSip3Path,
-    name: "Signature Bubble Tea",
-    series: "Tao Luxe Line · Bubble Tea Series",
-    description: "The drink that started it all — elevated. House-brewed tea, fresh pearls, and cloud foam that lingers.",
-    typographyWord: "BUBBLE",
-    bg: "#eaf0f5",
-  },
-];
+const REDUCED =
+  typeof matchMedia !== 'undefined' &&
+  matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* ─── component ────────────────────────────────────────────────────── */
 export default function Home() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  /* DOM refs that the scroll engine writes to directly */
+  const seriesEl    = useRef<HTMLElement>(null);
+  const stageEl     = useRef<HTMLDivElement>(null);
+  const stackEl     = useRef<HTMLDivElement>(null);
+  const nameEl      = useRef<HTMLSpanElement>(null);
+  const notesEl     = useRef<HTMLDivElement>(null);
+  const bandEl      = useRef<HTMLDivElement>(null);
+  const railEl      = useRef<HTMLUListElement>(null);
+  const editEl      = useRef<HTMLElement>(null);
+  const editCols    = useRef<HTMLDivElement[]>([]);
+  const originEl    = useRef<HTMLElement>(null);
+  const originType  = useRef<HTMLDivElement>(null);
+  const originBg    = useRef<HTMLDivElement>(null);
 
+  /* live cup tracking — outside React state so scroll handler never stales */
+  const currentRef  = useRef(-1);
+  const liveCup     = useRef<HTMLDivElement | null>(null);
+
+  /* rail highlighting is React-managed (no animation, just colour) */
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  /* ── cup transition — exact port of reference goTo() ──────────── */
+  function goTo(i: number, dir: number) {
+    if (i === currentRef.current) return;
+    if (!stackEl.current || !stageEl.current) return;
+
+    const p   = PRODUCTS[i];
+    const rev = dir < 0;
+
+    /* build incoming wrapper + real <img> */
+    const incoming = document.createElement('div');
+    incoming.className = 'cup-wrap';
+    const img = document.createElement('img');
+    img.src       = p.cup;
+    img.className = 'cup-img';
+    img.alt       = p.name;
+    incoming.appendChild(img);
+    stackEl.current.appendChild(incoming);
+
+    /* exit the current cup */
+    if (liveCup.current && !REDUCED) {
+      const out = liveCup.current;
+      out.classList.add('is-exiting');
+      if (rev) out.classList.add('rev');
+      out.addEventListener('animationend', () => out.remove(), { once: true });
+    } else if (liveCup.current) {
+      liveCup.current.remove();
+    }
+
+    /* enter the new cup */
+    if (!REDUCED) {
+      incoming.classList.add('is-entering');
+      if (rev) incoming.classList.add('rev');
+    }
+    liveCup.current = incoming;
+
+    /* background tint — CSS transition handles the crossfade */
+    stageEl.current.style.backgroundColor = p.tint;
+
+    /* wordband — static text swap */
+    if (bandEl.current)
+      bandEl.current.textContent = (p.word + '\u00A0\u00A0').repeat(8);
+
+    /* heading — 0s, fade-swap class reflow trick */
+    if (nameEl.current) {
+      nameEl.current.textContent = p.name;
+      nameEl.current.classList.remove('fade-swap');
+      void nameEl.current.offsetWidth;          // force reflow → restart animation
+      nameEl.current.classList.add('fade-swap');
+    }
+
+    /* notes — +0.12s via .d2 CSS delay */
+    if (notesEl.current) {
+      notesEl.current.innerHTML = '';
+      p.notes.forEach(([h, b]) => {
+        const d    = document.createElement('div');
+        d.className = 'note fade-swap d2';
+        d.innerHTML = `<h3>${h} <em>✦</em></h3><p>${b}</p>`;
+        notesEl.current!.appendChild(d);
+      });
+    }
+
+    currentRef.current = i;
+    setActiveIdx(i);   /* triggers rail re-render */
+  }
+
+  /* ── mount: boot + scroll engine ─────────────────────────────────── */
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    
-    handleScroll();
-    handleResize();
-    
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleResize);
-    
+    goTo(0, 1);
+
+    /* series scrub */
+    function updateSeries() {
+      const el = seriesEl.current;
+      if (!el) return;
+      const rect  = el.getBoundingClientRect();
+      const total = el.offsetHeight - window.innerHeight;
+      const p     = Math.min(Math.max(-rect.top / total, 0), 0.9999);
+      const i     = Math.floor(p * PRODUCTS.length);
+      if (i !== currentRef.current) goTo(i, i > currentRef.current ? 1 : -1);
+    }
+
+    /* editorial parallax — left 1 : right 0.2 */
+    function updateParallax() {
+      const el = editEl.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const vh   = window.innerHeight;
+      if (rect.bottom < -200 || rect.top > vh + 200) return;
+      const p = (vh - rect.top) / (vh + rect.height);
+      editCols.current.forEach(col => {
+        const rate = parseFloat(col.dataset.rate ?? '1');
+        col.style.transform =
+          `translate3d(0,${(-(p - 0.5) * 260 * rate).toFixed(2)}px,0)`;
+      });
+    }
+
+    /* velocity-coupled marquee + parallax bg */
+    let mqX = 0, vel = 0, lastY = window.scrollY, typeW = 0, rafId = 0;
+
+    function measure() {
+      if (originType.current) typeW = originType.current.scrollWidth / 4;
+    }
+
+    function tick() {
+      const y   = window.scrollY;
+      const raw = y - lastY; lastY = y;
+      vel += (raw - vel) * 0.18;
+
+      const base = REDUCED ? 0 : 0.55;
+      mqX -= base + Math.abs(vel) * 0.45;
+      if (typeW && mqX <= -typeW) mqX += typeW;
+      if (originType.current)
+        originType.current.style.transform =
+          `translate3d(${mqX.toFixed(2)}px,0,0)`;
+
+      if (originBg.current && originEl.current) {
+        const r = originEl.current.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < window.innerHeight) {
+          const pp = (window.innerHeight - r.top) / (window.innerHeight + r.height);
+          originBg.current.style.transform =
+            `translate3d(0,${((pp - 0.5) * -90).toFixed(2)}px,0)`;
+        }
+      }
+
+      rafId = requestAnimationFrame(tick);
+    }
+
+    rafId = requestAnimationFrame(tick);
+    measure();
+    updateSeries();
+    updateParallax();
+
+    let queued = false;
+    function onScroll() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        updateSeries();
+        updateParallax();
+        queued = false;
+      });
+    }
+    const onResize = () => { measure(); onScroll(); };
+
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onResize);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
+      removeEventListener('scroll', onScroll);
+      removeEventListener('resize', onResize);
+      cancelAnimationFrame(rafId);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Section 2: Pinned Drink Scroll
-  const section2Ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: s2Progress } = useScroll({ target: section2Ref, offset: ["start start", "end end"] });
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
-  const indicatorHeight = useTransform(s2Progress, [0, 1], ["0%", "100%"]);
-
-  useMotionValueEvent(s2Progress, "change", (latest) => {
-    const newIndex = Math.min(Math.floor(latest * 5), 4);
-    if (newIndex !== currentIndex) {
-      setDirection(newIndex > currentIndex ? 'forward' : 'backward');
-      setCurrentIndex(newIndex);
-    }
-  });
-
-  // Section 4: Parallax Story
-  const section4Ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: s4Progress } = useScroll({ target: section4Ref, offset: ["start end", "end start"] });
-  const leftY = useTransform(s4Progress, [0, 1], ["-15%", "15%"]);
-  const rightY = useTransform(s4Progress, [0, 1], ["5%", "-5%"]);
-
-  // Section 5: Atmospheric Full-Width
-  const section5Ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: s5Progress } = useScroll({ target: section5Ref, offset: ["start end", "end start"] });
-  const row1X = useTransform(s5Progress, [0, 1], ["0%", "-20%"]);
-  const row2X = useTransform(s5Progress, [0, 1], ["-20%", "0%"]);
-  const row3X = useTransform(s5Progress, [0, 1], ["0%", "-20%"]);
-  const bgY = useTransform(s5Progress, [0, 1], ["-15%", "15%"]);
-
+  /* ── render ───────────────────────────────────────────────────────── */
   return (
-    <div className="w-full bg-background text-foreground selection:bg-primary/20">
-      
-      {/* NAVIGATION */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${isScrolled ? 'bg-background/95 backdrop-blur-md border-b border-border py-4' : 'bg-transparent py-6'}`}>
-        <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
-          <a href="/" className="flex items-center">
-            <img src={logoPath} alt="Tao Boba" className="h-8 w-auto object-contain invert" />
-          </a>
-          
-          <div className="hidden md:flex items-center gap-10">
-            <a href="https://www.thetaoboba.com/menu" className="text-sm tracking-widest uppercase hover:opacity-60 transition-opacity">Menu</a>
-            <a href="https://www.exploretock.com/taoboba" className="text-sm tracking-widest uppercase hover:opacity-60 transition-opacity">Order</a>
+    <>
+      {/* ── HEADER ──────────────────────────────────────────────────── */}
+      <header className="masthead" aria-label="Tao Boba">
+        <div className="mark">
+          <img src={logoPath} className="mark__logo" alt="Tao Boba" />
+        </div>
+      </header>
+      <a href="https://www.thetaoboba.com/menu"       className="nav-link">Menu</a>
+      <a href="https://www.exploretock.com/taoboba"   className="nav-order">Order</a>
+
+      {/* ── 1 · HERO ────────────────────────────────────────────────── */}
+      <section className="hero">
+        <div className="hero__media">
+          <img src={heroPhotoPath} className="hero__bg" alt="" />
+
+          {/* 90-deg looping marquee — the Andtea signature */}
+          <div className="marquee-v" aria-hidden="true">
+            <span className="marquee-v__track">
+              THE ART OF BOBA&nbsp;&nbsp;
+              THE ART OF BOBA&nbsp;&nbsp;
+              THE ART OF BOBA&nbsp;&nbsp;
+              THE ART OF BOBA&nbsp;&nbsp;
+            </span>
           </div>
 
-          <button className="md:hidden text-foreground p-2" onClick={() => setMobileMenuOpen(true)} data-testid="button-open-menu">
-            <Menu className="w-6 h-6" />
-          </button>
+          <div className="hero__caption">Denver, Colorado · Est. 2021</div>
         </div>
-      </nav>
 
-      {/* MOBILE NAV OVERLAY */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center gap-10"
-          >
-            <button className="absolute top-6 right-6 p-2 text-foreground" onClick={() => setMobileMenuOpen(false)} data-testid="button-close-menu">
-              <X className="w-8 h-8" />
-            </button>
-            <a href="https://www.thetaoboba.com/menu" className="text-4xl font-serif tracking-wide hover:opacity-60" onClick={() => setMobileMenuOpen(false)}>Menu</a>
-            <a href="https://www.exploretock.com/taoboba" className="text-4xl font-serif tracking-wide hover:opacity-60" onClick={() => setMobileMenuOpen(false)}>Order</a>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <div className="hero__panel">
+          <img src={heroCupJpgPath} className="hero__cup" alt="Tao Luxe" />
+          <div className="hero__scroll"><i />Scroll</div>
+        </div>
+      </section>
 
-      {/* 01 HERO */}
-      <section className="relative min-h-[100dvh] w-full flex flex-col md:flex-row bg-background pt-20 md:pt-0">
-        {/* Left Text / Actions */}
-        <div className="w-full md:w-[45%] flex flex-col justify-end p-6 md:p-12 relative z-20 order-2 md:order-1 h-[40vh] md:h-[100dvh]">
-          <div className="absolute top-[-4rem] md:top-1/2 left-6 md:left-12 md:-translate-y-1/2 z-30 pointer-events-none w-[120%]">
-            <h1 className="font-serif font-medium leading-[0.85] text-foreground" style={{ fontSize: "clamp(4.5rem, 12vw, 14rem)" }}>
-              THE ART<br/>OF BOBA
+      {/* ── 2 · SERIES · pinned + scrubbed ──────────────────────────── */}
+      {/*
+        Outer is tall (n × 100svh). Inner is sticky.
+        Scroll progress through outer drives the product index.
+        Cup is absolutely still at rest — motion only at index boundaries.
+      */}
+      <section
+        className="series"
+        ref={seriesEl}
+        style={{ height: `${PRODUCTS.length * 100}svh` }}
+      >
+        <div
+          className="series__stage"
+          ref={stageEl}
+          style={{ backgroundColor: PRODUCTS[0].tint }}
+        >
+          {/* left rail — React manages is-on so there's no stale closure */}
+          <nav className="rail" aria-label="Drink index">
+            <ul ref={railEl}>
+              {PRODUCTS.map((p, i) => (
+                <li key={i} className={i === activeIdx ? 'is-on' : ''}>
+                  {p.name}
+                  <span className="sub">Tao Boba</span>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* center body — name + notes managed by goTo() via refs */}
+          <div className="series__body">
+            <h1 className="series__title">
+              <span className="name" ref={nameEl}>{PRODUCTS[0].name}</span>
+              <span className="suffix">Series</span>
             </h1>
-          </div>
-
-          <a href="https://www.exploretock.com/taoboba" className="text-sm uppercase tracking-widest border-b border-foreground/30 hover:border-foreground transition-colors pb-1 inline-block w-max mb-8 md:mb-0 pointer-events-auto" data-testid="link-order-hero">
-            Order Online →
-          </a>
-        </div>
-
-        {/* Right Image */}
-        <div className="w-full md:w-[55%] h-[60vh] md:h-[100dvh] order-1 md:order-2">
-          <img src={butterflyMangoBreezeHeroPath} className="w-full h-full object-cover" alt="Butterfly Mango Breeze" />
-        </div>
-
-        {/* Ticker */}
-        <div className="absolute bottom-4 md:bottom-8 w-full overflow-hidden z-20 pointer-events-none text-foreground/40">
-          <div className="ticker-track text-xs md:text-sm uppercase tracking-[0.2em]">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <span key={i} className="mx-4 whitespace-nowrap">
-                THE ART OF BOBA · DENVER, CO · EST. 2021 · 
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 02 PINNED SCROLL EXPERIENCE */}
-      <section ref={section2Ref} className="relative w-full" style={{ height: "600vh" }}>
-        <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex items-center bg-background">
-          {/* Animated Background */}
-          <AnimatePresence mode="popLayout">
-            <motion.div
-              key={drinks[currentIndex].bg}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.6 }}
-              className="absolute inset-0 z-0"
-              style={{ backgroundColor: drinks[currentIndex].bg }}
-            />
-          </AnimatePresence>
-
-          {/* Typography Band behind everything */}
-          <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none overflow-hidden">
-            <AnimatePresence mode="popLayout">
-              <motion.div
-                key={drinks[currentIndex].typographyWord}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.05 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-                className="font-serif font-bold text-black opacity-[0.07] whitespace-nowrap"
-                style={{ fontSize: "clamp(6rem, 20vw, 22rem)", lineHeight: 1 }}
-              >
-                {drinks[currentIndex].typographyWord}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="container mx-auto px-6 md:px-12 h-full flex flex-col md:flex-row items-center justify-center relative z-10 w-full pt-16 md:pt-0">
-            {/* Left: Text Content */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center h-1/3 md:h-full z-20">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentIndex}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="max-w-md"
-                >
-                  <p className="text-xs uppercase tracking-[0.2em] mb-4 text-foreground/60">
-                    {drinks[currentIndex].series}
-                  </p>
-                  <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl leading-tight mb-6">
-                    {drinks[currentIndex].name}
-                  </h2>
-                  <p className="text-base md:text-lg text-foreground/80 leading-relaxed mb-8">
-                    {drinks[currentIndex].description}
-                  </p>
-                  <a href="https://www.thetaoboba.com/menu" className="text-sm uppercase tracking-widest border-b border-foreground/30 hover:border-foreground transition-colors pb-1 inline-block pointer-events-auto" data-testid={`link-view-menu-${currentIndex}`}>
-                    View Menu →
-                  </a>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Right: Drink Image */}
-            <div className="w-full md:w-1/2 h-2/3 md:h-full flex items-center justify-center relative z-10">
-              <AnimatePresence mode="sync" custom={direction}>
-                <motion.img
-                  key={currentIndex}
-                  custom={direction}
-                  variants={{
-                    initial: (dir: 'forward' | 'backward') => ({
-                      y: dir === 'forward' ? 200 : -200,
-                      rotate: dir === 'forward' ? -20 : 20,
-                      opacity: 0,
-                      x: 0,
-                      scale: 1,
-                    }),
-                    animate: {
-                      y: 0,
-                      rotate: 0,
-                      opacity: 1,
-                      x: 0,
-                      scale: 1,
-                      transition: {
-                        duration: 0.9,
-                        ease: [0.16, 1, 0.3, 1],
-                        delay: 0.12
-                      }
-                    },
-                    exit: (dir: 'forward' | 'backward') => ({
-                      y: dir === 'forward' ? -120 : 120,
-                      x: dir === 'forward' ? 30 : -20,
-                      rotate: dir === 'forward' ? 35 : -25,
-                      scale: 0.7,
-                      opacity: 0,
-                      transition: {
-                        duration: 0.33,
-                        ease: "easeIn"
-                      }
-                    })
-                  }}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  src={drinks[currentIndex].image}
-                  alt={drinks[currentIndex].name}
-                  className="absolute max-h-[60vh] md:max-h-[75vh] w-[80%] md:w-[70%] object-contain drop-shadow-2xl"
-                />
-              </AnimatePresence>
+            <div className="notes" ref={notesEl}>
+              {/* populated by goTo() on mount */}
             </div>
           </div>
 
-          {/* Scroll Progress Indicator */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[2px] h-[30vh] bg-foreground/10 mr-4 md:mr-12 z-30">
-            <motion.div 
-              className="w-full bg-foreground origin-top"
-              style={{ height: indicatorHeight }}
-            />
+          {/* right: cup stack — entirely direct-DOM, never touched by React */}
+          <div className="series__stack" ref={stackEl} />
+
+          <div className="cta-series">
+            <a href="https://www.thetaoboba.com/menu">
+              View the series <i />
+            </a>
+          </div>
+
+          {/* word band — swaps text, does not scroll */}
+          <div className="wordband" ref={bandEl} aria-hidden="true" />
+        </div>
+      </section>
+
+      {/* ── 3 · EDITORIAL · two columns at different parallax rates ──── */}
+      {/*
+        Left  data-rate="1"   → travels ±130px across scroll range
+        Right data-rate="0.2" → travels ±26px  — barely moves
+        Ratio 1 : 0.2 matches reference exactly
+      */}
+      <section className="editorial" ref={editEl}>
+        <div
+          className="col col--media"
+          data-rate="1"
+          ref={el => { if (el) editCols.current[0] = el }}
+        >
+          <div className="frame">
+            <img src={edit1Path} alt="Craft 01" />
+          </div>
+          <div className="frame tall">
+            <img src={edit2Path} alt="Craft 02" />
+          </div>
+          <div className="frame">
+            <img src={edit3Path} alt="Craft 03" />
+          </div>
+        </div>
+
+        <div
+          className="col col--copy"
+          data-rate="0.2"
+          ref={el => { if (el) editCols.current[1] = el }}
+        >
+          <div>
+            <p className="eyebrow">The tea</p>
+            <h2>Premium leaves, brewed for the cup</h2>
+            <p>
+              We source single-origin teas prepared to extract what makes each
+              varietal distinct. No blending to mask. No shortcuts in the brew.
+            </p>
+            <a className="more" href="https://www.thetaoboba.com/menu">
+              Our menu <i />
+            </a>
+          </div>
+          <div>
+            <p className="eyebrow">The pour</p>
+            <h2>Layers that hold from first sip to last</h2>
+            <p>
+              Cream is folded, not poured, so the two layers meet without
+              mixing. The cup holds its line long after it leaves the counter.
+            </p>
+            <a className="more" href="https://www.thetaoboba.com/menu">
+              View drinks <i />
+            </a>
+          </div>
+          <div>
+            <p className="eyebrow">The pearls</p>
+            <h2>Made the same morning. No carry-over.</h2>
+            <p>
+              Tapioca pearls are cooked fresh each morning. If they run out,
+              the drink is pulled — not replaced with yesterday's batch.
+            </p>
+            <a className="more" href="https://www.exploretock.com/taoboba">
+              Order now <i />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* 04 EDITORIAL PARALLAX STORY */}
-      <section ref={section4Ref} className="py-32 md:py-48 px-6 md:px-12 bg-background relative overflow-hidden">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row gap-16 md:gap-24">
-            <motion.div className="w-full md:w-1/2 flex flex-col gap-12" style={{ y: isMobile ? 0 : leftY }}>
-              <div className="aspect-[3/4] w-full bg-muted overflow-hidden">
-                <img src={petitGateauPath} alt="Petit Gateau" className="w-full h-full object-cover" />
-              </div>
-              <div className="aspect-square w-full bg-muted md:w-4/5 ml-auto overflow-hidden">
-                <img src={cookie1Path} alt="Cookies" className="w-full h-full object-cover" />
-              </div>
-            </motion.div>
-
-            <motion.div className="w-full md:w-1/2 flex flex-col justify-center py-12 md:py-0" style={{ y: isMobile ? 0 : rightY }}>
-              <h2 className="font-serif text-4xl md:text-6xl mb-10 leading-tight">Crafted with Intention</h2>
-              <div className="space-y-6 text-lg text-foreground/80 leading-relaxed font-light">
-                <p>
-                  Tao Boba was born from a simple belief: boba deserves the same craft as any great culinary art. We source premium teas, pair them with house-made syrups, and layer flavors the way a chef layers a dish.
-                </p>
-                <p>
-                  Every cup is assembled by hand. The foam is poured slow. The pearls are cooked fresh each morning. Nothing here is automated. Nothing is rushed.
-                </p>
-              </div>
-              <blockquote className="my-12 pl-6 border-l border-foreground/30">
-                <p className="font-serif text-2xl italic leading-snug">
-                  "Every drink we make tells a story. We want you to taste it."
-                </p>
-              </blockquote>
-              <div>
-                <a href="https://www.thetaoboba.com/about" className="text-sm uppercase tracking-widest border-b border-foreground/30 hover:border-foreground transition-colors pb-1 inline-block" data-testid="link-read-story">
-                  Read Our Story →
-                </a>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* 05 ATMOSPHERIC FULL-WIDTH */}
-      <section ref={section5Ref} className="relative h-[80vh] md:h-[100dvh] w-full overflow-hidden bg-foreground flex flex-col items-center justify-center">
-        <motion.img 
-          src={sip4Path} 
-          alt="Atmosphere"
-          className="absolute inset-0 w-full h-[130%] object-cover opacity-25"
-          style={{ y: bgY }}
+      {/* ── 4 · ORIGIN · velocity-coupled marquee ────────────────────── */}
+      <section className="origin" ref={originEl}>
+        <div
+          className="origin__bg"
+          ref={originBg}
+          style={{
+            backgroundImage:    `url(${heroPhotoPath})`,
+            backgroundSize:     'cover',
+            backgroundPosition: 'center 35%',
+          }}
         />
-        <div className="relative z-10 w-full flex flex-col items-center justify-center pointer-events-none select-none gap-2 md:gap-4 overflow-hidden">
-          <motion.div style={{ x: row1X }} className="whitespace-nowrap w-[150%] flex justify-center">
-            <h2 className="font-serif text-white/20 uppercase" style={{ fontSize: "clamp(3rem, 10vw, 10rem)", lineHeight: 0.9 }}>THE ART OF BOBA · THE ART OF BOBA</h2>
-          </motion.div>
-          <motion.div style={{ x: row2X }} className="whitespace-nowrap w-[150%] flex justify-center ml-[10%]">
-            <h2 className="font-serif text-white/20 uppercase" style={{ fontSize: "clamp(3rem, 10vw, 10rem)", lineHeight: 0.9 }}>THE ART OF BOBA · THE ART OF BOBA</h2>
-          </motion.div>
-          <motion.div style={{ x: row3X }} className="whitespace-nowrap w-[150%] flex justify-center">
-            <h2 className="font-serif text-white/20 uppercase" style={{ fontSize: "clamp(3rem, 10vw, 10rem)", lineHeight: 0.9 }}>THE ART OF BOBA · THE ART OF BOBA</h2>
-          </motion.div>
+        <div className="origin__type" ref={originType} aria-hidden="true">
+          <span>MADE IN DENVER</span>
+          <span>MADE IN DENVER</span>
+          <span>MADE IN DENVER</span>
+          <span>MADE IN DENVER</span>
         </div>
       </section>
 
-      {/* 06 LOCATION + SEASONAL */}
-      <section className="py-24 md:py-32 bg-background">
-        <div className="container mx-auto px-6 md:px-12 max-w-7xl">
-          <div className="flex flex-col md:flex-row gap-16 md:gap-32">
-            <div className="w-full md:w-1/2 flex flex-col justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-foreground/50 mb-12">Visit Us</p>
-                
-                <div className="font-serif leading-[1.1] mb-16" style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}>
-                  <p>1550 S Federal Blvd</p>
-                  <p>Denver, CO 80219</p>
-                </div>
-                
-                <div className="space-y-6 text-lg font-light mb-16">
-                  <div className="flex flex-col sm:flex-row sm:gap-12 border-b border-border pb-6">
-                    <span className="text-foreground/50 uppercase tracking-widest text-sm w-32 mb-2 sm:mb-0">Hours</span>
-                    <span>Mon-Sun, 11am - 9pm</span>
-                  </div>
-                  <div className="flex flex-col sm:flex-row sm:gap-12 border-b border-border pb-6">
-                    <span className="text-foreground/50 uppercase tracking-widest text-sm w-32 mb-2 sm:mb-0">Phone</span>
-                    <span>(303) 993-7686</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-8">
-                <a href="https://www.exploretock.com/taoboba" className="text-sm uppercase tracking-widest border-b border-foreground/30 hover:border-foreground transition-colors pb-1 w-max" data-testid="link-order-location">
-                  ORDER ONLINE →
-                </a>
-                <a href="https://maps.google.com/?q=1550+S+Federal+Blvd,+Denver,+CO+80219" target="_blank" rel="noreferrer" className="text-sm uppercase tracking-widest border-b border-foreground/30 hover:border-foreground transition-colors pb-1 w-max" data-testid="link-directions-location">
-                  GET DIRECTIONS →
-                </a>
-              </div>
-            </div>
-
-            <div className="w-full md:w-1/2">
-              <p className="text-xs uppercase tracking-[0.2em] text-foreground/50 mb-12 md:text-right">Seasonal Now</p>
-              <div className="w-full bg-muted overflow-hidden">
-                <img src={cookie2Path} alt="Petit Gateaux" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-1000" />
-              </div>
-              <p className="font-serif text-3xl mt-8">Petit Gateaux</p>
-            </div>
-          </div>
+      {/* ── FOOTER ──────────────────────────────────────────────────── */}
+      <footer className="foot">
+        <div className="foot__meta">
+          11:00 – 21:00<br />
+          (303) 993-7686<br />
+          1550 S Federal Blvd, Denver CO 80219
         </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="bg-foreground text-background py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-12 max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-24">
-            <div className="col-span-1 flex flex-col justify-between">
-              <img src={logoPath} alt="Tao Boba" className="h-8 md:h-10 w-auto object-contain mb-8" />
-              <p className="font-serif text-lg italic text-background/80">The Art of Boba</p>
-            </div>
-            
-            <div className="flex flex-col gap-6">
-              <h4 className="text-xs uppercase tracking-[0.2em] text-background/40">Menu</h4>
-              <ul className="space-y-4">
-                <li><a href="https://www.thetaoboba.com/menu" className="hover:text-background/70 transition-colors font-light tracking-wide">Menu</a></li>
-                <li><a href="https://www.exploretock.com/taoboba" className="hover:text-background/70 transition-colors font-light tracking-wide">Order Online</a></li>
-              </ul>
-            </div>
-            
-            <div className="flex flex-col gap-6">
-              <h4 className="text-xs uppercase tracking-[0.2em] text-background/40">Visit</h4>
-              <ul className="space-y-4">
-                <li><a href="https://maps.google.com/?q=1550+S+Federal+Blvd,+Denver,+CO+80219" target="_blank" rel="noreferrer" className="hover:text-background/70 transition-colors font-light tracking-wide">Directions</a></li>
-              </ul>
-            </div>
-            
-            <div className="flex flex-col gap-6">
-              <h4 className="text-xs uppercase tracking-[0.2em] text-background/40">Connect</h4>
-              <ul className="space-y-4">
-                <li><a href="https://instagram.com/thetaobobadenver" target="_blank" rel="noreferrer" className="hover:text-background/70 transition-colors font-light tracking-wide">Instagram</a></li>
-                <li><a href="https://facebook.com/thetaoboba" target="_blank" rel="noreferrer" className="hover:text-background/70 transition-colors font-light tracking-wide">Facebook</a></li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="border-t border-background/20 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-background/40 font-light">
-            <p>2025 Tao Boba. All rights reserved.</p>
-          </div>
+        <div className="foot__mark">
+          <img src={logoPath} className="foot__logo" alt="Tao Boba" />
         </div>
+        <button
+          className="totop"
+          onClick={() => scrollTo({ top: 0, behavior: REDUCED ? 'auto' : 'smooth' })}
+        >
+          ↑<br />TOP
+        </button>
       </footer>
-
-    </div>
+    </>
   );
 }

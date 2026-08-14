@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400;500&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -8,85 +8,511 @@
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-card-border: hsl(var(--card-border));
-
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-
-  --font-sans: var(--app-font-sans);
-  --font-serif: var(--app-font-serif);
-  --font-mono: var(--app-font-mono);
+  --font-sans: var(--body);
+  --font-serif: var(--display);
 }
 
+/* ─── design tokens (reference-faithful) ──────────────────────────── */
 :root {
-  --background: 38 30% 96%;
-  --foreground: 20 15% 10%;
-  --border: 30 15% 85%;
-  --card: 38 25% 93%;
-  --card-foreground: 20 15% 10%;
-  --card-border: 30 15% 85%;
-  --primary: 32 75% 45%;
-  --primary-foreground: 38 30% 96%;
-  --secondary: 30 20% 90%;
-  --secondary-foreground: 20 15% 10%;
-  --muted: 30 15% 88%;
-  --muted-foreground: 20 10% 45%;
-  --accent: 32 40% 88%;
-  --accent-foreground: 20 15% 10%;
+  --paper:        #ffffff;
+  --paper-warm:   #f7f4ee;   /* drink 1 tint */
+  --paper-cool:   #f0f5ee;   /* drink 2 tint */
+  --paper-mist:   #f5efe6;   /* drink 3 tint */
 
-  --app-font-sans: 'Outfit', sans-serif;
-  --app-font-serif: 'Playfair Display', serif;
-  --app-font-mono: Menlo, monospace;
+  --ink:    #1c1c1c;
+  --ink-60: #6f6f6f;
+  --ink-30: #b6b6b6;
+  --ink-12: #e2e0dc;
+
+  --display: "Cormorant Garamond", Georgia, serif;
+  --body:    "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+  /* motion — exact numbers from reference teardown */
+  --exit-dur:   .33s;
+  --enter-dur:  .90s;
+  --enter-delay:.12s;
+  --tint-dur:   .60s;
+  --ease-tail:  cubic-bezier(.16,1,.3,1);
+  --ease-exit:  cubic-bezier(.55,0,.85,.35);
+
+  --gutter:   clamp(18px,4vw,64px);
+  --header-h: 76px;
+
+  /* Tailwind compat */
+  --background: 36 30% 97%;
+  --foreground:  20 10% 11%;
 }
 
-.dark {
-  --background: 38 30% 96%;
-  --foreground: 20 15% 10%;
-  --border: 30 15% 85%;
-  --card: 38 25% 93%;
-  --card-foreground: 20 15% 10%;
-  --card-border: 30 15% 85%;
-  --primary: 32 75% 45%;
-  --primary-foreground: 38 30% 96%;
-  --secondary: 30 20% 90%;
-  --secondary-foreground: 20 15% 10%;
-  --muted: 30 15% 88%;
-  --muted-foreground: 20 10% 45%;
-  --accent: 32 40% 88%;
-  --accent-foreground: 20 15% 10%;
+/* ─── reset ────────────────────────────────────────────────────────── */
+*,*::before,*::after { box-sizing: border-box }
+html { -webkit-text-size-adjust: 100% }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.75;
+  letter-spacing: .01em;
+  overflow-x: hidden;
 }
+img { display: block; max-width: 100% }
+a   { color: inherit; text-decoration: none }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply font-sans antialiased bg-background text-foreground overflow-x-hidden;
-  }
-}
-
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.ticker-track {
+/* ─── header / nav ─────────────────────────────────────────────────── */
+.masthead {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--header-h);
+  z-index: 60;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+.mark__logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  filter: invert(1);
+}
+.nav-link, .nav-order {
+  position: fixed;
+  top: 28px;
+  z-index: 61;
+  font-size: 9px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--ink);
+  pointer-events: auto;
+  mix-blend-mode: difference;
+  color: #fff;
+}
+.nav-link  { right: calc(var(--gutter) + 72px) }
+.nav-order { right: var(--gutter) }
+
+/* ─── hero ─────────────────────────────────────────────────────────── */
+.hero {
+  height: 100svh;
+  min-height: 560px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+}
+.hero__media {
+  position: relative;
+  overflow: hidden;
+}
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+.hero__panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  overflow: hidden;
+}
+/* Using the original studio JPEG (cream background matches panel naturally).
+   object-fit: cover fills the panel; object-position centres on the cup body. */
+.hero__cup {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 52%;
+}
+
+/* 90-deg rotated looping marquee — the signature element */
+.marquee-v {
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 1.1em;
+  z-index: 5;
+  pointer-events: none;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: clamp(60px,10.5vw,158px);
+  font-weight: 200;
+  line-height: .92;
+  letter-spacing: .02em;
+  color: rgba(255,255,255,.80);
+  mix-blend-mode: overlay;
+  overflow: hidden;
+}
+.marquee-v__track {
+  display: block;
+  animation: marchDown 28s linear infinite;
   white-space: nowrap;
-  animation: ticker 60s linear infinite;
+}
+@keyframes marchDown {
+  from { transform: translateY(0)    }
+  to   { transform: translateY(-50%) }
+}
+
+.hero__scroll {
+  position: absolute;
+  left: 50%; bottom: 34px;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  z-index: 6;
+  text-align: center;
+}
+.hero__scroll i {
+  display: block;
+  width: 1px; height: 26px;
+  background: var(--ink-30);
+  margin: 0 auto 10px;
+  transform-origin: top;
+  animation: drip 2.4s var(--ease-tail) infinite;
+}
+@keyframes drip {
+  0%   { transform: scaleY(0) }
+  45%  { transform: scaleY(1) }
+  100% { transform: scaleY(1); opacity: 0 }
+}
+
+.hero__caption {
+  position: absolute;
+  left: var(--gutter); bottom: 34px;
+  z-index: 6;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.7);
+}
+
+/* ─── series (pinned) ──────────────────────────────────────────────── */
+.series { position: relative }
+.series__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  background-color: var(--paper-warm);
+  transition: background-color var(--tint-dur) ease;
+  display: grid;
+  grid-template-columns: minmax(80px,12%) 1fr minmax(220px,36%);
+  align-items: start;
+  padding: calc(var(--header-h) + 4vh) var(--gutter) 0;
+}
+
+/* left index rail */
+.rail { grid-column: 1; padding-top: 64px }
+.rail ul { margin: 0; padding: 0; list-style: none }
+.rail li {
+  font-size: 12px;
+  letter-spacing: .06em;
+  line-height: 2.15;
+  color: var(--ink-30);
+  position: relative;
+  transition: color .35s ease;
+}
+.rail li.is-on { color: var(--ink) }
+.rail li.is-on::before {
+  content: "";
+  position: absolute;
+  left: -22px; top: 50%;
+  width: 14px; height: 1px;
+  background: var(--ink);
+}
+.rail .sub {
+  display: block;
+  color: inherit;
+}
+
+/* headline + copy */
+.series__body {
+  grid-column: 2;
+  padding-right: 6%;
+  padding-top: 64px;
+}
+.series__title {
+  font-size: clamp(30px,4.4vw,62px);
+  font-family: var(--display);
+  font-weight: 300;
+  letter-spacing: -.01em;
+  line-height: 1.05;
+  margin: 0 0 clamp(28px,5vh,60px);
+  display: flex;
+  align-items: baseline;
+  gap: .4em;
+  flex-wrap: wrap;
+}
+.series__title .name { color: var(--ink-30); transition: color .5s ease }
+.series__title .suffix { position: relative; padding-left: .7em }
+.series__title .suffix::before {
+  content: "";
+  position: absolute;
+  left: 0; top: .62em;
+  width: .5em; height: 1px;
+  background: var(--ink);
+}
+.notes { max-width: 46ch; display: grid; gap: clamp(18px,3.4vh,34px) }
+.note h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.note h3 em { font-style: normal; font-size: 11px; color: var(--ink-30) }
+.note p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.95;
+  color: var(--ink-60);
+  max-width: 44ch;
+}
+
+/* right column: the cup stack */
+.series__stack {
+  grid-column: 3;
+  position: relative;
+  height: 74vh;
+  align-self: center;
+  overflow: hidden;   /* clips scaled-up cup edges */
+}
+.cup-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  will-change: transform;
+}
+/* The transparent PNG retains original canvas — cup occupies ~50% of canvas height
+   and sits slightly below centre. We scale up and shift up to make the cup fill the
+   container at Andtea's product scale. transform is on the img, not the wrapper,
+   so cupIn/cupOut animations on .cup-wrap compose correctly. */
+.cup-img {
+  height: 74vh;
+  width: auto;
+  object-fit: contain;
+  transform: scale(2.1) translateY(-8%);
+  transform-origin: center center;
+  filter: drop-shadow(0 28px 44px rgba(0,0,0,.09));
+  user-select: none;
+  pointer-events: none;
+  display: block;
+}
+
+.cta-series {
+  position: absolute;
+  right: var(--gutter); top: 50%;
+  transform: translateY(-50%);
+  font-size: 10.5px;
+  letter-spacing: .16em;
+  color: var(--ink-60);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cta-series i {
+  display: block;
+  width: 34px; height: 1px;
+  background: var(--ink-30);
+}
+
+/* word band at foot of pinned stage — static, text swaps */
+.wordband {
+  position: absolute;
+  left: 0; right: 0; bottom: -.18em;
+  font-size: clamp(38px,7.4vw,104px);
+  font-family: var(--display);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink-12);
+  white-space: nowrap;
+  overflow: hidden;
+  pointer-events: none;
+  padding-left: var(--gutter);
+}
+
+/* ── cup swap animations ─────────────────────────────────────────── */
+.cup-wrap.is-entering {
+  animation: cupIn var(--enter-dur) var(--ease-tail) var(--enter-delay) both;
+}
+.cup-wrap.is-exiting {
+  animation: cupOut var(--exit-dur) var(--ease-exit) both;
+}
+.cup-wrap.is-entering.rev { animation-name: cupInRev }
+.cup-wrap.is-exiting.rev  { animation-name: cupOutRev }
+
+@keyframes cupOut {
+  from { transform: translate3d(0,0,0)    rotate(0)     scale(1);    opacity: 1; filter: blur(0) }
+  to   { transform: translate3d(8%,-100%,0) rotate(35deg) scale(.75); opacity: 0; filter: blur(3px) }
+}
+@keyframes cupIn {
+  from { transform: translate3d(0,100%,0) rotate(-20deg) scale(.76); opacity: 0; filter: blur(2px) }
+  60%  { opacity: 1; filter: blur(0) }
+  to   { transform: translate3d(0,0,0)   rotate(0)      scale(1);   opacity: 1; filter: blur(0) }
+}
+@keyframes cupOutRev {
+  from { transform: translate3d(0,0,0)     rotate(0)      scale(1);    opacity: 1; filter: blur(0) }
+  to   { transform: translate3d(-8%,100%,0) rotate(-35deg) scale(.75); opacity: 0; filter: blur(3px) }
+}
+@keyframes cupInRev {
+  from { transform: translate3d(0,-100%,0) rotate(20deg)  scale(.76); opacity: 0; filter: blur(2px) }
+  60%  { opacity: 1; filter: blur(0) }
+  to   { transform: translate3d(0,0,0)    rotate(0)       scale(1);   opacity: 1; filter: blur(0) }
+}
+
+/* staggered text fade */
+.fade-swap    { animation: fadeSwap .5s ease both }
+.fade-swap.d1 { animation-delay: .08s }
+.fade-swap.d2 { animation-delay: .12s }
+@keyframes fadeSwap {
+  from { opacity: 0; transform: translateY(6px) }
+  to   { opacity: 1; transform: none }
+}
+
+/* ─── editorial parallax ───────────────────────────────────────────── */
+.editorial {
+  position: relative;
+  padding: 14vh var(--gutter) 18vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px,6vw,110px);
+  align-items: start;
+  background: var(--paper);
+}
+.col { will-change: transform }
+.col--media { display: grid; gap: clamp(24px,7vh,90px) }
+.col--copy  { display: grid; gap: clamp(60px,16vh,180px); padding-top: 22vh }
+.frame { aspect-ratio: 4/3; overflow: hidden; background: #ddd8d0 }
+.frame img { width: 100%; height: 100%; object-fit: cover }
+.frame.tall { aspect-ratio: 3/4 }
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+  margin: 0 0 14px;
+}
+.col--copy h2 {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(26px,3.4vw,44px);
+  margin: 0 0 18px;
+  line-height: 1.15;
+}
+.col--copy p { margin: 0 0 20px; color: var(--ink-60); font-size: 13px; max-width: 40ch }
+.more {
+  font-size: 10.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--ink);
+}
+.more i { width: 30px; height: 1px; background: var(--ink-30); display: block }
+
+/* ─── origin / velocity marquee ───────────────────────────────────── */
+.origin {
+  position: relative;
+  height: 78vh;
+  min-height: 420px;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+}
+.origin__bg {
+  position: absolute;
+  inset: -12% 0;
+  background-size: cover;
+  background-position: center 35%;
+  will-change: transform;
+}
+.origin__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.42);
+}
+.origin__type {
+  position: relative;
+  white-space: nowrap;
+  font-size: clamp(44px,8.6vw,132px);
+  font-family: var(--display);
+  font-weight: 300;
+  letter-spacing: .02em;
+  color: rgba(255,255,255,.58);
+  will-change: transform;
+  user-select: none;
+  z-index: 1;
+}
+.origin__type span { padding-right: .6em }
+
+/* ─── footer ───────────────────────────────────────────────────────── */
+.foot {
+  padding: 10vh var(--gutter) 5vh;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 24px;
+  border-top: 1px solid var(--ink-12);
+}
+.foot__meta { font-size: 11px; color: var(--ink-60); line-height: 2 }
+.foot__mark { text-align: center }
+.foot__logo { height: 28px; width: auto; object-fit: contain; margin: 0 auto; filter: invert(0) }
+.totop {
+  justify-self: end;
+  width: 46px; height: 46px;
+  border: 1px solid var(--ink-12);
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  font-size: 9px;
+  letter-spacing: .1em;
+  color: var(--ink-60);
+  display: grid;
+  place-items: center;
+  line-height: 1.3;
+  font-family: var(--body);
+}
+
+/* ─── responsive ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; grid-template-rows: 1.1fr .9fr }
+  .marquee-v { left: auto; right: 6%; transform: none }
+  .series__stage {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    padding-top: calc(var(--header-h) + 2vh);
+  }
+  .rail { grid-column: 1; grid-row: 1; padding-top: 0; display: flex; gap: 16px; flex-wrap: wrap; line-height: 1.6 }
+  .rail li.is-on::before { display: none }
+  .series__body { grid-column: 1; grid-row: 2; padding-right: 0 }
+  .series__stack { grid-column: 1; grid-row: 3; height: 34vh }
+  .cta-series { display: none }
+  .editorial { grid-template-columns: 1fr }
+  .col--copy { padding-top: 0 }
+  .foot { grid-template-columns: 1fr; gap: 40px }
+  .totop { justify-self: start }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after {
+    animation-duration: .001s !important;
+    transition-duration: .001s !important;
+  }
+  .marquee-v__track { animation: none }
 }

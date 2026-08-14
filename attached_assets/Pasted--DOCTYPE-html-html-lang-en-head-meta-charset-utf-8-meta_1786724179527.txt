@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand — Landing</title>
+
+<!--
+================================================================================
+LAYOUT + MOTION REFERENCE  ·  rebuilt from the &TEA (andtea.com) motion teardown
+================================================================================
+Everything is in this one file. No build step, no npm. Open it or serve it.
+
+HOW IT IS PUT TOGETHER
+  1  HERO            full-bleed split, 90deg-rotated looping marquee type
+  2  SERIES          PINNED section, 5 products stepped through by scroll
+  3  EDITORIAL       two columns scrolling at different rates (parallax 1 : 0.2)
+  4  ORIGIN          horizontal marquee whose speed is coupled to scroll velocity
+  5  NEWS            plain list, deliberately no effects
+  6  FOOTER          back to top
+
+WHERE TO PUT YOUR OWN CONTENT
+  - Search for  data-slot="image"   -> replace the div with <img src="...">
+  - Search for  PRODUCTS = [        -> the 5 products live in that JS array
+  - Search for  :root {             -> all colours, timings and easings
+
+MOTION NUMBERS  (measured from the reference, do not "round them off")
+  marquee speed      ~100 px/s, ~2s per glyph
+  cup exit           0.33s   y -100%  x +8%  rotate +35deg  scale 1 -> 0.75
+  cup enter          0.90s   y +100% -> 0    rotate -20deg -> 0  scale 0.76 -> 1
+  overlap            0.20s   (enter is delayed 0.12s behind exit)
+  easing             cubic-bezier(.16,1,.3,1)  long tail, NOT ease-out
+  at rest            absolutely still. no idle float. this is the whole trick.
+================================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ─────────────────────────────────────────────────────────── tokens ───── */
+:root{
+  --paper:#ffffff;
+  --paper-warm:#f7f4ee;      /* series 1 tint */
+  --paper-cool:#f4f7f7;      /* series 2 tint */
+  --paper-mist:#f6f5f2;      /* series 3 tint */
+  --paper-blush:#f8f4f2;     /* series 4 tint */
+  --paper-lime:#f5f7f1;      /* series 5 tint */
+
+  --ink:#1c1c1c;
+  --ink-60:#6f6f6f;
+  --ink-30:#b6b6b6;
+  --ink-12:#e2e0dc;
+
+  --display:"Cormorant Garamond", Georgia, serif;
+  --body:"Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+  /* motion */
+  --exit-dur:.33s;
+  --enter-dur:.90s;
+  --enter-delay:.12s;
+  --tint-dur:.60s;
+  --ease-tail:cubic-bezier(.16,1,.3,1);   /* long asymptotic settle */
+  --ease-exit:cubic-bezier(.55,0,.85,.35); /* front-loaded, blurs out */
+
+  --gutter:clamp(18px,4vw,64px);
+  --header-h:76px;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-weight:300;
+  font-size:15px;
+  line-height:1.75;
+  letter-spacing:.01em;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* generic image slot — swap for <img> */
+[data-slot="image"]{
+  background:#ded9d2;
+  background-image:
+    radial-gradient(120% 90% at 30% 20%, rgba(255,255,255,.55), transparent 60%),
+    linear-gradient(160deg,#e6ded3,#cfc6ba 55%,#b8ada0);
+  position:relative;overflow:hidden;
+}
+[data-slot="image"]::after{
+  content:attr(data-label);
+  position:absolute;left:14px;bottom:12px;
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.75);
+}
+
+/* ─────────────────────────────────────────────────────── header ───── */
+.masthead{
+  position:fixed;inset:0 0 auto 0;height:var(--header-h);z-index:60;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;mix-blend-mode:difference;
+}
+.mark{text-align:center;line-height:1;color:#fff}
+.mark .amp{font-family:var(--display);font-size:28px;font-weight:300;display:block}
+.mark .word{font-size:9px;letter-spacing:.34em;margin-top:2px;display:block}
+
+.nav-toggle{
+  position:fixed;top:28px;right:var(--gutter);z-index:61;
+  width:26px;height:14px;pointer-events:auto;cursor:pointer;
+  background:none;border:0;padding:0;
+}
+.nav-toggle span{display:block;height:1px;background:var(--ink);margin:5px 0}
+
+/* ───────────────────────────────────────────────────────── hero ───── */
+.hero{
+  height:100svh;min-height:560px;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1.35fr 1fr;
+}
+.hero__media{position:relative;overflow:hidden}
+.hero__media > [data-slot]{position:absolute;inset:0}
+.hero__panel{
+  position:relative;display:grid;place-items:center;
+  background:var(--paper);
+}
+
+/* the cup that sits in the hero panel */
+.hero__cup{width:min(46%,240px);aspect-ratio:.62}
+
+/* 90deg rotated looping type — the signature */
+.marquee-v{
+  position:absolute;top:0;bottom:0;left:52%;transform:translateX(-50%);
+  width:1.1em;z-index:5;pointer-events:none;
+  writing-mode:vertical-rl;text-orientation:mixed;
+  font-size:clamp(64px,11vw,168px);
+  font-weight:200;line-height:.92;letter-spacing:.02em;
+  color:rgba(255,255,255,.82);
+  mix-blend-mode:overlay;
+  overflow:hidden;
+}
+.marquee-v__track{
+  display:block;
+  animation:marchDown 26s linear infinite;
+  white-space:nowrap;
+}
+@keyframes marchDown{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+
+.hero__scroll{
+  position:absolute;left:50%;bottom:34px;transform:translateX(-50%);
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-60);
+  z-index:6;
+}
+.hero__scroll i{
+  display:block;width:1px;height:26px;background:var(--ink-30);
+  margin:0 auto 10px;transform-origin:top;animation:drip 2.4s var(--ease-tail) infinite;
+}
+@keyframes drip{0%{transform:scaleY(0)}45%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+.hero__caption{
+  position:absolute;left:var(--gutter);bottom:34px;z-index:6;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.8);
+}
+
+/* ─────────────────────────────────────────────── series (pinned) ───── */
+/* Outer element is tall. Inner element is sticky. Scrolling the outer      */
+/* scrubs through 5 steps while the inner frame never moves.                */
+.series{position:relative}
+.series__stage{
+  position:sticky;top:0;height:100svh;min-height:560px;overflow:hidden;
+  background:var(--paper-warm);
+  transition:background-color var(--tint-dur) ease;
+  display:grid;
+  grid-template-columns:minmax(96px,13%) 1fr minmax(240px,34%);
+  align-items:start;
+  padding:calc(var(--header-h) + 4vh) var(--gutter) 0;
+}
+
+/* left index rail */
+.rail{
+  grid-column:1;padding-top:64px;
+  font-size:12px;letter-spacing:.06em;line-height:2.15;color:var(--ink-30);
+}
+.rail li{list-style:none;position:relative;transition:color .35s ease}
+.rail li.is-on{color:var(--ink)}
+.rail li.is-on::before{
+  content:"";position:absolute;left:-22px;top:50%;
+  width:14px;height:1px;background:var(--ink);
+}
+.rail ul{margin:0;padding:0}
+.rail .sub{display:block;color:inherit}
+
+/* headline + copy */
+.series__body{grid-column:2;padding-right:6%}
+.series__title{
+  font-size:clamp(30px,4.4vw,62px);font-weight:200;letter-spacing:-.01em;
+  line-height:1.05;margin:0 0 clamp(28px,5vh,60px);
+  display:flex;align-items:baseline;gap:.4em;flex-wrap:wrap;
+}
+.series__title .name{color:var(--ink-30);transition:color .5s ease}
+.series__title .suffix{position:relative;padding-left:.7em}
+.series__title .suffix::before{
+  content:"";position:absolute;left:0;top:.62em;width:.5em;height:1px;background:var(--ink);
+}
+.notes{max-width:46ch;display:grid;gap:clamp(18px,3.4vh,34px)}
+.note h3{
+  margin:0 0 8px;font-size:13px;font-weight:500;letter-spacing:.04em;
+  display:flex;align-items:center;gap:8px;
+}
+.note h3 em{font-style:normal;font-size:11px;color:var(--ink-30)}
+.note p{margin:0;font-size:12.5px;line-height:1.95;color:var(--ink-60);max-width:44ch}
+
+/* right column: the cup that swaps */
+.series__stack{
+  grid-column:3;position:relative;height:74vh;align-self:center;
+}
+.series__stack .cup-wrap{
+  position:absolute;inset:0;display:grid;place-items:center;will-change:transform;
+}
+.cup{width:min(78%,300px);aspect-ratio:.6}
+
+.cta-series{
+  position:absolute;right:var(--gutter);top:50%;transform:translateY(-50%);
+  font-size:10.5px;letter-spacing:.16em;color:var(--ink-60);
+  display:flex;align-items:center;gap:10px;writing-mode:horizontal-tb;
+}
+.cta-series i{display:block;width:34px;height:1px;background:var(--ink-30)}
+
+/* repeated word band at the foot of the pinned frame (STATIC — it does not scroll) */
+.wordband{
+  position:absolute;left:0;right:0;bottom:-.18em;
+  font-size:clamp(38px,7.4vw,104px);font-weight:200;line-height:1;
+  color:var(--ink-12);white-space:nowrap;overflow:hidden;pointer-events:none;
+  padding-left:var(--gutter);
+}
+
+/* ── the swap ── */
+.cup-wrap{transform:translate3d(0,0,0) rotate(0deg) scale(1);opacity:1}
+.cup-wrap.is-idle{transition:none}
+.cup-wrap.is-entering{
+  animation:cupIn var(--enter-dur) var(--ease-tail) var(--enter-delay) both;
+}
+.cup-wrap.is-exiting{
+  animation:cupOut var(--exit-dur) var(--ease-exit) both;
+}
+.cup-wrap.is-entering.rev{animation-name:cupInRev}
+.cup-wrap.is-exiting.rev{animation-name:cupOutRev}
+
+@keyframes cupOut{
+  from{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1;filter:blur(0)}
+  to  {transform:translate3d(8%,-100%,0) rotate(35deg) scale(.75);opacity:0;filter:blur(3px)}
+}
+@keyframes cupIn{
+  from{transform:translate3d(0,100%,0) rotate(-20deg) scale(.76);opacity:0;filter:blur(2px)}
+  60% {opacity:1;filter:blur(0)}
+  to  {transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1;filter:blur(0)}
+}
+/* scrolling back up mirrors the whole gesture */
+@keyframes cupOutRev{
+  from{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1;filter:blur(0)}
+  to  {transform:translate3d(-8%,100%,0) rotate(-35deg) scale(.75);opacity:0;filter:blur(3px)}
+}
+@keyframes cupInRev{
+  from{transform:translate3d(0,-100%,0) rotate(20deg) scale(.76);opacity:0;filter:blur(2px)}
+  60% {opacity:1;filter:blur(0)}
+  to  {transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1;filter:blur(0)}
+}
+
+/* staggered text: heading 0s · rail +0.08s · copy +0.12s */
+.fade-swap{animation:fadeSwap .5s ease both}
+.fade-swap.d1{animation-delay:.08s}
+.fade-swap.d2{animation-delay:.12s}
+@keyframes fadeSwap{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ────────────────────────────────────────── editorial parallax ───── */
+.editorial{
+  position:relative;padding:14vh var(--gutter) 18vh;
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,6vw,110px);
+  align-items:start;
+}
+.col{will-change:transform}
+.col--media{display:grid;gap:clamp(24px,7vh,90px)}
+.col--copy{display:grid;gap:clamp(60px,16vh,180px);padding-top:22vh}
+.frame{aspect-ratio:4/3}
+.frame.tall{aspect-ratio:3/4}
+.eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-30);margin:0 0 14px}
+.col--copy h2{
+  font-family:var(--display);font-weight:300;font-size:clamp(26px,3.4vw,44px);
+  margin:0 0 18px;line-height:1.15;
+}
+.col--copy p{margin:0 0 20px;color:var(--ink-60);font-size:13px;max-width:40ch}
+.more{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;display:inline-flex;gap:10px;align-items:center}
+.more i{width:30px;height:1px;background:var(--ink-30);display:block}
+
+/* ────────────────────────────────────── velocity marquee band ───── */
+.origin{position:relative;height:78vh;min-height:420px;overflow:hidden;display:grid;align-items:center}
+.origin__bg{position:absolute;inset:-12% 0;will-change:transform}
+.origin__type{
+  position:relative;white-space:nowrap;font-size:clamp(44px,8.6vw,132px);
+  font-weight:200;letter-spacing:.02em;color:rgba(255,255,255,.62);
+  will-change:transform;user-select:none;
+}
+.origin__type span{padding-right:.6em}
+
+/* ─────────────────────────────────────────────────────── news ───── */
+.news{padding:14vh var(--gutter) 10vh;max-width:1180px;margin:0 auto}
+.news__head{text-align:center;margin-bottom:8vh}
+.news__head h2{font-family:var(--display);font-weight:300;font-size:34px;margin:0}
+.news__head span{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-30)}
+.news__row{
+  display:grid;grid-template-columns:120px 1fr 40px;gap:24px;align-items:center;
+  padding:26px 0;border-bottom:1px solid var(--ink-12);
+}
+.news__row time{font-size:11px;letter-spacing:.1em;color:var(--ink-30)}
+.news__row p{margin:0;font-size:13px;color:var(--ink)}
+.news__row .arrow{justify-self:end;color:var(--ink-30);transition:transform .4s var(--ease-tail)}
+.news__row:hover .arrow{transform:translateX(8px)}
+
+/* ───────────────────────────────────────────────────── footer ───── */
+.foot{
+  padding:10vh var(--gutter) 5vh;display:grid;
+  grid-template-columns:1fr auto 1fr;align-items:end;gap:24px;
+}
+.foot__meta{font-size:11px;color:var(--ink-60);line-height:2}
+.foot__mark{text-align:center}
+.foot__mark .amp{font-family:var(--display);font-size:26px;display:block}
+.foot__mark .word{font-size:9px;letter-spacing:.34em}
+.totop{
+  justify-self:end;width:46px;height:46px;border:1px solid var(--ink-12);border-radius:50%;
+  background:none;cursor:pointer;font-size:9px;letter-spacing:.1em;color:var(--ink-60);
+  display:grid;place-items:center;line-height:1.3;
+}
+
+/* ───────────────────────────────────────────────── cup drawing ───── */
+/* Pure CSS stand-in. Delete .cup styles and drop an <img> in instead. */
+.cup{
+  position:relative;
+  clip-path:polygon(11% 0,89% 0,79% 100%,21% 100%);
+  background:linear-gradient(180deg,var(--c-top) 0 38%,var(--c-mid) 38% 62%,var(--c-bot) 62% 100%);
+  filter:drop-shadow(0 26px 34px rgba(0,0,0,.10));
+}
+.cup::before{
+  content:"";position:absolute;left:6%;right:6%;top:-3%;height:8%;
+  border-radius:50%;background:#efece6;box-shadow:0 2px 0 rgba(0,0,0,.05);
+  clip-path:none;
+}
+.cup::after{
+  content:"&";position:absolute;left:50%;top:62%;transform:translateX(-50%);
+  font-family:var(--display);font-size:clamp(14px,1.5vw,22px);color:rgba(255,255,255,.9);
+}
+
+/* ─────────────────────────────────────────────── responsive ───── */
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;grid-template-rows:1.1fr .9fr}
+  .marquee-v{left:auto;right:6%;transform:none}
+  .series__stage{
+    grid-template-columns:1fr;grid-template-rows:auto auto 1fr;
+    padding-top:calc(var(--header-h) + 2vh);
+  }
+  .rail{grid-column:1;grid-row:1;padding-top:0;display:flex;gap:16px;flex-wrap:wrap;line-height:1.6}
+  .rail li.is-on::before{display:none}
+  .series__body{grid-column:1;grid-row:2;padding-right:0}
+  .series__stack{grid-column:1;grid-row:3;height:34vh}
+  .cta-series{display:none}
+  .notes{gap:14px}
+  .note p{font-size:11.5px;line-height:1.8}
+  .editorial{grid-template-columns:1fr}
+  .col--copy{padding-top:0}
+  .foot{grid-template-columns:1fr;gap:40px}
+  .totop{justify-self:start}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}
+  .marquee-v__track{animation:none}
+}
+</style>
+</head>
+
+<body>
+
+<header class="masthead">
+  <div class="mark"><span class="amp">&amp;</span><span class="word">TEA</span></div>
+</header>
+<button class="nav-toggle" aria-label="Open menu"><span></span><span></span></button>
+
+<!-- ══ 1 · HERO ══════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero__media">
+    <div data-slot="image" data-label="hero photograph"></div>
+    <div class="marquee-v" aria-hidden="true">
+      <span class="marquee-v__track">HUGGING SHADE&nbsp;&nbsp;HUGGING SHADE&nbsp;&nbsp;HUGGING SHADE&nbsp;&nbsp;HUGGING SHADE&nbsp;&nbsp;</span>
+    </div>
+    <div class="hero__caption">Slightly presented</div>
+  </div>
+
+  <div class="hero__panel">
+    <div class="cup hero__cup" style="--c-top:#efe7db;--c-mid:#e07b3a;--c-bot:#c9531f"></div>
+    <div class="hero__scroll"><i></i>Scroll down</div>
+  </div>
+</section>
+
+<!-- ══ 2 · SERIES · pinned + scrubbed ════════════════════════════════ -->
+<section class="series" id="series">
+  <div class="series__stage" id="stage">
+
+    <nav class="rail" aria-label="Series index">
+      <ul id="rail"></ul>
+    </nav>
+
+    <div class="series__body">
+      <h1 class="series__title">
+        <span class="name" id="s-name">Milk cover</span>
+        <span class="suffix">Series</span>
+      </h1>
+      <div class="notes" id="s-notes"></div>
+    </div>
+
+    <div class="series__stack" id="stack"></div>
+
+    <div class="cta-series">View the series <i></i></div>
+    <div class="wordband" id="wordband" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ══ 3 · EDITORIAL · two columns, different rates ══════════════════ -->
+<section class="editorial" id="editorial">
+  <div class="col col--media" data-rate="1">
+    <div class="frame" data-slot="image" data-label="process 01"></div>
+    <div class="frame tall" data-slot="image" data-label="process 02"></div>
+    <div class="frame" data-slot="image" data-label="process 03"></div>
+  </div>
+  <div class="col col--copy" data-rate="0.2">
+    <div>
+      <p class="eyebrow">Sourced leaf</p>
+      <h2>Local tea, picked at four seasons</h2>
+      <p>Leaf is taken from named farms across the island and rested before it reaches the counter. Each season gives a different weight of aroma.</p>
+      <a class="more" href="#">Know us <i></i></a>
+    </div>
+    <div>
+      <p class="eyebrow">Brewing technique</p>
+      <h2>A pouring method borrowed from dessert</h2>
+      <p>Cream is folded rather than poured, so the two layers meet without mixing. The cup holds its line from first sip to last.</p>
+      <a class="more" href="#">Know us <i></i></a>
+    </div>
+    <div>
+      <p class="eyebrow">Fruit selection</p>
+      <h2>Cut the same morning it is served</h2>
+      <p>Nothing is stored in syrup. Fruit arrives whole, is cut in the shop, and what is not used that day does not carry over.</p>
+      <a class="more" href="#">Know us <i></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4 · ORIGIN · velocity-coupled marquee ═════════════════════════ -->
+<section class="origin" id="origin">
+  <div class="origin__bg" data-slot="image" data-label="full-bleed still life"></div>
+  <div class="origin__type" id="originType" aria-hidden="true">
+    <span>MADE IN TAIWAN</span><span>MADE IN TAIWAN</span><span>MADE IN TAIWAN</span><span>MADE IN TAIWAN</span>
+  </div>
+</section>
+
+<!-- ══ 5 · NEWS ══════════════════════════════════════════════════════ -->
+<section class="news">
+  <div class="news__head">
+    <h2>the NEWS</h2>
+    <span>Latest news</span>
+  </div>
+  <a class="news__row" href="#"><time>2026 · 08 · 02</time><p>August menu list is now posted in every shop.</p><span class="arrow">&rarr;</span></a>
+  <a class="news__row" href="#"><time>2026 · 07 · 18</time><p>A cup of fruit tea, cooled for the mid-autumn palate.</p><span class="arrow">&rarr;</span></a>
+  <a class="news__row" href="#"><time>2026 · 06 · 30</time><p>Summer bloom returns as a limited dessert drink.</p><span class="arrow">&rarr;</span></a>
+  <a class="news__row" href="#"><time>2026 · 05 · 11</time><p>Winter reserve, aged twelve years, now on the counter.</p><span class="arrow">&rarr;</span></a>
+</section>
+
+<!-- ══ 6 · FOOTER ════════════════════════════════════════════════════ -->
+<footer class="foot">
+  <div class="foot__meta">
+    11:00 – 21:00<br>
+    02 2146 0000<br>
+    5F No. 19, Lane 120, Songshan District, Taipei
+  </div>
+  <div class="foot__mark"><span class="amp">&amp;</span><span class="word">TEA</span></div>
+  <button class="totop" id="totop">&uarr;<br>TOP</button>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   ALL MOTION. Vanilla JS, no libraries.
+   ═══════════════════════════════════════════════════════════════════ */
+
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ── content for the pinned section ─────────────────────────────── */
+const PRODUCTS = [
+  { name:'Milk cover', tint:'var(--paper-warm)',  word:'Milk & TEA',
+    cup:['#efe7db','#f2c53f','#e8a713'],
+    notes:[
+      ['Ruisue cream','The perfect ratio of cream and tea soup. The tea texture and gentleness of the first snowfall, quietly steady over hours.'],
+      ['French special','Combining Taiwanese tea with French desserts. From the French profile line and lemon tower elements, we created a brand of special aroma.'],
+      ['Carefully baked','Strictly selected Pingtung Laotou Farm to plant spherical tea, through repeated baking, through temperature control.']
+    ]},
+  { name:'Pure tea', tint:'var(--paper-cool)', word:'Pure & TEA',
+    cup:['#f0e9dd','#e0913f','#c2611e'],
+    notes:[
+      ['Strictly selected tea','Adhere to the quality of tea soup from the source. The use of Pingtung Laotou Farm on giant tea, charming light tea overflowing.'],
+      ['Quality assurance','Working with growers who hold their own certification, so nothing changes between the field and the pot.'],
+      ['Carefully blended','Strictly selected Pingtung Laotou Farm, repeatedly baked, so the tea sits clean under milk.']
+    ]},
+  { name:'Fruit tea', tint:'var(--paper-mist)', word:'Fruit & TEA',
+    cup:['#f2ead9','#f0b32a','#e07a1c'],
+    notes:[
+      ['Local food in Taiwan','Adhere to the production of local fruits, and Taiwan\u2019s characteristic fruity taste, with acid and intertwined with novel flavors.'],
+      ['Multi-layered taste','The narrow tea is cleanly paired with fresh pulp. In grade seven suction, and rare fruit grains, sour taste, acid, in different fruit primary fruit fiber.'],
+      ['Perfectly combined','Use Taiwan\u2019s local fruits for grade tea with Pingtung Laotou Farm, and sweet fruits and green tea, so the combination creates a body.']
+    ]},
+  { name:'O\u2019Ley', tint:'var(--paper-blush)', word:'O\u2019Ley & TEA',
+    cup:['#efe7db','#e2673f','#cf4526'],
+    notes:[
+      ['Cloud-dyed tea','Fresh milk into the process of tea soup, instantly five seconds moved is the birth of cloud dyeing.'],
+      ['Staff flavor','Adhere to the selection of local small farmers fresh milk, mellow taste and re-gain tea aroma of the two charms stacked on top of each other.'],
+      ['Strictly selected tea','Adhere to the quality of the tea soup from the source, the use of Pingtung Laotou Farm on giant tea.']
+    ]},
+  { name:'Limited Period', tint:'var(--paper-lime)', word:'Limited',
+    cup:['#f2eddc','#f4d24a','#edb31f'],
+    notes:[
+      ['Tasted and dined','The four-season spring tea is mixed with honey grapefruit sauce, and the top of the cup is sprinkled with the top salt flower from Brittany, France.'],
+      ['Multi-layered taste','Brittany salt flowers, private osmanthus brews and Korean honey apple sauce stir a multi-layered grapefruit flavor drink.'],
+      ['Strict selection of flavored fruits','The multi-layer combination of Taiwan-specific fruits and the new taste are intertwined, reflecting the reputation of the tropical fruit kingdom.']
+    ]}
+];
+
+/* ── build the rail once ────────────────────────────────────────── */
+const railEl = document.getElementById('rail');
+PRODUCTS.forEach(p=>{
+  const li=document.createElement('li');
+  li.innerHTML = p.name + '<span class="sub">& TEA</span>';
+  railEl.appendChild(li);
+});
+const railItems=[...railEl.children];
+
+/* ── build both cup layers (we always keep two so they can overlap) ─ */
+const stack=document.getElementById('stack');
+function makeCup(p){
+  const wrap=document.createElement('div');
+  wrap.className='cup-wrap';
+  const cup=document.createElement('div');
+  cup.className='cup';
+  cup.style.setProperty('--c-top',p.cup[0]);
+  cup.style.setProperty('--c-mid',p.cup[1]);
+  cup.style.setProperty('--c-bot',p.cup[2]);
+  wrap.appendChild(cup);
+  return wrap;
+}
+
+const stage    = document.getElementById('stage');
+const nameEl   = document.getElementById('s-name');
+const notesEl  = document.getElementById('s-notes');
+const bandEl   = document.getElementById('wordband');
+
+let current = -1;
+let liveCup = null;
+
+function renderNotes(p){
+  notesEl.innerHTML='';
+  p.notes.forEach(([h,b])=>{
+    const d=document.createElement('div');
+    d.className='note fade-swap d2';
+    d.innerHTML='<h3>'+h+' <em>&#9734;</em></h3><p>'+b+'</p>';
+    notesEl.appendChild(d);
+  });
+}
+function fillBand(p){
+  // repeated word, static — it swaps text, it does not scroll
+  bandEl.textContent = (p.word+'\u00A0\u00A0').repeat(8);
+}
+
+function goTo(i, dir){
+  if(i===current) return;
+  const p=PRODUCTS[i];
+  const rev = dir<0;
+
+  // cup handoff
+  const incoming=makeCup(p);
+  stack.appendChild(incoming);
+  if(liveCup && !REDUCED){
+    const out=liveCup;
+    out.classList.add('is-exiting'); if(rev) out.classList.add('rev');
+    out.addEventListener('animationend',()=>out.remove(),{once:true});
+  }else if(liveCup){ liveCup.remove(); }
+
+  if(!REDUCED){
+    incoming.classList.add('is-entering'); if(rev) incoming.classList.add('rev');
+  }
+  liveCup=incoming;
+
+  // heading  0s
+  nameEl.textContent=p.name;
+  nameEl.classList.remove('fade-swap'); void nameEl.offsetWidth; nameEl.classList.add('fade-swap');
+
+  // rail  +0.08s
+  railItems.forEach((li,n)=>li.classList.toggle('is-on',n===i));
+
+  // copy  +0.12s
+  renderNotes(p);
+
+  // background tint  0.6s crossfade
+  stage.style.backgroundColor=p.tint;
+
+  fillBand(p);
+  current=i;
+}
+
+/* ── scroll scrub for the pinned section ────────────────────────── */
+const seriesEl=document.getElementById('series');
+seriesEl.style.height=(PRODUCTS.length*100)+'svh';
+
+function updateSeries(){
+  const r=seriesEl.getBoundingClientRect();
+  const total=seriesEl.offsetHeight-window.innerHeight;
+  const p=Math.min(Math.max(-r.top/total,0),0.9999);
+  const i=Math.floor(p*PRODUCTS.length);
+  if(i!==current) goTo(i, i>current?1:-1);
+}
+
+/* ── editorial parallax · left 1 : right 0.2 ────────────────────── */
+const edEl=document.getElementById('editorial');
+const cols=[...edEl.querySelectorAll('.col')];
+function updateParallax(){
+  const r=edEl.getBoundingClientRect();
+  const vh=window.innerHeight;
+  if(r.bottom<-200||r.top>vh+200) return;
+  // 0 when section enters, 1 when it leaves
+  const p=(vh-r.top)/(vh+r.height);
+  cols.forEach(c=>{
+    const rate=parseFloat(c.dataset.rate);
+    // media column travels far, copy column barely moves → ratio 1 : 0.2
+    c.style.transform='translate3d(0,'+(-(p-0.5)*260*rate).toFixed(2)+'px,0)';
+  });
+}
+
+/* ── velocity-coupled marquee + parallax layer ──────────────────── */
+const originEl=document.getElementById('origin');
+const typeEl=document.getElementById('originType');
+const bgEl=originEl.querySelector('.origin__bg');
+let mqX=0, vel=0, lastY=window.scrollY, typeW=0;
+function measure(){ typeW=typeEl.scrollWidth/4; }
+
+function tick(){
+  const y=window.scrollY;
+  const raw=y-lastY; lastY=y;
+  vel += (raw-vel)*0.18;                 // smoothed scroll velocity
+
+  const base = REDUCED ? 0 : 0.55;       // px/frame idle drift
+  mqX -= base + Math.abs(vel)*0.45;      // faster scroll → faster type
+  if(typeW && mqX <= -typeW) mqX += typeW;
+  typeEl.style.transform='translate3d('+mqX.toFixed(2)+'px,0,0)';
+
+  // background layer outruns the page (~1.6x) → parallax
+  const r=originEl.getBoundingClientRect();
+  if(r.bottom>0 && r.top<window.innerHeight){
+    const p=(window.innerHeight-r.top)/(window.innerHeight+r.height);
+    bgEl.style.transform='translate3d(0,'+((p-0.5)*-90).toFixed(2)+'px,0)';
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ── one scroll listener for the cheap stuff ────────────────────── */
+let queued=false;
+function onScroll(){
+  if(queued) return; queued=true;
+  requestAnimationFrame(()=>{ updateSeries(); updateParallax(); queued=false; });
+}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',()=>{ measure(); onScroll(); });
+
+document.getElementById('totop').addEventListener('click',()=>{
+  scrollTo({top:0,behavior:REDUCED?'auto':'smooth'});
+});
+
+/* ── boot ───────────────────────────────────────────────────────── */
+goTo(0,1);
+measure();
+updateSeries();
+updateParallax();
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
