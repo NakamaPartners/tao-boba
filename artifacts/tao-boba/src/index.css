@@ -524,23 +524,25 @@ video.hero__photo {
 .cup-wrap.is-entering.rev { animation-name: cupInRev }
 .cup-wrap.is-exiting.rev  { animation-name: cupOutRev }
 
+/* Andtea timing preserved exactly. Spatial travel tightened from ±100%
+   to ±40px so detailed cup photos don't streak across the stage. */
 @keyframes cupOut {
-  from { transform: translate3d(0,0,0)      rotate(0)     scale(1);    opacity:1; filter:blur(0)    }
-  to   { transform: translate3d(8%,-100%,0) rotate(35deg) scale(.75);  opacity:0; filter:blur(3px)  }
+  from { transform: translate3d(0,0,0)    scale(1);    opacity:1; filter:blur(0)   }
+  to   { transform: translate3d(0,-40px,0) scale(.94);  opacity:0; filter:blur(2px) }
 }
 @keyframes cupIn {
-  from { transform: translate3d(0,100%,0)   rotate(-20deg) scale(.76); opacity:0; filter:blur(2px)  }
+  from { transform: translate3d(0,40px,0) scale(.94);  opacity:0; filter:blur(2px) }
   60%  { opacity:1; filter:blur(0) }
-  to   { transform: translate3d(0,0,0)      rotate(0)      scale(1);   opacity:1; filter:blur(0)    }
+  to   { transform: translate3d(0,0,0)    scale(1);    opacity:1; filter:blur(0)   }
 }
 @keyframes cupOutRev {
-  from { transform: translate3d(0,0,0)       rotate(0)      scale(1);   opacity:1; filter:blur(0)   }
-  to   { transform: translate3d(-8%,100%,0)  rotate(-35deg) scale(.75); opacity:0; filter:blur(3px) }
+  from { transform: translate3d(0,0,0)    scale(1);    opacity:1; filter:blur(0)   }
+  to   { transform: translate3d(0,40px,0) scale(.94);  opacity:0; filter:blur(2px) }
 }
 @keyframes cupInRev {
-  from { transform: translate3d(0,-100%,0)   rotate(20deg)  scale(.76); opacity:0; filter:blur(2px) }
+  from { transform: translate3d(0,-40px,0) scale(.94);  opacity:0; filter:blur(2px) }
   60%  { opacity:1; filter:blur(0) }
-  to   { transform: translate3d(0,0,0)       rotate(0)      scale(1);   opacity:1; filter:blur(0)   }
+  to   { transform: translate3d(0,0,0)    scale(1);    opacity:1; filter:blur(0)   }
 }
 
 /* Text swap micro-animation */
