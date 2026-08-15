@@ -296,8 +296,9 @@ p     { margin: 0 }
 .cup-stack {
   grid-column: 3; position: relative;
   height: clamp(62vh, 76vh, 88vh);
-  align-self: end; z-index: 7;   /* base locked to stage floor */
+  align-self: end; z-index: 7;
   overflow: visible;
+  margin-bottom: 4vh; /* float above stage floor */
 }
 .cup-wrap {
   position: absolute; inset: 0;
@@ -463,41 +464,32 @@ p     { margin: 0 }
    Large Baskerville word at bottom.
 ═══════════════════════════════════════════════════════════════════════ */
 .closing {
-  min-height: 72svh; background: #f3ece2;
-  position: relative; overflow: hidden;
-  display: grid; grid-template-columns: 42% 58%;
-  align-items: center;
-  padding: 6vh var(--gutter);
+  background: #f3ece2;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 10vh var(--gutter) 11vh;
 }
-.closing-copy {
-  align-self: start; padding-top: 5vh;
-  z-index: 2; max-width: 430px;
+.closing-rule {
+  width: 1px; height: 56px; background: var(--line); margin-bottom: 40px;
 }
-.closing-copy h2 {
+.closing .kicker { margin-bottom: 28px }
+.closing-headline {
   font-weight: 300;
-  font-size: clamp(42px, 5vw, 72px);
-  line-height: .96; letter-spacing: -.05em;
-  margin: 0 0 32px;
+  font-size: clamp(52px, 7vw, 108px);
+  line-height: .93; letter-spacing: -.055em;
+  margin: 0 0 36px; max-width: 14ch;
 }
-.closing-copy p {
-  font-size: 14px; line-height: 2; color: var(--muted); max-width: 36ch;
+.closing-address {
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 44px;
 }
-.closing-cups { height: 58vh; position: relative; align-self: center }
-.closing-cups img {
-  position: absolute; height: 100%;
-  width: auto; object-fit: contain;
-  filter: drop-shadow(0 26px 26px rgba(53,42,27,.06));
+.closing-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--ink); border-bottom: 1px solid currentColor;
+  padding-bottom: 4px; transition: opacity .25s ease;
 }
-.closing-cups img:nth-child(1) { left: 2%;  top: 8%;  transform: rotate(-5deg) scale(.88) }
-.closing-cups img:nth-child(2) { left: 30%; top: -2%; z-index: 2; transform: scale(1.02) }
-.closing-cups img:nth-child(3) { left: 58%; top: 10%; transform: rotate(5deg) scale(.84) }
-.closing-word {
-  position: absolute; left: 0; right: 0; bottom: -.2em;
-  font-family: Baskerville, Georgia, serif;
-  font-size: clamp(100px, 14vw, 210px);
-  line-height: .85; color: #e4d6c4;
-  white-space: nowrap; overflow: hidden; pointer-events: none;
-}
+.closing-cta:hover { opacity: .5 }
 
 /* ══════════════════════════════════════════════ FOOTER ═════════════════ */
 .site-footer {
@@ -579,9 +571,8 @@ p     { margin: 0 }
   .lower-story .row-e .ed-copy  { order: 1 }
 
   /* closing */
-  .closing { grid-template-columns: 1fr; padding: 80px 24px 100px }
-  .closing-copy { padding-top: 0 }
-  .closing-cups { height: 52svh; margin-top: 60px }
+  .closing { padding: 72px 24px 80px }
+  .closing-headline { font-size: 52px }
 
   /* footer */
   .footer-top { flex-direction: column; align-items: flex-start }

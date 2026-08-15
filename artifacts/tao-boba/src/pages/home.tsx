@@ -547,25 +547,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════════════════ CLOSING — three-cup composition ══════════
-          Cloud Mango Matcha (left, -5°) / Butterfly (center, z-index 2) /
-          Shiso Yuzu (right, +5°). Large Baskerville word at bottom.
+      {/* ═══════════════════════════ CLOSING — full-width CTA panel ══════════
+          Centered headline + address. No cups.
       ══════════════════════════════════════════════════════════════════════ */}
       <section className="closing">
-        <div className="closing-copy">
-          <span className="kicker">Five signatures · one collection</span>
-          <h2>Come back to the drinks.</h2>
-          <p>
-            Five signatures, one address. Tao Boba is on South Federal,
-            open every day. The cup you want is already made.
-          </p>
-        </div>
-        <div className="closing-cups" aria-label="Tao Boba signature drinks">
-          <img src={cup3} alt="Cloud Mango Matcha" />
-          <img src={cup1} alt="Butterfly Mango Jasmine" />
-          <img src={cup5} alt="Shiso Yuzu" />
-        </div>
-        <div className="closing-word" aria-hidden="true">TAO BOBA · TAO BOBA ·</div>
+        <div className="closing-rule" aria-hidden="true" />
+        <span className="kicker">Five signatures · one collection</span>
+        <h2 className="closing-headline">Come back<br />to the drinks.</h2>
+        <p className="closing-address">
+          1550 S Federal Blvd · Denver, CO · Mon–Sun 11:00–21:00
+        </p>
+        <a
+          href="https://www.exploretock.com/taoboba"
+          className="closing-cta"
+        >
+          Order now
+        </a>
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
