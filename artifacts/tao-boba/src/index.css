@@ -248,8 +248,8 @@ p     { margin: 0 }
 .series-rail { grid-column: 1; padding-top: 58px; z-index: 8 }
 .series-rail ul { margin: 0; padding: 0; list-style: none }
 .series-rail li {
-  font-size: 11px; line-height: 1.4;
-  color: #b4aa9d; margin-bottom: 18px;
+  font-size: 15px; line-height: 1.4;
+  color: #b4aa9d; margin-bottom: 22px;
   position: relative; cursor: default;
   transition: color .35s ease;
 }
@@ -260,9 +260,9 @@ p     { margin: 0 }
   width: 15px; height: 1px; background: var(--ink);
 }
 .series-rail span {
-  display: block; font-size: 8px;
+  display: block; font-size: 10px;
   letter-spacing: .2em; text-transform: uppercase;
-  margin-top: 4px; opacity: .65;
+  margin-top: 5px; opacity: .65;
 }
 
 /* Center copy */
@@ -276,20 +276,20 @@ p     { margin: 0 }
 }
 .product-title {
   font-weight: 300;
-  font-size: clamp(72px, 9.5vw, 148px);
-  line-height: .88; letter-spacing: -.06em; max-width: 8ch;
+  font-size: clamp(54px, 6.2vw, 92px);
+  line-height: .91; letter-spacing: -.06em; max-width: 8ch;
 }
 .product-note {
   margin-top: 46px; max-width: 41ch;
   display: grid; gap: 26px;
 }
 .product-note-item h3 {
-  font-size: 11px; letter-spacing: .08em;
+  font-size: 13px; letter-spacing: .08em;
   text-transform: uppercase; font-weight: 500;
-  margin: 0 0 7px;
+  margin: 0 0 10px;
 }
 .product-note-item p {
-  font-size: 13px; line-height: 1.9; color: var(--muted);
+  font-size: 16px; line-height: 1.85; color: var(--muted);
 }
 
 /* Right cup stack — contained within its grid column */
