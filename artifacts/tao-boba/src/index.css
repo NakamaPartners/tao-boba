@@ -124,7 +124,7 @@ p    { margin: 0 }
   overflow: hidden;
 }
 
-/* ── Hero photo ────────────────────────────────────────────────────────
+/* ── Hero media (photo or video) ───────────────────────────────────────
    Outer wrap: receives parallax translateY from JS.
    Inner: entry animation (scale + opacity).
    Position: left 88px, top 306px, 620 × 390px, no radius, no shadow.
@@ -146,6 +146,11 @@ p    { margin: 0 }
   object-fit: cover;
   object-position: center 42%;
   display: block;
+}
+/* video tag — inherits same treatment as img.hero__photo */
+video.hero__photo {
+  object-fit: cover;
+  object-position: center 35%;
 }
 
 /* ── Hero intro text ───────────────────────────────────────────────────
@@ -455,87 +460,92 @@ p    { margin: 0 }
   z-index: 2;
 }
 
-/* Background glyph — enormous, centered on the cup position
-   Cup center: X ≈ 820px = 56.9% | Y ≈ 470px
-   Cup OVERLAPS the glyph (z-index 0 vs z-index 1)
-   Spec: 180-300px, opacity 5-12%, cup overlaps letters */
+/* Background glyph — large, anchored in the left text zone.
+   Sits behind the photo panel (z-index 0 vs 1). Opacity 6%. */
 .products__glyph {
   position: absolute;
-  left: 57%;                     /* ≈ 820px at 1440px viewport */
-  top:  50%;                     /* ≈ 450px at 900px viewport   */
-  transform: translate(-50%, -50%);
+  left: 50px;
+  top:  50%;
+  transform: translateY(-50%);
   font-family: var(--display);
-  font-size: clamp(180px, 19vw, 280px);
+  font-size: clamp(140px, 14vw, 200px);
   font-weight: 700;
   letter-spacing: -.04em;
   line-height: 1;
-  color: rgba(22,22,22,.07);     /* 7% opacity — per spec 5-12% */
+  color: rgba(22,22,22,.06);
   white-space: nowrap;
   user-select: none;
   pointer-events: none;
-  z-index: 0;                    /* behind cup */
+  z-index: 0;
 }
 
-/* Cup injection target — centered at X=820px (57%), Y=470px */
-.products__stack {
-  position: absolute;
-  left: 57%;
-  top:  470px;
-  transform: translate(-50%, -50%);
-  width:  340px;
-  height: 670px;
-  z-index: 1;                    /* in front of glyph */
-}
-
-/* ── Cup wrap & image ── DO NOT MODIFY timing or transform values ─────
-   scale(2.1) compensates for transparent-canvas padding in the PNG files.
-   translateY(-8%) shifts up to center the cup body within the padding.
+/* ── Andtea-style photo panel — right side, full stage height ─────────
+   Full-frame editorial photos. Travertine pedestals included — no
+   bg removal, no scale compensation. Text sits left of this panel.
 ─────────────────────────────────────────────────────────────────────── */
-.cup-wrap {
+.products__photo-panel {
+  position: absolute;
+  right: 0;
+  top:   0;
+  width: 56%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Soft feather on the left edge — blends into text zone */
+.products__photo-panel::before {
+  content: "";
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
-  will-change: transform;
-}
-.cup-img {
-  height: 670px;
-  width: auto;
-  object-fit: contain;
-  transform: scale(2.1) translateY(-8%);
-  transform-origin: center center;
-  filter: drop-shadow(0 28px 56px rgba(0,0,0,.09));
-  user-select: none;
+  background: linear-gradient(to right, var(--paper) 0%, transparent 13%);
+  z-index: 2;
   pointer-events: none;
+  transition: background .55s ease;
+}
+
+/* Photo wrap — animation container (Andtea timing applied here) */
+.photo-wrap {
+  position: absolute;
+  inset: 0;
+  will-change: opacity, transform;
+}
+
+/* Photo — contain so full cup + pedestal composition shows */
+.prod-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
   display: block;
 }
 
-/* ── Andtea cup swap keyframes ─────────────────────────────────────────
+/* ── Andtea photo swap keyframes ───────────────────────────────────────
    Exit: 0.33s ease-exit  |  Enter: 0.90s ease-tail + 0.12s delay
-   Forward and reverse directions.
+   Full-frame adaptation — subtle Y drift, no rotation extremes.
 ─────────────────────────────────────────────────────────────────────── */
-.cup-wrap.is-entering     { animation: cupIn    var(--enter-dur) var(--ease-tail) var(--enter-delay) both }
-.cup-wrap.is-exiting      { animation: cupOut   var(--exit-dur)  var(--ease-exit) both }
-.cup-wrap.is-entering.rev { animation-name: cupInRev }
-.cup-wrap.is-exiting.rev  { animation-name: cupOutRev }
+.photo-wrap.is-entering     { animation: photoIn    var(--enter-dur) var(--ease-tail) var(--enter-delay) both }
+.photo-wrap.is-exiting      { animation: photoOut   var(--exit-dur)  var(--ease-exit) both }
+.photo-wrap.is-entering.rev { animation-name: photoInRev }
+.photo-wrap.is-exiting.rev  { animation-name: photoOutRev }
 
-@keyframes cupOut {
-  from { transform: translate3d(0,0,0)      rotate(0)     scale(1);    opacity:1; filter:blur(0)    }
-  to   { transform: translate3d(8%,-100%,0) rotate(35deg) scale(.75);  opacity:0; filter:blur(3px)  }
+@keyframes photoOut {
+  from { opacity: 1; transform: translateY(0)   scale(1)    }
+  to   { opacity: 0; transform: translateY(-3%) scale(.985) }
 }
-@keyframes cupIn {
-  from { transform: translate3d(0,100%,0)   rotate(-20deg) scale(.76); opacity:0; filter:blur(2px)  }
-  60%  { opacity:1; filter:blur(0) }
-  to   { transform: translate3d(0,0,0)      rotate(0)      scale(1);   opacity:1; filter:blur(0)    }
+@keyframes photoIn {
+  from { opacity: 0; transform: translateY(4%)  scale(.985) }
+  55%  { opacity: 1 }
+  to   { opacity: 1; transform: translateY(0)   scale(1)    }
 }
-@keyframes cupOutRev {
-  from { transform: translate3d(0,0,0)       rotate(0)      scale(1);   opacity:1; filter:blur(0)   }
-  to   { transform: translate3d(-8%,100%,0)  rotate(-35deg) scale(.75); opacity:0; filter:blur(3px) }
+@keyframes photoOutRev {
+  from { opacity: 1; transform: translateY(0)   scale(1)    }
+  to   { opacity: 0; transform: translateY(3%)  scale(.985) }
 }
-@keyframes cupInRev {
-  from { transform: translate3d(0,-100%,0)   rotate(20deg)  scale(.76); opacity:0; filter:blur(2px) }
-  60%  { opacity:1; filter:blur(0) }
-  to   { transform: translate3d(0,0,0)       rotate(0)      scale(1);   opacity:1; filter:blur(0)   }
+@keyframes photoInRev {
+  from { opacity: 0; transform: translateY(-4%) scale(.985) }
+  55%  { opacity: 1 }
+  to   { opacity: 1; transform: translateY(0)   scale(1)    }
 }
 
 /* Text swap micro-animation */
@@ -698,10 +708,9 @@ p    { margin: 0 }
   .editorial__text { left: min(55vw, 640px); width: 280px }
 
   /* Products */
-  .products__glyph { font-size: clamp(140px, 16vw, 210px) }
-  .products__name { width: 380px }
-  .products__stack { left: 62% }
-  .products__glyph { left: 62% }
+  .products__glyph { font-size: clamp(120px, 13vw, 180px) }
+  .products__name { width: 360px }
+  .products__photo-panel { width: 54% }
 
   /* Gallery */
   .gallery { height: 1200px }
@@ -776,18 +785,24 @@ p    { margin: 0 }
     padding: 0 20px 60px;
   }
 
-  /* Products — keep concept, adjust layout */
+  /* Products — mobile: photo panel full-width below text, stacked */
   .products__stage { min-height: 844px }
-  .products__idx  { left: 20px; top: 72px }
-  .products__name { left: 20px; top: 110px; width: calc(50% - 20px); font-size: 38px !important }
-  .products__accent { left: 20px; top: 220px }
-  .products__desc { left: 20px; bottom: 80px; width: calc(50% - 20px); font-size: 13px }
-  .products__glyph { font-size: 90px; left: 55%; top: 55% }
-  .products__stack {
-    left: 55%; top: 52%;
-    width: 200px; height: 420px;
+  .products__idx  { left: 20px; top: 72px; z-index: 3 }
+  .products__name { left: 20px; top: 110px; width: calc(100% - 40px); font-size: 36px !important; z-index: 3 }
+  .products__accent { left: 20px; top: 220px; z-index: 3 }
+  .products__desc { left: 20px; bottom: 80px; width: calc(100% - 40px); font-size: 13px; z-index: 3 }
+  .products__glyph { display: none }
+  /* Photo panel full width on mobile, bottom half */
+  .products__photo-panel {
+    width: 100%;
+    top: 50%;
+    height: 50%;
+    right: 0;
   }
-  .cup-img { height: 420px }
+  .products__photo-panel::before {
+    background: linear-gradient(to bottom, var(--paper) 0%, transparent 18%);
+  }
+  .prod-photo { object-fit: cover; object-position: center 30% }
 
   /* Gallery */
   .gallery { height: auto; min-height: 0; overflow: visible; padding-bottom: 40px }

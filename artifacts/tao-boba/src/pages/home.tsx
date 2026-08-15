@@ -3,8 +3,9 @@ import { useEffect, useRef } from 'react';
 /* ── assets ─────────────────────────────────────────────────────────────── */
 import logoPath  from '@assets/image_1786554649837.png';
 
-// Hero
-import heroImg   from '@assets/hero_clean.png';
+// Hero — video (?url forces Vite to emit as a static asset and return its URL)
+import heroVid    from '@assets/hero-video.mp4?url';
+import heroPoster from '@assets/hero-poster.jpg?url';
 
 // Editorial (Scene 02)
 import editA     from '@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554467811.jpg';
@@ -15,59 +16,64 @@ import gallA     from '@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Ma
 import gallB     from '@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554470275.jpg';
 import gallC     from '@assets/Experience_the_Art_of_Denver_MatchaSavor_the_unique_flavors_of_1786731632771.jpg';
 
-// Cup PNGs — transparent or dark-bg product shots
-import cup1      from '@assets/cup_tao_luxe_no_bg.png';
-import cup2      from '@assets/drink_sip2_no_bg.png';
-import cup3      from '@assets/cup_matcha_no_bg.png';
-import cup4      from '@assets/drink_sip3_no_bg.png';
-import cup5      from '@assets/cup_brown_sugar_no_bg.png';
+// Product editorial photos — full frame with travertine pedestals
+import prod1     from '@assets/image_1786781531560.png';   // Butterfly Mango Jasmine Breeze
+import prod2     from '@assets/image_1786781538133.png';   // Shiso Yuzu Breeze
+import prod3     from '@assets/image_1786781543351.png';   // Cloud Mango Green Tea
+import prod4     from '@assets/image_1786781565200.png';   // Cloud Mango Matcha
+import prod5     from '@assets/image_1786781578255.png';   // Mango Passion Fruit Breeze
 
 /* ── product data ────────────────────────────────────────────────────────── */
 const PRODUCTS = [
   {
-    name:    'Tao Luxe',
-    fontSize:'78px',
-    bg:      '#f0ebe0',
-    word:    'LUXE',
-    cup:     cup1,
-    accent:  '#c9a96e',
-    desc:    'Amber shifts to violet — one layer at a time. Built by hand, never rushed.',
+    name:     'Butterfly Mango\nJasmine Breeze',
+    nameFlat: 'Butterfly Mango Jasmine Breeze',
+    fontSize: '52px',
+    bg:       '#f0ecf5',
+    word:     'BUTTERFLY',
+    photo:    prod1,
+    accent:   '#7b5ea7',
+    desc:     'Butterfly pea flower meets mango jasmine. Violet to amber — the color changes as the ice shifts.',
   },
   {
-    name:    'Butterfly Mango',
-    fontSize:'60px',
-    bg:      '#ede9f4',
-    word:    'MANGO',
-    cup:     cup2,
-    accent:  '#8b6eb5',
-    desc:    'Butterfly pea flower over mango jasmine. Color that changes as it reaches you.',
+    name:     'Shiso Yuzu\nBreeze',
+    nameFlat: 'Shiso Yuzu Breeze',
+    fontSize: '62px',
+    bg:       '#f5edee',
+    word:     'YUZU',
+    photo:    prod2,
+    accent:   '#c0526d',
+    desc:     'Bright shiso leaf over yuzu citrus. Built cold, no shortcuts — vivid all the way to the bottom.',
   },
   {
-    name:    'Matcha Madness',
-    fontSize:'63px',
-    bg:      '#eaf0e6',
-    word:    'MATCHA',
-    cup:     cup3,
-    accent:  '#7aaa6a',
-    desc:    'Ceremonial-grade matcha over strawberry over taro. Three layers. Drink it either way.',
+    name:     'Cloud Mango\nGreen Tea',
+    nameFlat: 'Cloud Mango Green Tea',
+    fontSize: '58px',
+    bg:       '#f3eeea',
+    word:     'CLOUD',
+    photo:    prod3,
+    accent:   '#c88b35',
+    desc:     'Cloud foam drifts over mango green tea. One sip gets you both — the airy and the sweet.',
   },
   {
-    name:    'Strawberry Series',
-    fontSize:'58px',
-    bg:      '#fdf0f2',
-    word:    'BERRY',
-    cup:     cup4,
-    accent:  '#d4697a',
-    desc:    'Bright, vivid, built cold. Strawberry and lychee, no shortcuts.',
+    name:     'Cloud Mango\nMatcha',
+    nameFlat: 'Cloud Mango Matcha',
+    fontSize: '64px',
+    bg:       '#edf3ea',
+    word:     'MATCHA',
+    photo:    prod4,
+    accent:   '#5c8e50',
+    desc:     'Ceremonial-grade matcha falls through mango — three distinct layers. Drink it in any order.',
   },
   {
-    name:    'Brown Sugar',
-    fontSize:'74px',
-    bg:      '#f0e8d8',
-    word:    'SUGAR',
-    cup:     cup5,
-    accent:  '#b87c4a',
-    desc:    'Slow-roasted syrup. Same-day pearls. The one they always come back for.',
+    name:     'Mango Passion\nFruit Breeze',
+    nameFlat: 'Mango Passion Fruit Breeze',
+    fontSize: '54px',
+    bg:       '#f5eeea',
+    word:     'MANGO',
+    photo:    prod5,
+    accent:   '#d97a3a',
+    desc:     'Mango meets passion fruit tartness. The ratio is deliberate. Sweet, then bright, then gone.',
   },
 ] as const;
 
@@ -81,7 +87,7 @@ const REDUCED =
 export default function Home() {
 
   /* ── hero parallax refs ────────────────────────────────────────────────── */
-  const heroImgWrapEl  = useRef<HTMLDivElement>(null);
+  const heroVidWrapEl  = useRef<HTMLDivElement>(null);
   const heroIntroWrapEl = useRef<HTMLDivElement>(null);
   const heroWordWrapEl = useRef<HTMLDivElement>(null);
 
@@ -94,7 +100,7 @@ export default function Home() {
   /* ── product swap refs ─────────────────────────────────────────────────── */
   const seriesEl    = useRef<HTMLElement>(null);
   const stageEl     = useRef<HTMLDivElement>(null);
-  const stackEl     = useRef<HTMLDivElement>(null);
+  const photoPanelEl = useRef<HTMLDivElement>(null);
   const nameEl      = useRef<HTMLHeadingElement>(null);
   const descEl      = useRef<HTMLParagraphElement>(null);
   const glyphEl     = useRef<HTMLDivElement>(null);
@@ -102,9 +108,9 @@ export default function Home() {
   const accentEl    = useRef<HTMLSpanElement>(null);
 
   const currentIdx  = useRef(-1);
-  const liveCup     = useRef<HTMLDivElement | null>(null);
+  const livePhoto   = useRef<HTMLDivElement | null>(null);
 
-  /* ── cup swap engine (Andtea timing — DO NOT TOUCH) ─────────────────────
+  /* ── photo swap engine (Andtea timing — DO NOT TOUCH) ───────────────────
      Outgoing: 0.33s ease-exit  |  Incoming: 0.90s ease-tail, delay 0.12s
   ─────────────────────────────────────────────────────────────────────────── */
   function goTo(i: number, dir: number) {
@@ -124,9 +130,9 @@ export default function Home() {
       glyphEl.current.classList.add('glyph-pop');
     }
 
-    /* name */
+    /* name — preserve newlines as <br> */
     if (nameEl.current) {
-      nameEl.current.textContent  = p.name;
+      nameEl.current.innerHTML = p.name.replace(/\n/g, '<br>');
       nameEl.current.style.fontSize = p.fontSize;
       nameEl.current.classList.remove('swap-in');
       void nameEl.current.offsetWidth;
@@ -147,30 +153,30 @@ export default function Home() {
         `${String(i + 1).padStart(2,'0')} / ${String(N).padStart(2,'0')}`;
     }
 
-    /* cup swap */
-    if (!stackEl.current) { currentIdx.current = i; return; }
+    /* photo swap — same Andtea timing as cup swap, adapted for full photos */
+    if (!photoPanelEl.current) { currentIdx.current = i; return; }
 
     const incoming = document.createElement('div');
-    incoming.className = 'cup-wrap';
+    incoming.className = 'photo-wrap';
     const img = document.createElement('img');
-    img.src = p.cup; img.alt = p.name; img.className = 'cup-img';
+    img.src = p.photo; img.alt = p.nameFlat; img.className = 'prod-photo';
     incoming.appendChild(img);
-    stackEl.current.appendChild(incoming);
+    photoPanelEl.current.appendChild(incoming);
 
-    if (liveCup.current && !REDUCED) {
-      const out = liveCup.current;
+    if (livePhoto.current && !REDUCED) {
+      const out = livePhoto.current;
       out.classList.add('is-exiting');
       if (rev) out.classList.add('rev');
       out.addEventListener('animationend', () => out.remove(), { once: true });
-    } else if (liveCup.current) {
-      liveCup.current.remove();
+    } else if (livePhoto.current) {
+      livePhoto.current.remove();
     }
 
     if (!REDUCED) {
       incoming.classList.add('is-entering');
       if (rev) incoming.classList.add('rev');
     }
-    liveCup.current   = incoming;
+    livePhoto.current  = incoming;
     currentIdx.current = i;
   }
 
@@ -199,8 +205,8 @@ export default function Home() {
 
       /* hero parallax — only while hero is on screen */
       if (sy < vh * 1.4 && !REDUCED) {
-        if (heroImgWrapEl.current)
-          heroImgWrapEl.current.style.transform = `translateY(${-sy * 0.09}px)`;
+        if (heroVidWrapEl.current)
+          heroVidWrapEl.current.style.transform = `translateY(${-sy * 0.09}px)`;
         if (heroIntroWrapEl.current)
           heroIntroWrapEl.current.style.transform = `translateY(${-sy * 0.30}px)`;
         if (heroWordWrapEl.current)
@@ -210,8 +216,8 @@ export default function Home() {
       /* editorial parallax */
       if (editSecEl.current && !REDUCED) {
         const r = editSecEl.current.getBoundingClientRect();
-        const p = Math.max(0, -r.top);          /* px scrolled past section top */
-        if (p < 1800) {                          /* stop computing when far past */
+        const p = Math.max(0, -r.top);
+        if (p < 1800) {
           if (editImgAEl.current)
             editImgAEl.current.style.transform = `translateY(${-p * 0.10}px)`;
           if (editImgBEl.current)
@@ -253,9 +259,7 @@ export default function Home() {
   /* ═══════════════════════════════════ RENDER ══════════════════════════════ */
   return (
     <>
-      {/* ── HEADER ───────────────────────────────────────────────────────────
-          Fixed, 88px, logo left 72px, MENU + ORDER right ending at 1368px
-      ─────────────────────────────────────────────────────────────────────── */}
+      {/* ── HEADER ─────────────────────────────────────────────────────────── */}
       <header className="hdr">
         <img src={logoPath} alt="Tao Boba" className="hdr__mark" />
         <nav className="hdr__nav">
@@ -265,19 +269,26 @@ export default function Home() {
       </header>
 
       {/* ══════════════════════════════════ SCENE 01 — HERO ══════════════════
-          Velora compositional grammar:
-          · Large photograph  lower-left   (left: 88px, top: 306px, 620×390)
-          · Small intro text  upper-right  (left: 955px, top: 145px, w: 330px)
-          · TAO BOBA wordmark below photo  (left: 88px, top: 726px, 76px)
-          · Scroll cue        lower-right  (right: 72px, bottom: 36px)
-          Three attention points only. No product on the right.
+          Velora compositional grammar. Video replaces static photo.
+          · Video          lower-left   (left: 88px, top: 306px, 620×390)
+          · Small intro    upper-right  (left: 955px, top: 145px, w: 330px)
+          · TAO BOBA       below video  (left: 88px, top: 726px, 76px)
+          · Scroll cue     lower-right  (right: 72px, bottom: 36px)
       ═══════════════════════════════════════════════════════════════════════ */}
       <section className="hero">
 
-        {/* Photo — outer gets parallax translateY, inner gets entry animation */}
-        <div className="hero__photo-wrap" ref={heroImgWrapEl}>
+        {/* Video — outer gets parallax translateY, inner gets entry animation */}
+        <div className="hero__photo-wrap" ref={heroVidWrapEl}>
           <div className="hero__photo-inner">
-            <img src={heroImg} alt="" className="hero__photo" />
+            <video
+              className="hero__photo"
+              src={heroVid}
+              poster={heroPoster}
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
           </div>
         </div>
 
@@ -296,33 +307,24 @@ export default function Home() {
           </div>
         </div>
 
-        {/* TAO BOBA wordmark — large, below photo, left-aligned */}
+        {/* TAO BOBA wordmark */}
         <div className="hero__wordmark-wrap" ref={heroWordWrapEl}>
           <div className="hero__wordmark-inner" aria-label="Tao Boba">
             TAO BOBA
           </div>
         </div>
 
-        {/* Scroll cue — lower right, NOT centered, NOT on seam */}
+        {/* Scroll cue — lower right */}
         <span className="hero__scroll" aria-hidden="true">Scroll ↓</span>
 
       </section>
 
-      {/* ══════════════════════════════ BRIDGE ════════════════════════════════
-          ~320px breathing zone between hero and editorial.
-          One quiet line, intentionally offset right of center.
-      ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════ BRIDGE ════════════════════════════════ */}
       <div className="bridge">
         <span className="bridge__line" data-reveal>Art-directed. Denver-made.</span>
       </div>
 
-      {/* ══════════════════════════════ SCENE 02 — EDITORIAL ══════════════════
-          Rich photography spread. All elements absolutely positioned.
-          Image A: large portrait  left: 72  top: 120  540×680
-          Image B: smaller         left: 870 top: 440  350×290
-          Text:                    left: 840 top: 145  w: 330
-          Parallax: A 0.10×  B 0.38×  text 0.20×
-      ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════ SCENE 02 — EDITORIAL ══════════════════ */}
       <section className="editorial" ref={editSecEl}>
 
         <div className="editorial__imgA" ref={editImgAEl}>
@@ -346,10 +348,9 @@ export default function Home() {
       </section>
 
       {/* ══════════════════════════ SCENE 03 — PRODUCT SEQUENCE ══════════════
-          Andtea cup choreography — full viewport, 500vh scroll height.
-          Text left, cup center-right at X≈820px Y≈470px.
-          Background glyph centered on cup — cup OVERLAPS it (z-index).
-          Spec: cup visible height 670px, "monumental."
+          Andtea layout: text left, full editorial photo right.
+          Photos are used full-frame — travertine pedestals included.
+          500vh scroll | sticky 100svh stage | Andtea swap timing preserved.
       ═══════════════════════════════════════════════════════════════════════ */}
       <section
         className="products"
@@ -367,14 +368,13 @@ export default function Home() {
             01 / {String(N).padStart(2, '0')}
           </span>
 
-          {/* Name — upper left, large */}
+          {/* Name — upper left, large display */}
           <h2
             className="products__name"
             ref={nameEl}
             style={{ fontSize: PRODUCTS[0].fontSize }}
-          >
-            {PRODUCTS[0].name}
-          </h2>
+            dangerouslySetInnerHTML={{ __html: PRODUCTS[0].name.replace(/\n/g, '<br>') }}
+          />
 
           {/* Accent rule */}
           <span
@@ -388,24 +388,18 @@ export default function Home() {
             {PRODUCTS[0].desc}
           </p>
 
-          {/* Background glyph — centered on cup position, cup overlaps it */}
+          {/* Background glyph — behind photo panel, left zone only */}
           <div className="products__glyph" ref={glyphEl} aria-hidden="true">
             {PRODUCTS[0].word}
           </div>
 
-          {/* Cup DOM injection target */}
-          <div className="products__stack" ref={stackEl} />
+          {/* Photo panel — right side, full height, DOM injection target */}
+          <div className="products__photo-panel" ref={photoPanelEl} />
 
         </div>
       </section>
 
-      {/* ══════════════════════════ SCENE 04 — PHOTOGRAPHY ═══════════════════
-          ~1450px. Three photographic moments, NOT a grid.
-          Asymmetric absolute positions. Staggered top coordinates.
-          Image 1: left 0      top 0    45vw × 620px
-          Image 2: right 72    top 320  310px × 440px
-          Image 3: left 400    top 880  560px × 380px
-      ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════ SCENE 04 — PHOTOGRAPHY ═══════════════════ */}
       <section className="gallery">
 
         <div className="gallery__a" data-reveal>
