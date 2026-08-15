@@ -3,11 +3,11 @@ import { useEffect, useRef } from 'react';
 /* ── assets ─────────────────────────────────────────────────────────────── */
 import logoPath  from '@assets/image_1786554649837.png';
 
-// Hero — video (?url forces Vite to emit as a static asset and return its URL)
-import heroVid    from '@assets/hero-video.mp4?url';
-import heroPoster from '@assets/hero_clean.png?url';
+// Hero — static five-drink travertine lineup (video removed: it was showing
+// seasonal/campaign content, not the core boba product lineup)
+import heroPoster from '@assets/hero_clean.png';
 
-// Editorial (Scene 02)
+// Editorial (Scene 02) — beverage-focused campaign shots
 import editA     from '@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554467811.jpg';
 import editB     from '@assets/Five_signature_sips._One_beautiful_lineup._🧋✨Designed_to_be_a_1786554579731.jpg';
 
@@ -16,12 +16,13 @@ import gallA     from '@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Ma
 import gallB     from '@assets/image_1786783125963.png';        // bonbon dessert studio shot
 import gallC     from '@assets/affogato_crop.jpg';              // affogato pour, cropped (no text)
 
-// Product cups — clean black-bg shots, background removed
-import prod1     from '@assets/cup1_no_bg.png';   // Butterfly Mango Jasmine Breeze
-import prod2     from '@assets/cup2_no_bg.png';   // Shiso Yuzu Breeze
-import prod3     from '@assets/cup3_no_bg.png';   // Cloud Mango Green Tea
-import prod4     from '@assets/cup4_no_bg.png';   // Cloud Mango Matcha
-import prod5     from '@assets/cup5_no_bg.png';   // Mango Passion Fruit Breeze
+// Product cups — explicitly named cutouts, background removed.
+// Order: Butterfly → Cloud Green Tea → Cloud Matcha → Mango Passionfruit → Shiso Yuzu
+import prod1     from '@assets/butterfly-mango-jasmine_1786782840976.png';
+import prod2     from '@assets/cloud-mango-green-tea_1786782840981.png';
+import prod3     from '@assets/cloud-mango-matcha_1786782840981.png';
+import prod4     from '@assets/mango-passionfruit_1786782840987.png';
+import prod5     from '@assets/shiso-yuzu_1786782840988.png';
 
 /* ── product data ────────────────────────────────────────────────────────── */
 const PRODUCTS = [
@@ -36,22 +37,12 @@ const PRODUCTS = [
     desc:     'Butterfly pea flower meets mango jasmine. Violet to amber — the color changes as the ice shifts.',
   },
   {
-    name:     'Shiso Yuzu\nBreeze',
-    nameFlat: 'Shiso Yuzu Breeze',
-    fontSize: '62px',
-    bg:       '#f5edee',
-    word:     'YUZU',
-    photo:    prod2,
-    accent:   '#c0526d',
-    desc:     'Bright shiso leaf over yuzu citrus. Built cold, no shortcuts — vivid all the way to the bottom.',
-  },
-  {
     name:     'Cloud Mango\nGreen Tea',
     nameFlat: 'Cloud Mango Green Tea',
     fontSize: '58px',
     bg:       '#f3eeea',
     word:     'CLOUD',
-    photo:    prod3,
+    photo:    prod2,
     accent:   '#c88b35',
     desc:     'Cloud foam drifts over mango green tea. One sip gets you both — the airy and the sweet.',
   },
@@ -61,7 +52,7 @@ const PRODUCTS = [
     fontSize: '64px',
     bg:       '#edf3ea',
     word:     'MATCHA',
-    photo:    prod4,
+    photo:    prod3,
     accent:   '#5c8e50',
     desc:     'Ceremonial-grade matcha falls through mango — three distinct layers. Drink it in any order.',
   },
@@ -71,9 +62,19 @@ const PRODUCTS = [
     fontSize: '54px',
     bg:       '#f5eeea',
     word:     'MANGO',
-    photo:    prod5,
+    photo:    prod4,
     accent:   '#d97a3a',
     desc:     'Mango meets passion fruit tartness. The ratio is deliberate. Sweet, then bright, then gone.',
+  },
+  {
+    name:     'Shiso Yuzu\nBreeze',
+    nameFlat: 'Shiso Yuzu Breeze',
+    fontSize: '62px',
+    bg:       '#f5edee',
+    word:     'YUZU',
+    photo:    prod5,
+    accent:   '#c0526d',
+    desc:     'Bright shiso leaf over yuzu citrus. Built cold, no shortcuts — vivid all the way to the bottom.',
   },
 ] as const;
 
@@ -286,17 +287,14 @@ export default function Home() {
       ═══════════════════════════════════════════════════════════════════════ */}
       <section className="hero">
 
-        {/* Video — outer gets parallax translateY, inner gets entry animation */}
+        {/* Hero photo — five-drink travertine lineup.
+            Static image: no video, guaranteed to show the boba product lineup. */}
         <div className="hero__photo-wrap" ref={heroVidWrapEl}>
           <div className="hero__photo-inner">
-            <video
+            <img
               className="hero__photo"
-              src={heroVid}
-              poster={heroPoster}
-              autoPlay
-              muted
-              loop
-              playsInline
+              src={heroPoster}
+              alt="Five Tao Boba signature drinks on travertine"
             />
           </div>
         </div>
