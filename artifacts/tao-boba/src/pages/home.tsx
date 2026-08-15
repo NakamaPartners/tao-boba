@@ -23,7 +23,22 @@ import cup4 from '@assets/mango-passionfruit_1786791932031.png';
 import cup5 from '@assets/shiso-yuzu_1786791932037.png';
 
 /* ── product data (matches prototype JS array exactly) ─────────────────── */
-const PRODUCTS = [
+/* ── particle type ─────────────────────────────────────────────────────────── */
+interface Ptcl {
+  shape: 'circle' | 'leaf' | 'wedge' | 'petal';
+  color: string;
+  w: number; h: number;    // px
+  x: number; top: number;  // % within cup-stack
+  delay: number; dur: number; // seconds
+  rot: number; drot: number; dx: number; // rotation + drift
+}
+
+const PRODUCTS: ReadonlyArray<{
+  name: string; short: string; photo: string;
+  tint: string; tone: string;
+  copy: readonly [string, string];
+  particles: Ptcl[];
+}> = [
   {
     name:  'Butterfly Mango Jasmine',
     short: 'Butterfly',
@@ -32,8 +47,18 @@ const PRODUCTS = [
     tone:  '#7651aa',
     copy:  [
       'Floral jasmine meets ripe mango in a vivid purple-to-gold gradient.',
-      'Bright, aromatic and visually unmistakable — a signature that leads with color.',
-    ] as const,
+      'Bright, aromatic and visually unmistakable. A signature that leads with color.',
+    ],
+    /* butterfly pea petals (purple), jasmine dots (ivory), mango wedges (gold) */
+    particles: [
+      { shape:'petal',  color:'#8b5cf6', w:11,h:7,  x:18, top:5,  delay:0,   dur:2.8, rot:30,  drot:135, dx:8  },
+      { shape:'petal',  color:'#7c3aed', w:9, h:6,  x:52, top:12, delay:0.8, dur:2.4, rot:-25, drot:155, dx:-7 },
+      { shape:'petal',  color:'#a78bfa', w:13,h:8,  x:72, top:3,  delay:1.6, dur:3.1, rot:50,  drot:110, dx:10 },
+      { shape:'wedge',  color:'#f59e0b', w:10,h:8,  x:38, top:10, delay:0.4, dur:2.6, rot:65,  drot:90,  dx:-5 },
+      { shape:'wedge',  color:'#d97706', w:8, h:6,  x:78, top:8,  delay:1.2, dur:2.3, rot:-45, drot:100, dx:6  },
+      { shape:'circle', color:'rgba(255,252,248,.88)', w:5,h:5, x:33,top:18, delay:0.6, dur:2.0, rot:0, drot:0, dx:3 },
+      { shape:'circle', color:'rgba(248,245,240,.80)', w:4,h:4, x:60,top:14, delay:1.9, dur:2.5, rot:0, drot:0, dx:-2 },
+    ],
   },
   {
     name:  'Cloud Mango Green Tea',
@@ -44,7 +69,16 @@ const PRODUCTS = [
     copy:  [
       'Mango green tea finished with a soft cloud of cream.',
       'A lighter, cleaner profile with a creamy finish and a warm amber body.',
-    ] as const,
+    ],
+    /* green tea leaves, mango wedges, pale cream dots */
+    particles: [
+      { shape:'leaf',   color:'#4a7c3f', w:8, h:13, x:22, top:6,  delay:0,   dur:2.7, rot:20,  drot:180, dx:5  },
+      { shape:'leaf',   color:'#5a9e3a', w:7, h:11, x:60, top:3,  delay:0.9, dur:3.0, rot:-30, drot:160, dx:-8 },
+      { shape:'leaf',   color:'#3d6b35', w:9, h:14, x:75, top:10, delay:1.5, dur:2.5, rot:40,  drot:140, dx:7  },
+      { shape:'wedge',  color:'#f59e0b', w:11,h:9,  x:40, top:8,  delay:0.3, dur:2.6, rot:70,  drot:85,  dx:-4 },
+      { shape:'wedge',  color:'#d97706', w:9, h:7,  x:15, top:15, delay:1.2, dur:2.3, rot:-50, drot:95,  dx:6  },
+      { shape:'circle', color:'rgba(240,234,218,.70)', w:5,h:5, x:50,top:20, delay:0.6, dur:2.1, rot:0, drot:0, dx:2 },
+    ],
   },
   {
     name:  'Cloud Mango Matcha',
@@ -55,7 +89,17 @@ const PRODUCTS = [
     copy:  [
       'Matcha, milk and mango stack into one of Tao\'s most recognizable layered drinks.',
       'Earthy green tea, fruit and cream create contrast in both flavor and color.',
-    ] as const,
+    ],
+    /* fine matcha powder dots (green circles), matcha leaves, mango wedge */
+    particles: [
+      { shape:'circle', color:'rgba(74,124,63,.82)',  w:5,h:5, x:25, top:5,  delay:0,   dur:1.8, rot:0, drot:0, dx:4  },
+      { shape:'circle', color:'rgba(90,158,58,.75)',  w:4,h:4, x:50, top:8,  delay:0.4, dur:2.0, rot:0, drot:0, dx:-3 },
+      { shape:'circle', color:'rgba(61,107,53,.88)',  w:6,h:6, x:70, top:4,  delay:0.9, dur:1.9, rot:0, drot:0, dx:5  },
+      { shape:'circle', color:'rgba(74,124,63,.65)',  w:3,h:3, x:38, top:12, delay:0.3, dur:1.7, rot:0, drot:0, dx:2  },
+      { shape:'circle', color:'rgba(106,170,64,.70)', w:4,h:4, x:80, top:9,  delay:1.4, dur:2.1, rot:0, drot:0, dx:-4 },
+      { shape:'leaf',   color:'#4a7c3f', w:7,h:12, x:15, top:7,  delay:1.0, dur:2.9, rot:15, drot:175, dx:6  },
+      { shape:'wedge',  color:'#e8a020', w:9,h:7,  x:58, top:14, delay:1.7, dur:2.5, rot:60, drot:90,  dx:-5 },
+    ],
   },
   {
     name:  'Mango Passionfruit',
@@ -66,7 +110,17 @@ const PRODUCTS = [
     copy:  [
       'Mango and passionfruit bring a bright tropical hit over ice.',
       'Juicy, crisp and built for the days when something refreshing is the whole point.',
-    ] as const,
+    ],
+    /* mango wedges (orange), passionfruit seed dots (golden) */
+    particles: [
+      { shape:'wedge',  color:'#f97316', w:12,h:9, x:20, top:5,  delay:0,   dur:2.7, rot:55,  drot:100, dx:8  },
+      { shape:'wedge',  color:'#ea580c', w:10,h:8, x:55, top:3,  delay:0.6, dur:2.4, rot:-35, drot:115, dx:-6 },
+      { shape:'wedge',  color:'#fb923c', w:11,h:8, x:75, top:10, delay:1.3, dur:2.8, rot:70,  drot:90,  dx:5  },
+      { shape:'circle', color:'#eab308', w:5,h:5,  x:35, top:14, delay:0.3, dur:2.0, rot:0,   drot:0,   dx:3  },
+      { shape:'circle', color:'#fbbf24', w:4,h:4,  x:65, top:8,  delay:1.0, dur:1.9, rot:0,   drot:0,   dx:-3 },
+      { shape:'circle', color:'#f59e0b', w:6,h:6,  x:45, top:18, delay:1.7, dur:2.2, rot:0,   drot:0,   dx:4  },
+      { shape:'circle', color:'rgba(234,179,8,.60)', w:3,h:3, x:82,top:12, delay:0.8, dur:1.8, rot:0, drot:0, dx:-2 },
+    ],
   },
   {
     name:  'Shiso Yuzu',
@@ -76,10 +130,19 @@ const PRODUCTS = [
     tone:  '#d74f63',
     copy:  [
       'Yuzu citrus and shiso create the sharpest, most aromatic drink in the set.',
-      'Fresh, vivid and a little unexpected — a clean finish to the collection.',
-    ] as const,
+      'Fresh, vivid and a little unexpected. A clean finish to the collection.',
+    ],
+    /* shiso leaves (green-purple ovals), yuzu disc slices (yellow) */
+    particles: [
+      { shape:'leaf',   color:'#6b9a5e', w:9, h:14, x:22, top:5,  delay:0,   dur:2.9, rot:25,  drot:160, dx:7  },
+      { shape:'leaf',   color:'#7a6b9e', w:8, h:12, x:58, top:8,  delay:0.7, dur:2.6, rot:-35, drot:145, dx:-6 },
+      { shape:'leaf',   color:'#5a8050', w:10,h:15, x:75, top:3,  delay:1.4, dur:3.1, rot:40,  drot:170, dx:8  },
+      { shape:'wedge',  color:'#facc15', w:11,h:11, x:38, top:10, delay:0.3, dur:2.4, rot:0,   drot:60,  dx:-4 },
+      { shape:'wedge',  color:'#fde047', w:9, h:9,  x:68, top:15, delay:1.1, dur:2.7, rot:30,  drot:70,  dx:5  },
+      { shape:'circle', color:'rgba(250,204,21,.75)', w:4,h:4, x:15,top:14, delay:0.5, dur:2.0, rot:0, drot:0, dx:3 },
+    ],
   },
-] as const;
+];
 
 const N = PRODUCTS.length;
 
@@ -96,6 +159,7 @@ export default function Home() {
   const stageEl          = useRef<HTMLDivElement>(null);
   const railEl           = useRef<HTMLUListElement>(null);
   const stackEl          = useRef<HTMLDivElement>(null);
+  const particlesEl      = useRef<HTMLDivElement>(null);
   const titleEl          = useRef<HTMLHeadingElement>(null);
   const indexEl          = useRef<HTMLParagraphElement>(null);
   const noteEl           = useRef<HTMLDivElement>(null);
@@ -178,6 +242,19 @@ export default function Home() {
       }, 1050);
     }
 
+    /* particle burst — replace inner HTML to restart CSS animations */
+    if (particlesEl.current) {
+      particlesEl.current.innerHTML = p.particles.map(pt =>
+        `<span class="ptcl ptcl-${pt.shape}" aria-hidden="true" style="` +
+        `left:${pt.x}%;top:${pt.top}%;` +
+        `width:${pt.w}px;height:${pt.h}px;` +
+        `background:${pt.color};` +
+        `animation-delay:${pt.delay}s;animation-duration:${pt.dur}s;` +
+        `--rot:${pt.rot}deg;--dr:${pt.drot}deg;--dx:${pt.dx}px` +
+        `"></span>`
+      ).join('');
+    }
+
     currentIdx.current = next;
   }
 
@@ -248,7 +325,7 @@ export default function Home() {
       {/* ── MASTHEAD ────────────────────────────────────────────────────────── */}
       <header className="masthead">
         <div className="brand">
-          <img src={logoImg} alt="Tao Boba — The Art of Boba" />
+          <img src={logoImg} alt="Tao Boba: The Art of Boba" />
         </div>
       </header>
       <a
@@ -276,11 +353,13 @@ export default function Home() {
           <h1>Tea, color, and texture in every layer.</h1>
           <p className="hero-copy">
             Tao Boba turns tea, fruit, cream and texture into drinks that feel as
-            good to look at as they do to sip — colorful, layered, and
+            good to look at as they do to sip: colorful, layered, and
             unmistakably its own.
           </p>
-          <div className="vertical-word" aria-hidden="true">
-            TAO BOBA · TAO BOBA · TAO BOBA ·
+          <div className="marquee-wrap" aria-hidden="true">
+            <div className="marquee-track">
+              {'TAO BOBA · '.repeat(8)}
+            </div>
           </div>
         </div>
         <div className="hero-small">A modern coffee + boba tea bar</div>
@@ -303,7 +382,7 @@ export default function Home() {
             <div className="rule" />
             <p>
               Crack, pull, pour, bite. Tao's most memorable moments happen where
-              texture becomes part of the experience — glossy shells, soft centers,
+              texture becomes part of the experience: glossy shells, soft centers,
               fruit, cream, tea and contrast.
             </p>
           </div>
@@ -329,8 +408,8 @@ export default function Home() {
             <span className="ed-sub">Petit gateau, made in Denver</span>
             <div className="rule" />
             <p>
-              Every petit gateau starts as a single idea — orange, ube, strawberry
-              — and becomes a shell that cracks, a mousse that gives, and a center
+              Every petit gateau starts as a single idea: orange, ube, strawberry.
+              It becomes a shell that cracks, a mousse that gives, and a center
               that's worth the whole thing.
             </p>
           </div>
@@ -382,7 +461,9 @@ export default function Home() {
           </div>
 
           {/* Cup stack — DOM injection target */}
-          <div className="cup-stack" ref={stackEl} />
+          <div className="cup-stack" ref={stackEl} aria-live="polite">
+            <div className="cup-particles" ref={particlesEl} aria-hidden="true" />
+          </div>
 
           {/* CTA */}
           <a className="product-cta" href="#essay">
@@ -415,7 +496,7 @@ export default function Home() {
             <div className="rule" />
             <p>
               Rose cream on ceremonial matcha, poured slow until it settles into
-              layers. A Tao seasonal — made in-house while the season holds.
+              layers. A Tao seasonal, made in-house while the season holds.
             </p>
           </div>
           <div className="ed-photo campaign-crop golden">
@@ -437,7 +518,7 @@ export default function Home() {
           </div>
           <div className="ed-copy right">
             <h2>Pour, layer,<br />finish.</h2>
-            <span className="ed-sub">Cupid Love — strawberry &amp; cream</span>
+            <span className="ed-sub">Cupid Love, strawberry &amp; cream</span>
             <div className="rule" />
             <p>
               Strawberry tea at the base, taro pearls in the middle, and a soft
@@ -456,7 +537,7 @@ export default function Home() {
           <span className="kicker">Five signatures · one collection</span>
           <h2>Come back to the drinks.</h2>
           <p>
-            Five signatures, one address. Tao Boba is on South Federal —
+            Five signatures, one address. Tao Boba is on South Federal,
             open every day. The cup you want is already made.
           </p>
         </div>

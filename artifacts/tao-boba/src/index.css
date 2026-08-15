@@ -146,13 +146,21 @@ p     { margin: 0 }
 .hero-scroll::before {
   content: ""; display: block; width: 1px; height: 28px; background: #b8aa99;
 }
-.vertical-word {
-  position: absolute; top: 0; right: -.1em; height: 100%;
-  writing-mode: vertical-rl;
-  font-size: clamp(82px, 11vw, 158px);
-  line-height: .8; letter-spacing: .04em;
-  color: rgba(23,22,19,.045); font-weight: 200;
-  pointer-events: none;
+/* Horizontal marquee — replaces stacked vertical word */
+.marquee-wrap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  overflow: hidden; pointer-events: none; line-height: 1;
+}
+.marquee-track {
+  display: inline-block; white-space: nowrap;
+  font-size: clamp(48px, 7.5vw, 108px);
+  font-weight: 200; letter-spacing: .07em;
+  color: rgba(23,22,19,.045);
+  animation: marqueeRun 26s linear infinite;
+}
+@keyframes marqueeRun {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 /* ═══════════════════════════════════════════════ EDITORIAL SPLIT ═══════
@@ -287,9 +295,9 @@ p     { margin: 0 }
 /* Right cup stack — contained within its grid column */
 .cup-stack {
   grid-column: 3; position: relative;
-  height: clamp(260px, 46vh, 420px);
+  height: clamp(310px, 56vh, 520px);
   align-self: center; z-index: 7;
-  overflow: visible; /* allow animation to breathe slightly outside bounds */
+  overflow: visible;
 }
 .cup-wrap {
   position: absolute; inset: 0;
@@ -297,11 +305,45 @@ p     { margin: 0 }
   will-change: transform, opacity;
 }
 .cup-wrap img {
-  /* fill cup-stack but never overflow its column */
   max-height: 100%; max-width: 100%;
   width: auto; height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 16px 28px rgba(53,42,27,.14));
+  filter: drop-shadow(0 22px 38px rgba(30,20,10,.14)) drop-shadow(0 5px 10px rgba(30,20,10,.07));
+}
+
+/* ── Ingredient particle animations ─────────────────────────────────────────
+   Particles drift downward from just above the cup rim, rotating and fading.
+   CSS custom properties --rot, --dr, --dx are set inline per particle. */
+/* Particle container floats ABOVE the cup rim so animations are visible
+   before falling down into the drink. Negative top pulls it above cup-stack. */
+.cup-particles {
+  position: absolute;
+  top: -100px; left: -15%; right: -15%;
+  height: 110px;
+  pointer-events: none; z-index: 8; overflow: visible;
+}
+.ptcl {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  animation: ptclFall linear infinite;
+}
+/* shape variants */
+.ptcl-leaf  { border-radius: 60% 10% 60% 10%; }
+.ptcl-wedge { border-radius: 50% 50% 8%  50%; }
+.ptcl-petal { border-radius: 50% 8%  50% 8%;  }
+
+@keyframes ptclFall {
+  0% {
+    transform: translateY(-32px) translateX(0) rotate(var(--rot)) scale(0.55);
+    opacity: 0;
+  }
+  14% { opacity: 0.82; }
+  78% { opacity: 0.50; }
+  100% {
+    transform: translateY(74px) translateX(var(--dx)) rotate(calc(var(--rot) + var(--dr))) scale(0.88);
+    opacity: 0;
+  }
 }
 
 /* Cup swap keyframes — identical to prototype */
@@ -496,7 +538,7 @@ p     { margin: 0 }
   .hero-media { min-height: 62svh }
   .hero-panel { min-height: 58svh; padding: 70px 24px 70px }
   .hero h1 { font-size: 54px }
-  .vertical-word, .hero-scroll { display: none }
+  .marquee-wrap, .hero-scroll { display: none }
   .hero-small { left: 24px }
 
   /* editorial */
