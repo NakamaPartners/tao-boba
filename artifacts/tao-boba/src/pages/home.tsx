@@ -5,7 +5,7 @@ import logoPath  from '@assets/image_1786554649837.png';
 
 // Hero — video (?url forces Vite to emit as a static asset and return its URL)
 import heroVid    from '@assets/hero-video.mp4?url';
-import heroPoster from '@assets/hero-poster.jpg?url';
+import heroPoster from '@assets/hero_clean.png?url';
 
 // Editorial (Scene 02)
 import editA     from '@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554467811.jpg';
@@ -13,8 +13,8 @@ import editB     from '@assets/Five_signature_sips._One_beautiful_lineup._🧋�
 
 // Gallery (Scene 04)
 import gallA     from '@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Mango_Breeze—spar_1786554450238.jpg';
-import gallB     from '@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554470275.jpg';
-import gallC     from '@assets/Experience_the_Art_of_Denver_MatchaSavor_the_unique_flavors_of_1786731632771.jpg';
+import gallB     from '@assets/image_1786783125963.png';        // bonbon dessert studio shot
+import gallC     from '@assets/affogato_crop.jpg';              // affogato pour, cropped (no text)
 
 // Product cups — clean black-bg shots, background removed
 import prod1     from '@assets/cup1_no_bg.png';   // Butterfly Mango Jasmine Breeze
@@ -297,9 +297,8 @@ export default function Home() {
           <div className="hero__intro-inner">
             <span className="hero__context">Tao Boba · Denver</span>
             <p className="hero__body">
-              Each drink built<br />
-              to be seen first.<br />
-              Then tasted.
+              Each drink built to be<br />
+              seen first, then tasted.
             </p>
             <a href="https://www.thetaoboba.com/menu" className="hero__small-link">
               Explore menu

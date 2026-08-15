@@ -192,21 +192,18 @@ video.hero__photo {
 }
 .hero__small-link {
   font-family: var(--body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: .01em;
   color: var(--ink-60);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
-.hero__small-link::after {
-  content: "";
-  display: block;
-  width: 20px;
-  height: 1px;
-  background: currentColor;
+.hero__small-link:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink-60);
 }
 
 /* ── TAO BOBA wordmark ─────────────────────────────────────────────────
