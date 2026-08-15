@@ -104,6 +104,7 @@ export default function Home() {
   const nameEl      = useRef<HTMLHeadingElement>(null);
   const descEl      = useRef<HTMLParagraphElement>(null);
   const glyphEl     = useRef<HTMLDivElement>(null);
+  const wordBandEl  = useRef<HTMLDivElement>(null);
   const idxEl       = useRef<HTMLSpanElement>(null);
   const accentEl    = useRef<HTMLSpanElement>(null);
 
@@ -128,6 +129,11 @@ export default function Home() {
       glyphEl.current.classList.remove('glyph-pop');
       void glyphEl.current.offsetWidth;
       glyphEl.current.classList.add('glyph-pop');
+    }
+
+    /* word band — static swap, instant, no animation (it's texture) */
+    if (wordBandEl.current) {
+      wordBandEl.current.textContent = p.word;
     }
 
     /* name — preserve newlines as <br> */
@@ -213,17 +219,20 @@ export default function Home() {
           heroWordWrapEl.current.style.transform = `translateY(${-sy * 0.15}px)`;
       }
 
-      /* editorial parallax */
+      /* editorial parallax — photo:copy ratio 1:0.2 (photo moves 5× more than text).
+         imgA is the primary photograph ground (0.35×).
+         imgB is a smaller foreground layer — can move faster (0.55×).
+         txt moves the least — anchored, editorial discipline (0.07×). */
       if (editSecEl.current && !REDUCED) {
         const r = editSecEl.current.getBoundingClientRect();
         const p = Math.max(0, -r.top);
         if (p < 1800) {
           if (editImgAEl.current)
-            editImgAEl.current.style.transform = `translateY(${-p * 0.10}px)`;
+            editImgAEl.current.style.transform = `translateY(${-p * 0.35}px)`;
           if (editImgBEl.current)
-            editImgBEl.current.style.transform = `translateY(${-p * 0.38}px)`;
+            editImgBEl.current.style.transform = `translateY(${-p * 0.55}px)`;
           if (editTxtEl.current)
-            editTxtEl.current.style.transform  = `translateY(${-p * 0.20}px)`;
+            editTxtEl.current.style.transform  = `translateY(${-p * 0.07}px)`;
         }
       }
 
@@ -387,8 +396,14 @@ export default function Home() {
             {PRODUCTS[0].desc}
           </p>
 
-          {/* Background glyph — centered on cup, cup overlaps it */}
+          {/* Background glyph — centered behind cup */}
           <div className="products__glyph" ref={glyphEl} aria-hidden="true">
+            {PRODUCTS[0].word}
+          </div>
+
+          {/* Word band — large cropped type grounded at stage bottom.
+              Static swap (texture), not marquee. Changes with active drink. */}
+          <div className="products__word-band" ref={wordBandEl} aria-hidden="true">
             {PRODUCTS[0].word}
           </div>
 

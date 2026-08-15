@@ -29,8 +29,9 @@
   --body:     'DM Sans', system-ui, sans-serif;          /* all other text */
 
   /* spacing */
-  --edge:     72px;              /* outer page gutter */
-  --edge-inner: 88px;            /* inner content alignment */
+  --edge:           72px;        /* outer page gutter */
+  --edge-inner:     88px;        /* inner content alignment */
+  --gutter-content: 118px;       /* editorial/product left composition gutter */
 
   /* cup swap timing — exact Andtea values, do not change */
   --exit-dur:    .33s;
@@ -384,9 +385,10 @@ video.hero__photo {
 
 /* ══════════════════════════════ SCENE 03 — PRODUCT SEQUENCE ══════════
    500vh scroll trigger. Sticky 100svh stage.
-   Cup: center X ≈ 820px, center Y ≈ 470px. Visible height 670px.
-   Glyph centered on same X/Y — cup overlaps it via z-index.
-   Text: name left 90 top 190  |  desc left 90 bottom 140  |  idx left 94 top 120
+   Column structure: 13% index rail | 50% cup zone | 34% breathing room
+   Text column: hangs from top at var(--gutter-content) = 118px
+   Cup: horizontally centered (50%), vertically centered (50%)
+   Word band: enormous cropped type grounded at stage bottom
 ═══════════════════════════════════════════════════════════════════════ */
 .products {
   position: relative;
@@ -402,11 +404,11 @@ video.hero__photo {
   transition: background-color .55s ease;
 }
 
-/* Index — "01 / 05" — upper left, 10px, quiet */
+/* Index — "01 / 05" — hangs from top, 118px gutter */
 .products__idx {
   position: absolute;
-  left: 94px;
-  top:  120px;
+  left: var(--gutter-content);
+  top:  118px;
   font-family: var(--body);
   font-size: 10px;
   font-weight: 400;
@@ -416,12 +418,13 @@ video.hero__photo {
   z-index: 2;
 }
 
-/* Product name — upper left, large display sans */
+/* Product name — hangs from top below index, 118px gutter.
+   Large display sans — type as texture, not just headline. */
 .products__name {
   position: absolute;
-  left:  90px;
-  top:   190px;
-  width: 430px;
+  left:  var(--gutter-content);
+  top:   178px;
+  width: 480px;
   font-family: var(--display);
   font-weight: 600;
   line-height: .92;
@@ -430,25 +433,26 @@ video.hero__photo {
   z-index: 2;
 }
 
-/* Accent rule — 26px wide, 2px tall */
+/* Accent rule — hangs from top below name */
 .products__accent {
   position: absolute;
-  left:  90px;
-  top:   330px;
+  left:  var(--gutter-content);
+  top:   348px;
   display: block;
   width: 26px;
   height: 2px;
   border-radius: 1px;
-  transition: background .55s ease, top .1s;
+  transition: background .55s ease;
   z-index: 2;
 }
 
-/* Description — lower left, body text */
+/* Description — top-aligned below accent, same left gutter.
+   All text hangs from the top as one column. */
 .products__desc {
   position: absolute;
-  left:   90px;
-  bottom: 140px;
-  width:  340px;
+  left:   var(--gutter-content);
+  top:    390px;
+  width:  360px;
   font-family: var(--body);
   font-size: 15px;
   font-weight: 400;
@@ -457,34 +461,54 @@ video.hero__photo {
   z-index: 2;
 }
 
-/* Background glyph — enormous, centered on cup position.
-   Cup overlaps it (z-index 0 vs z-index 1). Opacity 7%. */
+/* Background glyph — centered at 50% (same axis as cup).
+   Cup overlaps it (z-index 1 > 0). Opacity 8%. */
 .products__glyph {
   position: absolute;
-  left: 57%;
+  left: 50%;
   top:  50%;
   transform: translate(-50%, -50%);
   font-family: var(--display);
-  font-size: clamp(180px, 19vw, 280px);
+  font-size: clamp(160px, 18vw, 260px);
   font-weight: 700;
   letter-spacing: -.04em;
   line-height: 1;
-  color: rgba(22,22,22,.07);
+  color: rgba(22,22,22,.08);
   white-space: nowrap;
   user-select: none;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Cup injection target — centered right of text zone */
+/* Cup injection target — centered at 50%/50%.
+   Height drives the 100% translateY animation travel. */
 .products__stack {
   position: absolute;
-  left: 57%;
+  left: 50%;
   top:  50%;
   transform: translate(-50%, -50%);
-  width:  360px;
-  height: 680px;
+  width:  420px;
+  height: 72svh;
   z-index: 1;
+}
+
+/* Word band — enormous cropped type grounded at the bottom of the stage.
+   Changes with the active drink. Crops against the right edge via overflow:hidden.
+   NOT a marquee — static text, instant swap on product change. */
+.products__word-band {
+  position: absolute;
+  left: var(--gutter-content);
+  bottom: 18px;
+  font-family: var(--display);
+  font-size: clamp(140px, 19vw, 240px);
+  font-weight: 700;
+  letter-spacing: -.05em;
+  line-height: 1;
+  color: rgba(22,22,22,.055);
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ── Cup wrap — animation container ───────────────────────────────────
@@ -498,15 +522,15 @@ video.hero__photo {
   will-change: transform, opacity;
 }
 
-/* Cup image — transparent PNG, bg-removed, no padding compensation needed.
-   drop-shadow gives the cup depth against the tinted stage background. */
+/* Cup image — transparent PNG, bg-removed.
+   ~70svh gives the cup its full physical presence in the stage. */
 .cup-img {
-  max-height: 680px;
+  max-height: 70svh;
   max-width:  100%;
   width: auto;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 32px 60px rgba(0,0,0,.13));
+  filter: drop-shadow(0 40px 80px rgba(0,0,0,.15));
   user-select: none;
   pointer-events: none;
   display: block;
@@ -521,25 +545,26 @@ video.hero__photo {
 .cup-wrap.is-entering.rev { animation-name: cupInRev }
 .cup-wrap.is-exiting.rev  { animation-name: cupOutRev }
 
-/* Andtea timing preserved exactly. Spatial travel tightened from ±100%
-   to ±40px so detailed cup photos don't streak across the stage. */
+/* Full Andtea physical cup swap — 100% Y travel, x-drift, rotation, scale.
+   The 100% is relative to .products__stack height (72svh) — cup travels
+   ~one full viewport height, making the swap feel like a physical exchange. */
 @keyframes cupOut {
-  from { transform: translate3d(0,0,0)    scale(1);    opacity:1; filter:blur(0)   }
-  to   { transform: translate3d(0,-40px,0) scale(.94);  opacity:0; filter:blur(2px) }
+  from { transform: translate3d(0,0,0)       rotate(0)      scale(1);    opacity:1; filter:blur(0)   }
+  to   { transform: translate3d(8%,-100%,0)  rotate(35deg)  scale(.75);  opacity:0; filter:blur(3px) }
 }
 @keyframes cupIn {
-  from { transform: translate3d(0,40px,0) scale(.94);  opacity:0; filter:blur(2px) }
+  from { transform: translate3d(0,100%,0)    rotate(-20deg) scale(.76);  opacity:0; filter:blur(2px) }
   60%  { opacity:1; filter:blur(0) }
-  to   { transform: translate3d(0,0,0)    scale(1);    opacity:1; filter:blur(0)   }
+  to   { transform: translate3d(0,0,0)       rotate(0)      scale(1);    opacity:1; filter:blur(0)   }
 }
 @keyframes cupOutRev {
-  from { transform: translate3d(0,0,0)    scale(1);    opacity:1; filter:blur(0)   }
-  to   { transform: translate3d(0,40px,0) scale(.94);  opacity:0; filter:blur(2px) }
+  from { transform: translate3d(0,0,0)       rotate(0)      scale(1);    opacity:1; filter:blur(0)   }
+  to   { transform: translate3d(-8%,100%,0)  rotate(-35deg) scale(.75);  opacity:0; filter:blur(3px) }
 }
 @keyframes cupInRev {
-  from { transform: translate3d(0,-40px,0) scale(.94);  opacity:0; filter:blur(2px) }
+  from { transform: translate3d(0,-100%,0)   rotate(20deg)  scale(.76);  opacity:0; filter:blur(2px) }
   60%  { opacity:1; filter:blur(0) }
-  to   { transform: translate3d(0,0,0)    scale(1);    opacity:1; filter:blur(0)   }
+  to   { transform: translate3d(0,0,0)       rotate(0)      scale(1);    opacity:1; filter:blur(0)   }
 }
 
 /* Text swap micro-animation */
