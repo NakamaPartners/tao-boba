@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 /* ── assets ─────────────────────────────────────────────────────────────── */
 // Hero — Summer Sips five-drink lineup (text/logo covered by CSS gradient overlay)
-import pinkPour    from '@assets/image_1786792870459.png';
+import pinkPour    from '@assets/hero_clean_2.png';
 
 // Actual brand logo (phoenix + TAO BOBA wordmark)
 import logoImg     from '@assets/image_1786792835874.png';
@@ -325,13 +325,13 @@ export default function Home() {
             />
           </div>
           <div className="ed-copy right">
-            <h2>Built to be looked at.<br />Made to disappear.</h2>
-            <span className="ed-sub">Small things, fully considered</span>
+            <h2>One flavor.<br />Three textures. One bite.</h2>
+            <span className="ed-sub">Petit gateau, made in Denver</span>
             <div className="rule" />
             <p>
-              The page should feel the same way: composed without feeling stiff,
-              rich without feeling busy, and always giving the product enough room
-              to carry the color.
+              Every petit gateau starts as a single idea — orange, ube, strawberry
+              — and becomes a shell that cracks, a mousse that gives, and a center
+              that's worth the whole thing.
             </p>
           </div>
         </div>
@@ -410,13 +410,12 @@ export default function Home() {
 
         <div className="ed-row row-d">
           <div className="ed-copy">
-            <h2>Seasonal drinks,<br />same point of view.</h2>
-            <span className="ed-sub">Color without the noise</span>
+            <h2>One season.<br />One reason to go green.</h2>
+            <span className="ed-sub">The Golden Rose special</span>
             <div className="rule" />
             <p>
-              Limited drinks can be playful without changing the entire visual
-              language. Warm space, one strong image, and the drink still gets to
-              be the loudest thing in the room.
+              Rose cream on ceremonial matcha, poured slow until it settles into
+              layers. A Tao seasonal — made in-house while the season holds.
             </p>
           </div>
           <div className="ed-photo campaign-crop golden">
@@ -438,12 +437,11 @@ export default function Home() {
           </div>
           <div className="ed-copy right">
             <h2>Pour, layer,<br />finish.</h2>
-            <span className="ed-sub">The drink stays the hero</span>
+            <span className="ed-sub">Cupid Love — strawberry &amp; cream</span>
             <div className="rule" />
             <p>
-              Even when the campaign changes, Tao should still feel like Tao:
-              expressive drinks, soft neutrals around them, and a composition that
-              gives color room to breathe.
+              Strawberry tea at the base, taro pearls in the middle, and a soft
+              cream cap poured to order. Each layer sets on its own. Yours to break.
             </p>
           </div>
         </div>
@@ -458,8 +456,8 @@ export default function Home() {
           <span className="kicker">Five signatures · one collection</span>
           <h2>Come back to the drinks.</h2>
           <p>
-            Desserts and seasonal releases add to the world, but the brand should
-            always resolve around what Tao is first: a boba and tea bar.
+            Five signatures, one address. Tao Boba is on South Federal —
+            open every day. The cup you want is already made.
           </p>
         </div>
         <div className="closing-cups" aria-label="Tao Boba signature drinks">
@@ -473,7 +471,9 @@ export default function Home() {
       {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
       <footer className="site-footer">
         <div className="footer-top">
-          <div className="footer-brand">TAO BOBA</div>
+          <div className="footer-brand">
+            <img src={logoImg} alt="Tao Boba" />
+          </div>
           <div className="footer-meta">
             Denver, Colorado<br />
             1550 S Federal Blvd<br />

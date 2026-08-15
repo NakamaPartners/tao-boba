@@ -110,28 +110,11 @@ p     { margin: 0 }
 .hero-media img {
   width: 100%; height: 112%;
   object-fit: cover;
-  /* push view toward the drinks, keeping "Summer Sips" text above the frame */
-  object-position: center 78%;
+  object-position: center 55%;
   transform: translateY(-6%);
   will-change: transform;
 }
-/* gradient overlay — covers baked-in "TaoBoba Summer Sips" text and phoenix icon.
-   Solid paper color for top 20%, then gradual fade through 55% */
-.hero-media::after {
-  content: "";
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 58%;
-  background: linear-gradient(
-    to bottom,
-    var(--paper) 0%,
-    var(--paper) 20%,
-    rgba(246,241,232,0.85) 35%,
-    rgba(246,241,232,0.4) 48%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 2;
-}
+/* no gradient overlay needed — text removed directly from source image */
 .hero-panel {
   position: relative; min-height: 100svh;
   display: flex; flex-direction: column; justify-content: center;
@@ -153,9 +136,7 @@ p     { margin: 0 }
   color: var(--muted); margin: 35px 0 0;
 }
 .hero-small {
-  position: absolute; bottom: 34px; left: var(--gutter);
-  font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
-  color: rgba(255,255,255,.78);
+  display: none; /* not visible with this hero image */
 }
 .hero-scroll {
   position: absolute; bottom: 33px; left: 50%; transform: translateX(-50%);
@@ -303,6 +284,28 @@ p     { margin: 0 }
   font-size: 13px; line-height: 1.9; color: var(--muted);
 }
 
+/* Dark photographic backdrop — fades from light copy area into near-black
+   behind the cup column. Makes black-bg drink shots look intentional and
+   lets the drink colors glow the way they were photographed to. */
+.product-stage::before {
+  content: "";
+  position: absolute; right: 0; top: 0; bottom: 0;
+  /* covers the rightmost ~48% of the stage */
+  width: 48%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(6,4,1,.80) 30%,
+    rgba(6,4,1,.94) 100%
+  );
+  z-index: 2; /* above ghost-glyph(1), below word-band(4), cup(7), copy(9) */
+  pointer-events: none;
+}
+/* stacking order inside .product-stage:
+   ghost-glyph(1) → dark-panel(2) → word-band(4) → cup-stack(7) → rail(8) → copy(9)
+   Ghost renders under dark panel (mostly on the right anyway — fine).
+   Word-band and cup float above dark panel — cream band looks great on dark. */
+
 /* Right cup stack */
 .cup-stack {
   grid-column: 3; position: relative;
@@ -316,7 +319,10 @@ p     { margin: 0 }
 .cup-wrap img {
   height: 100%; width: auto;
   max-width: none; object-fit: contain;
-  filter: drop-shadow(0 28px 30px rgba(53,42,27,.08));
+  /* warm ambient glow to separate drink from dark backdrop */
+  filter:
+    drop-shadow(0 0 55px rgba(200,155,70,.14))
+    drop-shadow(0 28px 36px rgba(10,6,2,.55));
 }
 
 /* Cup swap keyframes — identical to prototype */
@@ -344,40 +350,27 @@ p     { margin: 0 }
   to   { transform: translate3d(0,0,0) rotate(0) scale(1); opacity: 1; filter: blur(0) }
 }
 
-/* CTA link */
-.product-cta {
-  position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%);
-  font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
-  color: #8f8579; display: flex; align-items: center; gap: 12px; z-index: 10;
-}
-.product-cta i {
-  width: 34px; height: 1px; background: #aaa093;
-  display: block; position: relative;
-}
-.product-cta i::after {
-  content: ""; position: absolute;
-  right: 0; top: -3px; width: 7px; height: 7px;
-  border-top: 1px solid #aaa093; border-right: 1px solid #aaa093;
-  transform: rotate(45deg);
-}
+/* CTA — hidden; floats awkwardly over the cup */
+.product-cta { display: none }
 
-/* Word band — Baskerville, repeated short name */
+/* Word band — Baskerville, repeated short name; floats above dark panel */
 .word-band {
   position: absolute; left: 0; right: 0; bottom: -.22em;
   font-family: Baskerville, Georgia, serif;
   font-size: clamp(86px, 10.5vw, 156px);
   line-height: .88; letter-spacing: .02em;
   color: #e3d5c3; white-space: nowrap; overflow: hidden;
-  z-index: 2; pointer-events: none;
+  z-index: 4; pointer-events: none;
 }
 .word-band span { display: inline-block; margin-right: .48em }
 
-/* Ghost glyph — Baskerville number */
+/* Ghost glyph — Baskerville number; renders under dark panel (right side)
+   so it gently disappears into shadow — only its edge shows on the border */
 .ghost-glyph {
   position: absolute; right: 6vw; top: 8vh;
   font-size: clamp(150px, 20vw, 320px);
   font-family: Baskerville, Georgia, serif;
-  color: rgba(177,148,115,.07);
+  color: rgba(200,170,120,.09);
   line-height: 1; z-index: 1; pointer-events: none;
 }
 
@@ -409,8 +402,41 @@ p     { margin: 0 }
   transform: translateY(-8%) scale(1.03);
   transform-origin: center center;
 }
-.lower-story .golden img { object-position: center 78% }
-.lower-story .cupid  img { object-position: center 80% }
+/* Push both images toward the drink, away from baked-in title text */
+.lower-story .golden img { object-position: center 94% }
+.lower-story .cupid  img { object-position: center 88% }
+
+/* Gradient overlays to fully erase baked-in text.
+   Golden Rose: "Golden Rose / Matcha Latte" fills top ~50% of the source image.
+   Cupid Love:  "Cupid Love" script sits in the top ~30%. */
+.lower-story .row-d .campaign-crop::after,
+.lower-story .row-e .campaign-crop::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.lower-story .row-d .campaign-crop::after {
+  height: 55%;
+  background: linear-gradient(
+    to bottom,
+    var(--paper-2) 0%,
+    var(--paper-2) 32%,
+    rgba(251,248,242,.65) 46%,
+    transparent 100%
+  );
+}
+.lower-story .row-e .campaign-crop::after {
+  height: 38%;
+  background: linear-gradient(
+    to bottom,
+    var(--paper-2) 0%,
+    var(--paper-2) 14%,
+    rgba(251,248,242,.55) 28%,
+    transparent 100%
+  );
+}
 
 /* ══════════════════════════════════════════════ CLOSING ════════════════
    42% : 58% split. Three cups arranged compositionally.
@@ -463,9 +489,11 @@ p     { margin: 0 }
   display: flex; align-items: flex-end;
   justify-content: space-between; gap: 40px;
 }
-.footer-brand {
-  font-size: clamp(48px, 7vw, 102px);
-  line-height: .9; letter-spacing: -.06em; font-weight: 200;
+.footer-brand img {
+  height: clamp(56px, 6vw, 90px);
+  width: auto;
+  display: block;
+  filter: invert(1); /* white-on-black PNG → dark on paper background */
 }
 .footer-meta {
   text-align: right; font-size: 10px;
