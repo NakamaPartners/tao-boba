@@ -16,12 +16,12 @@ import gallA     from '@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Ma
 import gallB     from '@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554470275.jpg';
 import gallC     from '@assets/Experience_the_Art_of_Denver_MatchaSavor_the_unique_flavors_of_1786731632771.jpg';
 
-// Product cups — background removed, transparent PNGs
-import prod1     from '@assets/prod1_no_bg.png';   // Butterfly Mango Jasmine Breeze
-import prod2     from '@assets/prod2_no_bg.png';   // Shiso Yuzu Breeze
-import prod3     from '@assets/prod3_no_bg.png';   // Cloud Mango Green Tea
-import prod4     from '@assets/prod4_no_bg.png';   // Cloud Mango Matcha
-import prod5     from '@assets/prod5_no_bg.png';   // Mango Passion Fruit Breeze
+// Product cups — clean black-bg shots, background removed
+import prod1     from '@assets/cup1_no_bg.png';   // Butterfly Mango Jasmine Breeze
+import prod2     from '@assets/cup2_no_bg.png';   // Shiso Yuzu Breeze
+import prod3     from '@assets/cup3_no_bg.png';   // Cloud Mango Green Tea
+import prod4     from '@assets/cup4_no_bg.png';   // Cloud Mango Matcha
+import prod5     from '@assets/cup5_no_bg.png';   // Mango Passion Fruit Breeze
 
 /* ── product data ────────────────────────────────────────────────────────── */
 const PRODUCTS = [

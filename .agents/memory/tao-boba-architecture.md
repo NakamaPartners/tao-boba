@@ -92,15 +92,15 @@ Cup scale compensation: `scale(2.1) translateY(-8%)` on `.cup-img` — compensat
 - Once landed: COMPLETELY STILL. No idle animation.
 
 ## 5 Products (current lineup)
-Source photos: `image_178678153{1,3,4,5,6,5}_*.png` (editorial shots on travertine). Backgrounds removed via `removeImageBackground()` → `prod{1-5}_no_bg.png` in `attached_assets/`.
+Source: clean black-bg cup shots → backgrounds removed via `removeImageBackground()` → `cup{1-5}_no_bg.png` in `attached_assets/`.
 
-1. `prod1_no_bg.png` | "Butterfly Mango Jasmine Breeze" | 52px | bg: #f0ecf5 | word: "BUTTERFLY" | accent: #7b5ea7
-2. `prod2_no_bg.png` | "Shiso Yuzu Breeze"              | 62px | bg: #f5edee | word: "YUZU"      | accent: #c0526d
-3. `prod3_no_bg.png` | "Cloud Mango Green Tea"          | 58px | bg: #f3eeea | word: "CLOUD"     | accent: #c88b35
-4. `prod4_no_bg.png` | "Cloud Mango Matcha"             | 64px | bg: #edf3ea | word: "MATCHA"    | accent: #5c8e50
-5. `prod5_no_bg.png` | "Mango Passion Fruit Breeze"     | 54px | bg: #f5eeea | word: "MANGO"     | accent: #d97a3a
+1. `cup1_no_bg.png` | "Butterfly Mango Jasmine Breeze" | 52px | bg: #f0ecf5 | word: "BUTTERFLY" | accent: #7b5ea7
+2. `cup2_no_bg.png` | "Shiso Yuzu Breeze"              | 62px | bg: #f5edee | word: "YUZU"      | accent: #c0526d
+3. `cup3_no_bg.png` | "Cloud Mango Green Tea"          | 58px | bg: #f3eeea | word: "CLOUD"     | accent: #c88b35
+4. `cup4_no_bg.png` | "Cloud Mango Matcha"             | 64px | bg: #edf3ea | word: "MATCHA"    | accent: #5c8e50
+5. `cup5_no_bg.png` | "Mango Passion Fruit Breeze"     | 54px | bg: #f5eeea | word: "MANGO"     | accent: #d97a3a
 
-**No `scale(2.1)` compensation** — these are background-removed editorial photos, not studio-cropped cups with padding. Use `max-height: 680px; object-fit: contain; filter: drop-shadow(...)` on `.cup-img`.
+**No `scale(2.1)` compensation** — clean cutouts from black-bg shots. CSS: `max-height: 680px; object-fit: contain; filter: drop-shadow(...)` on `.cup-img`.
 
 ## Scene 04 — Gallery (1450px absolute layout)
 Three photos absolutely positioned, asymmetric, never same top coordinate:
