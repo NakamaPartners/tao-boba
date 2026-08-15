@@ -169,7 +169,7 @@ p     { margin: 0 }
 ═══════════════════════════════════════════════════════════════════════ */
 .editorial {
   position: relative; background: var(--paper-2);
-  padding: 120px 0 160px;
+  padding: 72px 0 96px;
 }
 .editorial::before {
   content: ""; position: absolute;
@@ -186,7 +186,7 @@ p     { margin: 0 }
 .wave.w2 { top: 56% }
 
 .ed-row {
-  min-height: 680px;
+  min-height: 520px;
   display: grid; grid-template-columns: 1fr 1fr;
   align-items: center;
 }
@@ -239,13 +239,13 @@ p     { margin: 0 }
   background: #f8f3ea;
   transition: background-color .7s ease;
   display: grid;
-  grid-template-columns: 13% minmax(0, 50%) 34%;
-  padding: calc(var(--header) + 5vh) var(--gutter) 0;
+  grid-template-columns: 12% minmax(0, 40%) 48%;
+  padding: calc(var(--header) + 2vh) var(--gutter) 0;
   align-items: start;
 }
 
 /* Left rail */
-.series-rail { grid-column: 1; padding-top: 58px; z-index: 8 }
+.series-rail { grid-column: 1; padding-top: 32px; z-index: 8 }
 .series-rail ul { margin: 0; padding: 0; list-style: none }
 .series-rail li {
   font-size: 15px; line-height: 1.4;
@@ -280,8 +280,8 @@ p     { margin: 0 }
   line-height: .91; letter-spacing: -.06em; max-width: 8ch;
 }
 .product-note {
-  margin-top: 46px; max-width: 41ch;
-  display: grid; gap: 26px;
+  margin-top: 28px; max-width: 41ch;
+  display: grid; gap: 16px;
 }
 .product-note-item h3 {
   font-size: 13px; letter-spacing: .08em;
@@ -295,13 +295,13 @@ p     { margin: 0 }
 /* Right cup stack — contained within its grid column */
 .cup-stack {
   grid-column: 3; position: relative;
-  height: clamp(310px, 56vh, 520px);
-  align-self: center; z-index: 7;
+  height: clamp(62vh, 76vh, 88vh);
+  align-self: end; z-index: 7;   /* base locked to stage floor */
   overflow: visible;
 }
 .cup-wrap {
   position: absolute; inset: 0;
-  display: grid; place-items: center;
+  display: grid; place-items: end center; /* image base = stack base */
   will-change: transform, opacity;
 }
 .cup-wrap img {
@@ -335,13 +335,13 @@ p     { margin: 0 }
 
 @keyframes ptclFall {
   0% {
-    transform: translateY(-32px) translateX(0) rotate(var(--rot)) scale(0.55);
+    transform: translateY(-40px) translateX(0) rotate(var(--rot)) scale(0.5);
     opacity: 0;
   }
-  14% { opacity: 0.82; }
-  78% { opacity: 0.50; }
+  12% { opacity: 1; }
+  75% { opacity: 0.85; }
   100% {
-    transform: translateY(74px) translateX(var(--dx)) rotate(calc(var(--rot) + var(--dr))) scale(0.88);
+    transform: translateY(80px) translateX(var(--dx)) rotate(calc(var(--rot) + var(--dr))) scale(1);
     opacity: 0;
   }
 }
@@ -400,7 +400,7 @@ p     { margin: 0 }
 ═══════════════════════════════════════════════════════════════════════ */
 .lower-story {
   position: relative; background: var(--paper-2);
-  padding: 150px 0 170px;
+  padding: 90px 0 110px;
 }
 .lower-story::before {
   content: ""; position: absolute;
@@ -408,8 +408,8 @@ p     { margin: 0 }
   width: 1px; background: var(--line);
 }
 .lower-story .wave { background: var(--paper-2) }
-.lower-story .ed-row { min-height: 720px }
-.lower-story .ed-photo { height: 560px }
+.lower-story .ed-row { min-height: 560px }
+.lower-story .ed-photo { height: 440px }
 .lower-story .row-d .ed-photo { margin-left: 7.6vw }
 .lower-story .row-e .ed-photo { margin-right: 8vw }
 .lower-story .ed-copy p { max-width: 38ch }
@@ -467,10 +467,10 @@ p     { margin: 0 }
   position: relative; overflow: hidden;
   display: grid; grid-template-columns: 42% 58%;
   align-items: center;
-  padding: 10vh var(--gutter);
+  padding: 6vh var(--gutter);
 }
 .closing-copy {
-  align-self: start; padding-top: 10vh;
+  align-self: start; padding-top: 5vh;
   z-index: 2; max-width: 430px;
 }
 .closing-copy h2 {
@@ -502,7 +502,7 @@ p     { margin: 0 }
 /* ══════════════════════════════════════════════ FOOTER ═════════════════ */
 .site-footer {
   background: #f3ece2; color: var(--ink);
-  padding: 9vh var(--gutter) 5vh;
+  padding: 5vh var(--gutter) 3vh;
   border-top: 1px solid var(--line);
 }
 .footer-top {
@@ -521,7 +521,7 @@ p     { margin: 0 }
 }
 .footer-bottom {
   display: flex; justify-content: space-between;
-  margin-top: 9vh; padding-top: 24px;
+  margin-top: 5vh; padding-top: 20px;
   border-top: 1px solid rgba(0,0,0,.06);
   font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
   color: #71695f;
