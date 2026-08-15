@@ -91,14 +91,16 @@ Cup scale compensation: `scale(2.1) translateY(-8%)` on `.cup-img` — compensat
 - Enter: 0.90s `cubic-bezier(.16,1,.3,1)`, delay 0.12s
 - Once landed: COMPLETELY STILL. No idle animation.
 
-## 5 Products
-1. `cup_tao_luxe_no_bg.png` | "Tao Luxe" | 78px | bg: #f0ebe0 | word: "LUXE" | accent: #c9a96e
-2. `drink_sip2_no_bg.png` | "Butterfly Mango" | 60px | bg: #ede9f4 | word: "MANGO" | accent: #8b6eb5
-3. `cup_matcha_no_bg.png` | "Matcha Madness" | 63px | bg: #eaf0e6 | word: "MATCHA" | accent: #7aaa6a
-4. `drink_sip3_no_bg.png` | "Strawberry Series" | 58px | bg: #fdf0f2 | word: "BERRY" | accent: #d4697a
-5. `cup_brown_sugar_no_bg.png` | "Brown Sugar" | 74px | bg: #f0e8d8 | word: "SUGAR" | accent: #b87c4a
+## 5 Products (current lineup)
+Source photos: `image_178678153{1,3,4,5,6,5}_*.png` (editorial shots on travertine). Backgrounds removed via `removeImageBackground()` → `prod{1-5}_no_bg.png` in `attached_assets/`.
 
-Note: `drink_sip2_no_bg.png` and `drink_sip3_no_bg.png` are cups on travertine pedestals with transparent/dark backgrounds (NOT isolated cup silhouettes like the others). May need scale adjustment.
+1. `prod1_no_bg.png` | "Butterfly Mango Jasmine Breeze" | 52px | bg: #f0ecf5 | word: "BUTTERFLY" | accent: #7b5ea7
+2. `prod2_no_bg.png` | "Shiso Yuzu Breeze"              | 62px | bg: #f5edee | word: "YUZU"      | accent: #c0526d
+3. `prod3_no_bg.png` | "Cloud Mango Green Tea"          | 58px | bg: #f3eeea | word: "CLOUD"     | accent: #c88b35
+4. `prod4_no_bg.png` | "Cloud Mango Matcha"             | 64px | bg: #edf3ea | word: "MATCHA"    | accent: #5c8e50
+5. `prod5_no_bg.png` | "Mango Passion Fruit Breeze"     | 54px | bg: #f5eeea | word: "MANGO"     | accent: #d97a3a
+
+**No `scale(2.1)` compensation** — these are background-removed editorial photos, not studio-cropped cups with padding. Use `max-height: 680px; object-fit: contain; filter: drop-shadow(...)` on `.cup-img`.
 
 ## Scene 04 — Gallery (1450px absolute layout)
 Three photos absolutely positioned, asymmetric, never same top coordinate:

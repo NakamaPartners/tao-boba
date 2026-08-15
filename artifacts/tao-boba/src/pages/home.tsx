@@ -16,12 +16,12 @@ import gallA     from '@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Ma
 import gallB     from '@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554470275.jpg';
 import gallC     from '@assets/Experience_the_Art_of_Denver_MatchaSavor_the_unique_flavors_of_1786731632771.jpg';
 
-// Product editorial photos — full frame with travertine pedestals
-import prod1     from '@assets/image_1786781531560.png';   // Butterfly Mango Jasmine Breeze
-import prod2     from '@assets/image_1786781538133.png';   // Shiso Yuzu Breeze
-import prod3     from '@assets/image_1786781543351.png';   // Cloud Mango Green Tea
-import prod4     from '@assets/image_1786781565200.png';   // Cloud Mango Matcha
-import prod5     from '@assets/image_1786781578255.png';   // Mango Passion Fruit Breeze
+// Product cups — background removed, transparent PNGs
+import prod1     from '@assets/prod1_no_bg.png';   // Butterfly Mango Jasmine Breeze
+import prod2     from '@assets/prod2_no_bg.png';   // Shiso Yuzu Breeze
+import prod3     from '@assets/prod3_no_bg.png';   // Cloud Mango Green Tea
+import prod4     from '@assets/prod4_no_bg.png';   // Cloud Mango Matcha
+import prod5     from '@assets/prod5_no_bg.png';   // Mango Passion Fruit Breeze
 
 /* ── product data ────────────────────────────────────────────────────────── */
 const PRODUCTS = [
@@ -100,7 +100,7 @@ export default function Home() {
   /* ── product swap refs ─────────────────────────────────────────────────── */
   const seriesEl    = useRef<HTMLElement>(null);
   const stageEl     = useRef<HTMLDivElement>(null);
-  const photoPanelEl = useRef<HTMLDivElement>(null);
+  const stackEl     = useRef<HTMLDivElement>(null);
   const nameEl      = useRef<HTMLHeadingElement>(null);
   const descEl      = useRef<HTMLParagraphElement>(null);
   const glyphEl     = useRef<HTMLDivElement>(null);
@@ -108,9 +108,9 @@ export default function Home() {
   const accentEl    = useRef<HTMLSpanElement>(null);
 
   const currentIdx  = useRef(-1);
-  const livePhoto   = useRef<HTMLDivElement | null>(null);
+  const liveCup     = useRef<HTMLDivElement | null>(null);
 
-  /* ── photo swap engine (Andtea timing — DO NOT TOUCH) ───────────────────
+  /* ── cup swap engine (Andtea timing — DO NOT TOUCH) ─────────────────────
      Outgoing: 0.33s ease-exit  |  Incoming: 0.90s ease-tail, delay 0.12s
   ─────────────────────────────────────────────────────────────────────────── */
   function goTo(i: number, dir: number) {
@@ -153,30 +153,30 @@ export default function Home() {
         `${String(i + 1).padStart(2,'0')} / ${String(N).padStart(2,'0')}`;
     }
 
-    /* photo swap — same Andtea timing as cup swap, adapted for full photos */
-    if (!photoPanelEl.current) { currentIdx.current = i; return; }
+    /* cup swap — Andtea timing */
+    if (!stackEl.current) { currentIdx.current = i; return; }
 
     const incoming = document.createElement('div');
-    incoming.className = 'photo-wrap';
+    incoming.className = 'cup-wrap';
     const img = document.createElement('img');
-    img.src = p.photo; img.alt = p.nameFlat; img.className = 'prod-photo';
+    img.src = p.photo; img.alt = p.nameFlat; img.className = 'cup-img';
     incoming.appendChild(img);
-    photoPanelEl.current.appendChild(incoming);
+    stackEl.current.appendChild(incoming);
 
-    if (livePhoto.current && !REDUCED) {
-      const out = livePhoto.current;
+    if (liveCup.current && !REDUCED) {
+      const out = liveCup.current;
       out.classList.add('is-exiting');
       if (rev) out.classList.add('rev');
       out.addEventListener('animationend', () => out.remove(), { once: true });
-    } else if (livePhoto.current) {
-      livePhoto.current.remove();
+    } else if (liveCup.current) {
+      liveCup.current.remove();
     }
 
     if (!REDUCED) {
       incoming.classList.add('is-entering');
       if (rev) incoming.classList.add('rev');
     }
-    livePhoto.current  = incoming;
+    liveCup.current    = incoming;
     currentIdx.current = i;
   }
 
@@ -388,13 +388,13 @@ export default function Home() {
             {PRODUCTS[0].desc}
           </p>
 
-          {/* Background glyph — behind photo panel, left zone only */}
+          {/* Background glyph — centered on cup, cup overlaps it */}
           <div className="products__glyph" ref={glyphEl} aria-hidden="true">
             {PRODUCTS[0].word}
           </div>
 
-          {/* Photo panel — right side, full height, DOM injection target */}
-          <div className="products__photo-panel" ref={photoPanelEl} />
+          {/* Cup DOM injection target */}
+          <div className="products__stack" ref={stackEl} />
 
         </div>
       </section>
