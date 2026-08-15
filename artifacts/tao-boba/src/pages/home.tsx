@@ -1,8 +1,11 @@
 import { useEffect, useRef } from 'react';
 
 /* ── assets ─────────────────────────────────────────────────────────────── */
-// Hero — NOTE: file named 'cookies' contains the actual pour shot; 'pink-pour' contains cookies
-import pinkPour    from '@assets/cookies_1786791932026.jpg';
+// Hero — Summer Sips five-drink lineup (text/logo covered by CSS gradient overlay)
+import pinkPour    from '@assets/image_1786792870459.png';
+
+// Actual brand logo (phoenix + TAO BOBA wordmark)
+import logoImg     from '@assets/image_1786792835874.png';
 
 // Editorial — petit gateau (before products)
 import petitPurple from '@assets/petit-purple_1786791932035.jpg';
@@ -244,7 +247,9 @@ export default function Home() {
     <>
       {/* ── MASTHEAD ────────────────────────────────────────────────────────── */}
       <header className="masthead">
-        <div className="brand">TAO BOBA</div>
+        <div className="brand">
+          <img src={logoImg} alt="Tao Boba — The Art of Boba" />
+        </div>
       </header>
       <a
         href="https://www.exploretock.com/taoboba"
