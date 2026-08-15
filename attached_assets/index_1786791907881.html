@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tao Boba — Concept Mockup</title>
+<meta name="description" content="Private Tao Boba design concept — not deployed." />
+<style>
+:root{
+  --paper:#f6f1e8;
+  --paper-2:#fbf8f2;
+  --ink:#171613;
+  --muted:#716b62;
+  --tan:#d1b08b;
+  --line:#ded5c9;
+  --gutter:clamp(24px,8.2vw,118px);
+  --header:82px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Helvetica Neue",Arial,sans-serif;font-weight:300;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+
+/* masthead */
+.masthead{position:fixed;z-index:80;inset:0 0 auto;height:var(--header);display:flex;align-items:center;justify-content:center;pointer-events:none;mix-blend-mode:multiply}
+.brand{font-size:14px;letter-spacing:.38em;font-weight:500;padding-left:.38em}
+.menu{position:fixed;top:29px;right:var(--gutter);z-index:81;width:34px;height:16px;border:0;background:none;padding:0;cursor:pointer}
+.menu:before,.menu:after{content:"";position:absolute;left:0;width:34px;height:1px;background:var(--ink)}
+.menu:before{top:3px}.menu:after{bottom:3px;transform:translateX(7px);width:27px}
+
+/* HERO */
+.hero{min-height:100svh;display:grid;grid-template-columns:1.42fr 1fr;position:relative;background:var(--paper-2);overflow:hidden}
+.hero-media{min-height:100svh;position:relative;overflow:hidden;background:#e6d2c0}
+.hero-media img{width:100%;height:112%;object-fit:cover;object-position:center 44%;transform:translateY(-6%);will-change:transform}
+.hero-panel{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(48px,7vw,110px)}
+.kicker{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--tan);margin-bottom:28px}
+.hero h1{font-weight:300;font-size:clamp(46px,5.6vw,82px);line-height:.98;letter-spacing:-.055em;margin:0;max-width:8ch}
+.hero-copy{width:min(36ch,100%);font-size:15px;line-height:1.9;color:var(--muted);margin:35px 0 0}
+.hero-small{position:absolute;bottom:34px;left:var(--gutter);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+.hero-scroll{position:absolute;bottom:33px;left:50%;transform:translateX(-50%);font-size:9px;letter-spacing:.23em;text-transform:uppercase;color:#9b9287;display:grid;justify-items:center;gap:10px}
+.hero-scroll:before{content:"";display:block;width:1px;height:28px;background:#b8aa99}
+.vertical-word{position:absolute;top:0;right:-.1em;height:100%;writing-mode:vertical-rl;font-size:clamp(82px,11vw,158px);line-height:.8;letter-spacing:.04em;color:rgba(23,22,19,.045);font-weight:200;pointer-events:none}
+
+/* editorial split */
+.editorial{position:relative;background:var(--paper-2);padding:120px 0 160px}
+.editorial:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line)}
+.wave{position:absolute;left:50%;transform:translateX(-50%);font-family:Baskerville,Georgia,serif;font-size:38px;color:var(--tan);line-height:1;background:var(--paper-2);padding:0 8px}
+.wave.w1{top:14%}.wave.w2{top:56%}
+.ed-row{min-height:680px;display:grid;grid-template-columns:1fr 1fr;align-items:center}
+.ed-copy{padding-left:var(--gutter);padding-right:clamp(52px,9vw,145px);max-width:640px}
+.ed-copy.right{padding-left:clamp(110px,9vw,165px);padding-right:var(--gutter)}
+.ed-copy h2{font-weight:300;font-size:clamp(30px,3vw,45px);line-height:1.05;letter-spacing:-.035em;margin:0}
+.ed-sub{font-family:Baskerville,Georgia,serif;font-size:18px;letter-spacing:.12em;color:var(--tan);margin-top:12px}
+.rule{width:32px;height:1px;background:var(--ink);margin:30px 0 34px}
+.ed-copy p{font-size:14px;line-height:2.05;color:var(--muted);max-width:40ch;margin:0}
+.ed-photo{height:520px;overflow:hidden}
+.ed-photo img{width:100%;height:112%;object-fit:cover;will-change:transform}
+.row-a .ed-photo{margin-left:7.6vw}.row-a .ed-photo img{object-position:center 45%}
+.row-b .ed-photo{margin-right:8vw}.row-b .ed-photo img{object-position:center 48%}
+.row-c{min-height:620px}.row-c .ed-photo{margin-left:3vw;height:430px}.row-c .ed-photo img{object-position:center 56%}
+
+/* pinned product */
+.product-scroll{height:500vh;position:relative}
+.product-stage{position:sticky;top:0;height:100svh;min-height:620px;overflow:hidden;background:#f8f3ea;transition:background-color .7s ease;display:grid;grid-template-columns:13% minmax(0,50%) 34%;padding:calc(var(--header) + 5vh) var(--gutter) 0;align-items:start}
+.series-rail{grid-column:1;padding-top:58px;z-index:8}
+.series-rail ul{margin:0;padding:0;list-style:none}
+.series-rail li{font-size:11px;line-height:1.4;color:#b4aa9d;margin-bottom:18px;position:relative;transition:color .35s ease}
+.series-rail li.active{color:var(--ink)}
+.series-rail li.active:before{content:"";position:absolute;left:-24px;top:.65em;width:15px;height:1px;background:var(--ink)}
+.series-rail span{display:block;font-size:8px;letter-spacing:.2em;text-transform:uppercase;margin-top:4px;opacity:.65}
+.product-copy{grid-column:2;padding-right:13%;position:relative;z-index:9}
+.product-index{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:#a59b8f;margin:0 0 26px}
+.product-title{font-weight:300;font-size:clamp(54px,6.2vw,92px);line-height:.91;letter-spacing:-.06em;max-width:8ch;margin:0}
+.product-note{margin-top:46px;max-width:41ch;display:grid;gap:26px}
+.product-note h3{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin:0 0 7px}
+.product-note p{font-size:13px;line-height:1.9;color:var(--muted);margin:0}
+.cup-stack{grid-column:3;position:relative;height:70vh;align-self:center;z-index:7}
+.cup-wrap{position:absolute;inset:0;display:grid;place-items:center;will-change:transform,opacity}
+.cup-wrap img{height:100%;width:auto;max-width:none;object-fit:contain;filter:drop-shadow(0 28px 30px rgba(53,42,27,.08))}
+.cup-wrap.in{animation:cupIn .9s var(--ease) .12s both}
+.cup-wrap.out{animation:cupOut .33s cubic-bezier(.55,0,.85,.35) both}
+.cup-wrap.in.rev{animation-name:cupInRev}.cup-wrap.out.rev{animation-name:cupOutRev}
+@keyframes cupOut{from{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1}to{transform:translate3d(8%,-100%,0) rotate(35deg) scale(.75);opacity:0;filter:blur(3px)}}
+@keyframes cupIn{from{transform:translate3d(0,100%,0) rotate(-20deg) scale(.76);opacity:0;filter:blur(2px)}60%{opacity:1;filter:blur(0)}to{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1;filter:blur(0)}}
+@keyframes cupOutRev{from{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1}to{transform:translate3d(-8%,100%,0) rotate(-35deg) scale(.75);opacity:0;filter:blur(3px)}}
+@keyframes cupInRev{from{transform:translate3d(0,-100%,0) rotate(20deg) scale(.76);opacity:0;filter:blur(2px)}60%{opacity:1;filter:blur(0)}to{transform:translate3d(0,0,0) rotate(0) scale(1);opacity:1;filter:blur(0)}}
+.product-cta{position:absolute;right:var(--gutter);top:50%;transform:translateY(-50%);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#8f8579;display:flex;align-items:center;gap:12px;z-index:10}
+.product-cta i{width:34px;height:1px;background:#aaa093;display:block;position:relative}.product-cta i:after{content:"";position:absolute;right:0;top:-3px;width:7px;height:7px;border-top:1px solid #aaa093;border-right:1px solid #aaa093;transform:rotate(45deg)}
+.word-band{position:absolute;left:0;right:0;bottom:-.22em;font-family:Baskerville,Georgia,serif;font-size:clamp(86px,10.5vw,156px);line-height:.88;letter-spacing:.02em;color:#e3d5c3;white-space:nowrap;overflow:hidden;z-index:2;pointer-events:none}
+.word-band span{display:inline-block;margin-right:.48em}
+.ghost-glyph{position:absolute;right:6vw;top:8vh;font-size:clamp(150px,20vw,320px);font-family:Baskerville,Georgia,serif;color:rgba(177,148,115,.07);line-height:1;z-index:1;pointer-events:none}
+
+/* lower editorial continuation — same visual language, boba-forward */
+.lower-story{position:relative;background:var(--paper-2);padding:150px 0 170px}
+.lower-story:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line)}
+.lower-story .wave{background:var(--paper-2)}
+.lower-story .ed-row{min-height:720px}
+.lower-story .ed-photo{height:560px}
+.lower-story .row-d .ed-photo{margin-left:7.6vw}
+.lower-story .row-e .ed-photo{margin-right:8vw}
+.lower-story .campaign-crop{position:relative;overflow:hidden;background:#ead9c6}
+.lower-story .campaign-crop img{width:100%;height:130%;object-fit:cover;transform:translateY(-8%) scale(1.03);transform-origin:center center}
+.lower-story .golden img{object-position:center 78%}
+.lower-story .cupid img{object-position:center 80%}
+.lower-story .ed-copy p{max-width:38ch}
+
+/* quiet ending — no abrupt black campaign block */
+.closing{min-height:72svh;background:#f3ece2;position:relative;overflow:hidden;display:grid;grid-template-columns:42% 58%;align-items:center;padding:10vh var(--gutter)}
+.closing-copy{align-self:start;padding-top:10vh;z-index:2;max-width:430px}
+.closing-copy h2{font-weight:300;font-size:clamp(42px,5vw,72px);line-height:.96;letter-spacing:-.05em;margin:0 0 32px}
+.closing-copy p{font-size:14px;line-height:2;color:var(--muted);max-width:36ch;margin:0}
+.closing-cups{height:58vh;position:relative;align-self:center}
+.closing-cups img{position:absolute;height:100%;width:auto;object-fit:contain;filter:drop-shadow(0 26px 26px rgba(53,42,27,.06))}
+.closing-cups img:nth-child(1){left:2%;top:8%;transform:rotate(-5deg) scale(.88)}
+.closing-cups img:nth-child(2){left:30%;top:-2%;z-index:2;transform:scale(1.02)}
+.closing-cups img:nth-child(3){left:58%;top:10%;transform:rotate(5deg) scale(.84)}
+.closing-word{position:absolute;left:0;right:0;bottom:-.2em;font-family:Baskerville,Georgia,serif;font-size:clamp(100px,14vw,210px);line-height:.85;color:#e4d6c4;white-space:nowrap;overflow:hidden;pointer-events:none}
+
+/* footer */
+footer{background:#f3ece2;color:var(--ink);padding:9vh var(--gutter) 5vh;border-top:1px solid var(--line)}
+.footer-top{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}.footer-brand{font-size:clamp(48px,7vw,102px);line-height:.9;letter-spacing:-.06em;font-weight:200}.footer-meta{text-align:right;font-size:10px;line-height:1.9;letter-spacing:.16em;text-transform:uppercase;color:#8e8479}
+.footer-bottom{display:flex;justify-content:space-between;margin-top:9vh;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#71695f}
+
+@media(max-width:900px){
+  :root{--gutter:24px;--header:70px}
+  .hero{grid-template-columns:1fr;grid-template-rows:62svh auto}.hero-media{min-height:62svh}.hero-panel{min-height:58svh;padding:70px 24px 70px}.hero h1{font-size:54px}.vertical-word{display:none}.hero-small{left:24px}.hero-scroll{display:none}
+  .editorial:before,.wave{display:none}.ed-row{grid-template-columns:1fr;min-height:0;margin-bottom:100px}.ed-copy,.ed-copy.right{padding:0 24px 52px;max-width:none}.ed-photo,.row-a .ed-photo,.row-b .ed-photo,.row-c .ed-photo{margin:0;height:62svh}.row-b .ed-photo{order:2}.row-b .ed-copy{order:1}.row-c{display:none}
+  .product-stage{grid-template-columns:1fr;grid-template-rows:auto auto 1fr;padding:calc(var(--header) + 18px) 24px 0}.series-rail{grid-column:1;padding:0}.series-rail ul{display:flex;gap:16px;flex-wrap:wrap}.series-rail li{margin:0}.series-rail li.active:before,.series-rail span{display:none}.product-copy{grid-column:1;padding-right:0;margin-top:18px}.product-title{font-size:44px;max-width:10ch}.product-note{margin-top:20px;gap:10px}.product-note .note:nth-child(2){display:none}.cup-stack{grid-column:1;height:43vh;margin-top:2vh}.product-cta{display:none}.word-band{font-size:82px}.ghost-glyph{font-size:160px;right:-30px;top:23vh}
+  .essay{grid-template-columns:1fr;padding:12vh 24px}.essay-copy{padding-top:0;gap:70px}.essay-media figure:first-child{height:66svh;width:100%}.essay-media figure:last-child{height:48svh;width:72%}.essay-small{height:48svh;width:82%;justify-self:start}
+  .campaign{grid-template-columns:1fr}.campaign-image{height:60svh}.campaign-copy{min-height:58svh;padding:70px 24px}.footer-top{align-items:flex-start;flex-direction:column}.footer-meta{text-align:left}.footer-bottom{gap:20px;flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.001s!important;transition-duration:.001s!important}.hero-media img,.ed-photo img{transform:none!important}}
+</style>
+</head>
+<body>
+<header class="masthead"><div class="brand">TAO BOBA</div></header>
+<button class="menu" aria-label="Menu"></button>
+
+<section class="hero" id="top">
+  <div class="hero-media"><img id="heroImg" src="assets/pink-pour.png" alt="Matcha with pink cream being poured" /></div>
+  <div class="hero-panel">
+    <div class="kicker">Denver · Tea · Texture</div>
+    <h1>Tea, color, and texture in every layer.</h1>
+    <p class="hero-copy">Tao Boba turns tea, fruit, cream and texture into drinks that feel as good to look at as they do to sip — colorful, layered, and unmistakably its own.</p>
+    <div class="vertical-word">TAO BOBA · TAO BOBA · TAO BOBA ·</div>
+  </div>
+  <div class="hero-small">A modern coffee + boba tea bar</div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<section class="editorial" id="story">
+  <div class="wave w1">~</div><div class="wave w2">~</div>
+  <div class="ed-row row-a">
+    <div class="ed-copy">
+      <h2>Not just sweetness.<br/>A study in texture.</h2>
+      <div class="ed-sub">Dessert as a little ritual</div><div class="rule"></div>
+      <p>Crack, pull, pour, bite. Tao’s most memorable moments happen where texture becomes part of the experience — glossy shells, soft centers, fruit, cream, tea and contrast.</p>
+    </div>
+    <div class="ed-photo"><img class="parallax-photo" src="assets/petit-purple.jpg" alt="Purple petit gateau broken open" /></div>
+  </div>
+  <div class="ed-row row-b">
+    <div class="ed-photo"><img class="parallax-photo" src="assets/petit-orange.jpg" alt="Orange petit gateau broken open" /></div>
+    <div class="ed-copy right">
+      <h2>Built to be looked at.<br/>Made to disappear.</h2>
+      <div class="ed-sub">Small things, fully considered</div><div class="rule"></div>
+      <p>The page should feel the same way: composed without feeling stiff, rich without feeling busy, and always giving the product enough room to carry the color.</p>
+    </div>
+  </div>
+</section>
+
+<section class="product-scroll" id="drinks">
+  <div class="product-stage" id="productStage">
+    <div class="ghost-glyph" id="ghostGlyph">01</div>
+    <nav class="series-rail"><ul id="rail"></ul></nav>
+    <div class="product-copy">
+      <p class="product-index" id="productIndex">01 / 05</p>
+      <h2 class="product-title" id="productTitle">Butterfly Mango Jasmine</h2>
+      <div class="product-note" id="productNote"></div>
+    </div>
+    <div class="cup-stack" id="cupStack"></div>
+    <a class="product-cta" href="#essay">View collection <i></i></a>
+    <div class="word-band" id="wordBand"></div>
+  </div>
+</section>
+
+<section class="lower-story" id="essay">
+  <div class="wave" style="top:18%">~</div><div class="wave" style="top:61%">~</div>
+  <div class="ed-row row-d">
+    <div class="ed-copy">
+      <h2>Seasonal drinks,<br/>same point of view.</h2>
+      <div class="ed-sub">Color without the noise</div><div class="rule"></div>
+      <p>Limited drinks can be playful without changing the entire visual language. Warm space, one strong image, and the drink still gets to be the loudest thing in the room.</p>
+    </div>
+    <div class="ed-photo campaign-crop golden"><img class="parallax-photo" src="assets/golden-rose.jpg" alt="Golden Rose Matcha Latte" /></div>
+  </div>
+  <div class="ed-row row-e">
+    <div class="ed-photo campaign-crop cupid"><img class="parallax-photo" src="assets/cupid-love.jpg" alt="Cupid Love seasonal drink" /></div>
+    <div class="ed-copy right">
+      <h2>Pour, layer,<br/>finish.</h2>
+      <div class="ed-sub">The drink stays the hero</div><div class="rule"></div>
+      <p>Even when the campaign changes, Tao should still feel like Tao: expressive drinks, soft neutrals around them, and a composition that gives color room to breathe.</p>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="closing-copy">
+    <div class="kicker">Five signatures · one collection</div>
+    <h2>Come back to the drinks.</h2>
+    <p>Desserts and seasonal releases add to the world, but the brand should always resolve around what Tao is first: a boba and tea bar.</p>
+  </div>
+  <div class="closing-cups" aria-label="Tao Boba signature drinks">
+    <img src="assets/cloud-mango-matcha.png" alt="Cloud Mango Matcha" />
+    <img src="assets/butterfly-mango-jasmine.png" alt="Butterfly Mango Jasmine" />
+    <img src="assets/shiso-yuzu.png" alt="Shiso Yuzu" />
+  </div>
+  <div class="closing-word">TAO BOBA · TAO BOBA ·</div>
+</section>
+
+<footer>
+  <div class="footer-top"><div class="footer-brand">TAO BOBA</div><div class="footer-meta">Denver, Colorado<br/>Concept mockup only<br/>Not deployed</div></div>
+  <div class="footer-bottom"><span>Tea · Coffee · Boba · Dessert</span><a href="#top">Back to top ↑</a></div>
+</footer>
+
+<script>
+const products=[
+ {name:'Butterfly Mango Jasmine',short:'Butterfly',img:'assets/butterfly-mango-jasmine.png',tint:'#f3edf7',tone:'#7651aa',copy:['Floral jasmine meets ripe mango in a vivid purple-to-gold gradient.','Bright, aromatic and visually unmistakable — a signature that leads with color.']},
+ {name:'Cloud Mango Green Tea',short:'Cloud Green',img:'assets/cloud-mango-green-tea.png',tint:'#f6f0e7',tone:'#b77627',copy:['Mango green tea finished with a soft cloud of cream.','A lighter, cleaner profile with a creamy finish and a warm amber body.']},
+ {name:'Cloud Mango Matcha',short:'Matcha',img:'assets/cloud-mango-matcha.png',tint:'#eff2e7',tone:'#5d733d',copy:['Matcha, milk and mango stack into one of Tao’s most recognizable layered drinks.','Earthy green tea, fruit and cream create contrast in both flavor and color.']},
+ {name:'Mango Passionfruit',short:'Mango',img:'assets/mango-passionfruit.png',tint:'#f8f1df',tone:'#d08a1d',copy:['Mango and passionfruit bring a bright tropical hit over ice.','Juicy, crisp and built for the days when something refreshing is the whole point.']},
+ {name:'Shiso Yuzu',short:'Shiso Yuzu',img:'assets/shiso-yuzu.png',tint:'#f7eceb',tone:'#d74f63',copy:['Yuzu citrus and shiso create the sharpest, most aromatic drink in the set.','Fresh, vivid and a little unexpected — a clean finish to the collection.']}
+];
+let current=0, lastScroll=window.scrollY, animTimer=null;
+const stage=document.getElementById('productStage'), rail=document.getElementById('rail'), stack=document.getElementById('cupStack'), title=document.getElementById('productTitle'), idx=document.getElementById('productIndex'), note=document.getElementById('productNote'), band=document.getElementById('wordBand'), ghost=document.getElementById('ghostGlyph');
+products.forEach((p,i)=>{const li=document.createElement('li');li.innerHTML=`${p.short}<span>Series ${String(i+1).padStart(2,'0')}</span>`;if(i===0)li.classList.add('active');rail.appendChild(li)});
+function makeCup(i){const w=document.createElement('div');w.className='cup-wrap';const im=document.createElement('img');im.src=products[i].img;im.alt=products[i].name;w.appendChild(im);return w}
+function renderText(i){const p=products[i];title.textContent=p.name;idx.textContent=`${String(i+1).padStart(2,'0')} / 05`;note.innerHTML=`<div class="note"><h3>Flavor</h3><p>${p.copy[0]}</p></div><div class="note"><h3>Finish</h3><p>${p.copy[1]}</p></div>`;band.innerHTML=`<span>${p.short}</span><span>${p.short}</span><span>${p.short}</span><span>${p.short}</span>`;ghost.textContent=String(i+1).padStart(2,'0');stage.style.backgroundColor=p.tint;[...rail.children].forEach((el,j)=>el.classList.toggle('active',j===i))}
+stack.appendChild(makeCup(0));renderText(0);
+function changeProduct(next,reverse){if(next===current)return;const old=stack.querySelector('.cup-wrap:last-child');old.classList.add('out');if(reverse)old.classList.add('rev');const incoming=makeCup(next);incoming.classList.add('in');if(reverse)incoming.classList.add('rev');stack.appendChild(incoming);renderText(next);current=next;clearTimeout(animTimer);animTimer=setTimeout(()=>{[...stack.querySelectorAll('.cup-wrap')].slice(0,-1).forEach(n=>n.remove());incoming.classList.remove('in','rev')},1050)}
+function onScroll(){const y=window.scrollY;const rect=document.querySelector('.product-scroll').getBoundingClientRect();const sectionTop=y+rect.top;const max=document.querySelector('.product-scroll').offsetHeight-window.innerHeight;const prog=Math.max(0,Math.min(0.999,(y-sectionTop)/max));const next=Math.min(4,Math.floor(prog*5));if(next!==current)changeProduct(next,y<lastScroll);lastScroll=y;
+ const hero=document.getElementById('heroImg');hero.style.transform=`translateY(${Math.min(18,y*.025)-6}%) scale(1.02)`;
+ document.querySelectorAll('.parallax-photo').forEach((im,n)=>{const r=im.parentElement.getBoundingClientRect();const p=(window.innerHeight-r.top)*.06*(n%2?-.6:1);im.style.transform=`translate3d(0,${Math.max(-42,Math.min(42,p))}px,0) scale(1.04)`});
+}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+</script>
+</body>
+</html>

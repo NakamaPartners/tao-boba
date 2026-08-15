@@ -1,80 +1,80 @@
 import { useEffect, useRef } from 'react';
 
 /* ── assets ─────────────────────────────────────────────────────────────── */
-import logoPath  from '@assets/image_1786554649837.png';
+// Hero — NOTE: file named 'cookies' contains the actual pour shot; 'pink-pour' contains cookies
+import pinkPour    from '@assets/cookies_1786791932026.jpg';
 
-// Hero — static five-drink travertine lineup (video removed: it was showing
-// seasonal/campaign content, not the core boba product lineup)
-import heroPoster from '@assets/hero_clean.png';
+// Editorial — petit gateau (before products)
+import petitPurple from '@assets/petit-purple_1786791932035.jpg';
+import petitOrange from '@assets/petit-orange_1786791932032.jpg';
 
-// Editorial (Scene 02) — beverage-focused campaign shots
-import editA     from '@assets/Float_into_summer_with_every_sip._☁️🥭Creamy_cloud_foam_meets__1786554467811.jpg';
-import editB     from '@assets/Five_signature_sips._One_beautiful_lineup._🧋✨Designed_to_be_a_1786554579731.jpg';
+// Lower story — seasonal campaign (after products)
+import goldenRose  from '@assets/golden-rose_1786791932029.jpg';
+import cupidLove   from '@assets/cupid-love_1786791932027.jpg';
 
-// Gallery (Scene 04)
-import gallA     from '@assets/🦋_Meet_your_new_summer_obsession._Butterfly_Mango_Breeze—spar_1786554450238.jpg';
-import gallB     from '@assets/image_1786783125963.png';        // bonbon dessert studio shot
-import gallC     from '@assets/affogato_crop.jpg';              // affogato pour, cropped (no text)
+// Product cups — prototype set
+import cup1 from '@assets/butterfly-mango-jasmine_1786791932019.png';
+import cup2 from '@assets/cloud-mango-green-tea_1786791932021.png';
+import cup3 from '@assets/cloud-mango-matcha_1786791932022.png';
+import cup4 from '@assets/mango-passionfruit_1786791932031.png';
+import cup5 from '@assets/shiso-yuzu_1786791932037.png';
 
-// Product cups — explicitly named cutouts, background removed.
-// Order: Butterfly → Cloud Green Tea → Cloud Matcha → Mango Passionfruit → Shiso Yuzu
-import prod1     from '@assets/butterfly-mango-jasmine_1786782840976.png';
-import prod2     from '@assets/cloud-mango-green-tea_1786782840981.png';
-import prod3     from '@assets/cloud-mango-matcha_1786782840981.png';
-import prod4     from '@assets/mango-passionfruit_1786782840987.png';
-import prod5     from '@assets/shiso-yuzu_1786782840988.png';
-
-/* ── product data ────────────────────────────────────────────────────────── */
+/* ── product data (matches prototype JS array exactly) ─────────────────── */
 const PRODUCTS = [
   {
-    name:     'Butterfly Mango\nJasmine Breeze',
-    nameFlat: 'Butterfly Mango Jasmine Breeze',
-    fontSize: '52px',
-    bg:       '#f0ecf5',
-    word:     'BUTTERFLY',
-    photo:    prod1,
-    accent:   '#7b5ea7',
-    desc:     'Butterfly pea flower meets mango jasmine. Violet to amber — the color changes as the ice shifts.',
+    name:  'Butterfly Mango Jasmine',
+    short: 'Butterfly',
+    photo: cup1,
+    tint:  '#f3edf7',
+    tone:  '#7651aa',
+    copy:  [
+      'Floral jasmine meets ripe mango in a vivid purple-to-gold gradient.',
+      'Bright, aromatic and visually unmistakable — a signature that leads with color.',
+    ] as const,
   },
   {
-    name:     'Cloud Mango\nGreen Tea',
-    nameFlat: 'Cloud Mango Green Tea',
-    fontSize: '58px',
-    bg:       '#f3eeea',
-    word:     'CLOUD',
-    photo:    prod2,
-    accent:   '#c88b35',
-    desc:     'Cloud foam drifts over mango green tea. One sip gets you both — the airy and the sweet.',
+    name:  'Cloud Mango Green Tea',
+    short: 'Cloud Green',
+    photo: cup2,
+    tint:  '#f6f0e7',
+    tone:  '#b77627',
+    copy:  [
+      'Mango green tea finished with a soft cloud of cream.',
+      'A lighter, cleaner profile with a creamy finish and a warm amber body.',
+    ] as const,
   },
   {
-    name:     'Cloud Mango\nMatcha',
-    nameFlat: 'Cloud Mango Matcha',
-    fontSize: '64px',
-    bg:       '#edf3ea',
-    word:     'MATCHA',
-    photo:    prod3,
-    accent:   '#5c8e50',
-    desc:     'Ceremonial-grade matcha falls through mango — three distinct layers. Drink it in any order.',
+    name:  'Cloud Mango Matcha',
+    short: 'Matcha',
+    photo: cup3,
+    tint:  '#eff2e7',
+    tone:  '#5d733d',
+    copy:  [
+      'Matcha, milk and mango stack into one of Tao\'s most recognizable layered drinks.',
+      'Earthy green tea, fruit and cream create contrast in both flavor and color.',
+    ] as const,
   },
   {
-    name:     'Mango Passion\nFruit Breeze',
-    nameFlat: 'Mango Passion Fruit Breeze',
-    fontSize: '54px',
-    bg:       '#f5eeea',
-    word:     'MANGO',
-    photo:    prod4,
-    accent:   '#d97a3a',
-    desc:     'Mango meets passion fruit tartness. The ratio is deliberate. Sweet, then bright, then gone.',
+    name:  'Mango Passionfruit',
+    short: 'Mango',
+    photo: cup4,
+    tint:  '#f8f1df',
+    tone:  '#d08a1d',
+    copy:  [
+      'Mango and passionfruit bring a bright tropical hit over ice.',
+      'Juicy, crisp and built for the days when something refreshing is the whole point.',
+    ] as const,
   },
   {
-    name:     'Shiso Yuzu\nBreeze',
-    nameFlat: 'Shiso Yuzu Breeze',
-    fontSize: '62px',
-    bg:       '#f5edee',
-    word:     'YUZU',
-    photo:    prod5,
-    accent:   '#c0526d',
-    desc:     'Bright shiso leaf over yuzu citrus. Built cold, no shortcuts — vivid all the way to the bottom.',
+    name:  'Shiso Yuzu',
+    short: 'Shiso Yuzu',
+    photo: cup5,
+    tint:  '#f7eceb',
+    tone:  '#d74f63',
+    copy:  [
+      'Yuzu citrus and shiso create the sharpest, most aromatic drink in the set.',
+      'Fresh, vivid and a little unexpected — a clean finish to the collection.',
+    ] as const,
   },
 ] as const;
 
@@ -82,186 +82,159 @@ const N = PRODUCTS.length;
 
 const REDUCED =
   typeof matchMedia !== 'undefined' &&
-  matchMedia('(prefers-reduced-motion: reduce)').matches;
+  matchMedia('(prefers-reduced-motion:reduce)').matches;
 
 /* ═══════════════════════════════════════════════════════════════════════════ */
 export default function Home() {
 
-  /* ── hero parallax refs ────────────────────────────────────────────────── */
-  const heroVidWrapEl  = useRef<HTMLDivElement>(null);
-  const heroIntroWrapEl = useRef<HTMLDivElement>(null);
-  const heroWordWrapEl = useRef<HTMLDivElement>(null);
-
-  /* ── editorial parallax refs ───────────────────────────────────────────── */
-  const editSecEl   = useRef<HTMLElement>(null);
-  const editImgAEl  = useRef<HTMLDivElement>(null);
-  const editImgBEl  = useRef<HTMLDivElement>(null);
-  const editTxtEl   = useRef<HTMLDivElement>(null);
-
-  /* ── product swap refs ─────────────────────────────────────────────────── */
-  const seriesEl    = useRef<HTMLElement>(null);
-  const stageEl     = useRef<HTMLDivElement>(null);
-  const stackEl     = useRef<HTMLDivElement>(null);
-  const nameEl      = useRef<HTMLHeadingElement>(null);
-  const descEl      = useRef<HTMLParagraphElement>(null);
-  const glyphEl     = useRef<HTMLDivElement>(null);
-  const wordBandEl  = useRef<HTMLDivElement>(null);
-  const idxEl       = useRef<HTMLSpanElement>(null);
-  const accentEl    = useRef<HTMLSpanElement>(null);
+  /* ── refs ──────────────────────────────────────────────────────────────── */
+  const heroImgEl        = useRef<HTMLImageElement>(null);
+  const productScrollEl  = useRef<HTMLElement>(null);
+  const stageEl          = useRef<HTMLDivElement>(null);
+  const railEl           = useRef<HTMLUListElement>(null);
+  const stackEl          = useRef<HTMLDivElement>(null);
+  const titleEl          = useRef<HTMLHeadingElement>(null);
+  const indexEl          = useRef<HTMLParagraphElement>(null);
+  const noteEl           = useRef<HTMLDivElement>(null);
+  const bandEl           = useRef<HTMLDivElement>(null);
+  const ghostEl          = useRef<HTMLDivElement>(null);
 
   const currentIdx  = useRef(-1);
-  const liveCup     = useRef<HTMLDivElement | null>(null);
+  const lastScrollY = useRef(0);
+  const animTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /* ── cup swap engine (Andtea timing — DO NOT TOUCH) ─────────────────────
-     Outgoing: 0.33s ease-exit  |  Incoming: 0.90s ease-tail, delay 0.12s
+  /* ── cup swap engine — timing matches prototype exactly ─────────────────
+     Exit:  0.33s cubic-bezier(.55,0,.85,.35)
+     Enter: 0.90s cubic-bezier(.16,1,.3,1) + 0.12s delay
+     Cleanup: setTimeout 1050ms removes stale wrappers
   ─────────────────────────────────────────────────────────────────────────── */
-  function goTo(i: number, dir: number) {
-    if (i === currentIdx.current) return;
-    const p   = PRODUCTS[i];
-    const rev = dir < 0;
+  function changeProduct(next: number, reverse: boolean) {
+    if (next === currentIdx.current) return;
+    const p = PRODUCTS[next];
 
-    /* background */
-    if (stageEl.current)  stageEl.current.style.backgroundColor  = p.bg;
-    if (accentEl.current) accentEl.current.style.background       = p.accent;
+    /* stage background */
+    if (stageEl.current) stageEl.current.style.backgroundColor = p.tint;
 
-    /* background glyph */
-    if (glyphEl.current) {
-      glyphEl.current.textContent = p.word;
-      glyphEl.current.classList.remove('glyph-pop');
-      void glyphEl.current.offsetWidth;
-      glyphEl.current.classList.add('glyph-pop');
+    /* rail active state */
+    if (railEl.current) {
+      [...railEl.current.children].forEach((li, j) =>
+        li.classList.toggle('active', j === next)
+      );
     }
 
-    /* word band — static swap, instant, no animation (it's texture) */
-    if (wordBandEl.current) {
-      wordBandEl.current.textContent = p.word;
+    /* text updates */
+    if (titleEl.current) titleEl.current.textContent = p.name;
+    if (indexEl.current)
+      indexEl.current.textContent = `${String(next + 1).padStart(2, '0')} / 05`;
+    if (ghostEl.current)
+      ghostEl.current.textContent = String(next + 1).padStart(2, '0');
+    if (noteEl.current) {
+      noteEl.current.innerHTML = `
+        <div class="product-note-item"><h3>Flavor</h3><p>${p.copy[0]}</p></div>
+        <div class="product-note-item"><h3>Finish</h3><p>${p.copy[1]}</p></div>
+      `;
+    }
+    if (bandEl.current) {
+      bandEl.current.innerHTML =
+        `<span>${p.short}</span><span>${p.short}</span><span>${p.short}</span><span>${p.short}</span>`;
     }
 
-    /* name — preserve newlines as <br> */
-    if (nameEl.current) {
-      nameEl.current.innerHTML = p.name.replace(/\n/g, '<br>');
-      nameEl.current.style.fontSize = p.fontSize;
-      nameEl.current.classList.remove('swap-in');
-      void nameEl.current.offsetWidth;
-      nameEl.current.classList.add('swap-in');
+    /* cup swap */
+    if (stackEl.current) {
+      const old = stackEl.current.querySelector<HTMLDivElement>('.cup-wrap:last-child');
+      if (old && !REDUCED) {
+        old.classList.add('out');
+        if (reverse) old.classList.add('rev');
+        old.addEventListener('animationend', () => old.remove(), { once: true });
+      } else if (old) {
+        old.remove();
+      }
+
+      const incoming = document.createElement('div');
+      incoming.className = 'cup-wrap';
+      const img = document.createElement('img');
+      img.src = p.photo;
+      img.alt = p.name;
+      incoming.appendChild(img);
+
+      if (!REDUCED) {
+        incoming.classList.add('in');
+        if (reverse) incoming.classList.add('rev');
+      }
+      stackEl.current.appendChild(incoming);
+
+      /* clean up stale wrappers after animation completes */
+      if (animTimer.current) clearTimeout(animTimer.current);
+      animTimer.current = setTimeout(() => {
+        if (stackEl.current && incoming.isConnected) {
+          [...stackEl.current.querySelectorAll<HTMLDivElement>('.cup-wrap')]
+            .slice(0, -1)
+            .forEach(el => el.remove());
+          incoming.classList.remove('in', 'rev');
+        }
+      }, 1050);
     }
 
-    /* description */
-    if (descEl.current) {
-      descEl.current.textContent = p.desc;
-      descEl.current.classList.remove('swap-in');
-      void descEl.current.offsetWidth;
-      descEl.current.classList.add('swap-in');
-    }
-
-    /* index */
-    if (idxEl.current) {
-      idxEl.current.textContent =
-        `${String(i + 1).padStart(2,'0')} / ${String(N).padStart(2,'0')}`;
-    }
-
-    /* cup swap — Andtea timing */
-    if (!stackEl.current) { currentIdx.current = i; return; }
-
-    const incoming = document.createElement('div');
-    incoming.className = 'cup-wrap';
-    const img = document.createElement('img');
-    img.src = p.photo; img.alt = p.nameFlat; img.className = 'cup-img';
-    incoming.appendChild(img);
-    stackEl.current.appendChild(incoming);
-
-    if (liveCup.current && !REDUCED) {
-      const out = liveCup.current;
-      out.classList.add('is-exiting');
-      if (rev) out.classList.add('rev');
-      out.addEventListener('animationend', () => out.remove(), { once: true });
-    } else if (liveCup.current) {
-      liveCup.current.remove();
-    }
-
-    if (!REDUCED) {
-      incoming.classList.add('is-entering');
-      if (rev) incoming.classList.add('rev');
-    }
-    liveCup.current    = incoming;
-    currentIdx.current = i;
+    currentIdx.current = next;
   }
 
-  /* ── scroll + parallax + init ───────────────────────────────────────────── */
+  /* ── scroll + parallax ──────────────────────────────────────────────────── */
   useEffect(() => {
-    /* hero entry */
-    const heroSec = document.querySelector('.hero');
-    const t = setTimeout(() => heroSec?.classList.add('hero-init'), 60);
 
-    /* reveals */
-    const io = new IntersectionObserver(entries =>
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
-      }), { threshold: 0.08 }
-    );
-    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
-
-    /* init first product */
-    goTo(0, 1);
-
-    /* unified scroll tick */
-    let raf = false;
-    function tick() {
-      const sy = window.scrollY;
-      const vh = window.innerHeight;
-
-      /* hero parallax — only while hero is on screen */
-      if (sy < vh * 1.4 && !REDUCED) {
-        if (heroVidWrapEl.current)
-          heroVidWrapEl.current.style.transform = `translateY(${-sy * 0.09}px)`;
-        if (heroIntroWrapEl.current)
-          heroIntroWrapEl.current.style.transform = `translateY(${-sy * 0.30}px)`;
-        if (heroWordWrapEl.current)
-          heroWordWrapEl.current.style.transform = `translateY(${-sy * 0.15}px)`;
-      }
-
-      /* editorial parallax — photo:copy ratio 1:0.2 (photo moves 5× more than text).
-         imgA is the primary photograph ground (0.35×).
-         imgB is a smaller foreground layer — can move faster (0.55×).
-         txt moves the least — anchored, editorial discipline (0.07×). */
-      if (editSecEl.current && !REDUCED) {
-        const r = editSecEl.current.getBoundingClientRect();
-        const p = Math.max(0, -r.top);
-        if (p < 1800) {
-          if (editImgAEl.current)
-            editImgAEl.current.style.transform = `translateY(${-p * 0.35}px)`;
-          if (editImgBEl.current)
-            editImgBEl.current.style.transform = `translateY(${-p * 0.55}px)`;
-          if (editTxtEl.current)
-            editTxtEl.current.style.transform  = `translateY(${-p * 0.07}px)`;
-        }
-      }
-
-      /* product series */
-      if (seriesEl.current) {
-        const r      = seriesEl.current.getBoundingClientRect();
-        const total  = seriesEl.current.offsetHeight - vh;
-        const pct    = Math.min(Math.max(-r.top / total, 0), 0.9999);
-        const i      = Math.floor(pct * N);
-        if (i !== currentIdx.current) goTo(i, i > currentIdx.current ? 1 : -1);
-      }
-
-      raf = false;
+    /* build rail nav (DOM, not React state — same pattern as prototype) */
+    if (railEl.current && railEl.current.children.length === 0) {
+      PRODUCTS.forEach((p, i) => {
+        const li = document.createElement('li');
+        li.innerHTML = `${p.short}<span>Series ${String(i + 1).padStart(2, '0')}</span>`;
+        if (i === 0) li.classList.add('active');
+        railEl.current!.appendChild(li);
+      });
     }
 
+    /* init first product */
+    changeProduct(0, false);
+
+    /* unified scroll handler — matches prototype onScroll() exactly */
     function onScroll() {
-      if (raf) return;
-      raf = true;
-      requestAnimationFrame(tick);
+      const y = window.scrollY;
+
+      /* hero parallax */
+      if (heroImgEl.current && !REDUCED) {
+        heroImgEl.current.style.transform =
+          `translateY(${Math.min(18, y * 0.025) - 6}%) scale(1.02)`;
+      }
+
+      /* editorial parallax — same 0.06 rate, alternating direction */
+      if (!REDUCED) {
+        document.querySelectorAll<HTMLElement>('.parallax-photo').forEach((el, n) => {
+          const r = el.parentElement?.getBoundingClientRect();
+          if (!r) return;
+          const p = (window.innerHeight - r.top) * 0.06 * (n % 2 ? -0.6 : 1);
+          el.style.transform =
+            `translate3d(0,${Math.max(-42, Math.min(42, p))}px,0) scale(1.04)`;
+        });
+      }
+
+      /* product series scrub */
+      if (productScrollEl.current) {
+        const rect      = productScrollEl.current.getBoundingClientRect();
+        const sectionTop = y + rect.top;
+        const max        = productScrollEl.current.offsetHeight - window.innerHeight;
+        const prog       = Math.max(0, Math.min(0.999, (y - sectionTop) / max));
+        const next       = Math.min(N - 1, Math.floor(prog * N));
+        if (next !== currentIdx.current)
+          changeProduct(next, y < lastScrollY.current);
+      }
+
+      lastScrollY.current = y;
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    tick();
+    onScroll();
 
     return () => {
-      clearTimeout(t);
       window.removeEventListener('scroll', onScroll);
-      io.disconnect();
+      if (animTimer.current) clearTimeout(animTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -269,199 +242,242 @@ export default function Home() {
   /* ═══════════════════════════════════ RENDER ══════════════════════════════ */
   return (
     <>
-      {/* ── HEADER ─────────────────────────────────────────────────────────── */}
-      <header className="hdr">
-        <img src={logoPath} alt="Tao Boba" className="hdr__mark" />
-        <nav className="hdr__nav">
-          <a href="https://www.thetaoboba.com/menu" className="hdr__link">Menu</a>
-          <a href="https://www.exploretock.com/taoboba" className="hdr__link">Order</a>
-        </nav>
+      {/* ── MASTHEAD ────────────────────────────────────────────────────────── */}
+      <header className="masthead">
+        <div className="brand">TAO BOBA</div>
       </header>
+      <a
+        href="https://www.exploretock.com/taoboba"
+        className="nav-order"
+      >
+        Order
+      </a>
 
-      {/* ══════════════════════════════════ SCENE 01 — HERO ══════════════════
-          Velora compositional grammar. Video replaces static photo.
-          · Video          lower-left   (left: 88px, top: 306px, 620×390)
-          · Small intro    upper-right  (left: 955px, top: 145px, w: 330px)
-          · TAO BOBA       below video  (left: 88px, top: 726px, 76px)
-          · Scroll cue     lower-right  (right: 72px, bottom: 36px)
-      ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="hero">
+      {/* ══════════════════════════════════════════════ HERO ══════════════════
+          Split grid 1.42fr : 1fr.
+          Left: full-height photo with JS parallax.
+          Right: kicker + h1 + copy + vertical word.
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="hero" id="top">
+        <div className="hero-media">
+          <img
+            ref={heroImgEl}
+            src={pinkPour}
+            alt="Matcha with pink cream being poured"
+          />
+        </div>
+        <div className="hero-panel">
+          <span className="kicker">Denver · Tea · Texture</span>
+          <h1>Tea, color, and texture in every layer.</h1>
+          <p className="hero-copy">
+            Tao Boba turns tea, fruit, cream and texture into drinks that feel as
+            good to look at as they do to sip — colorful, layered, and
+            unmistakably its own.
+          </p>
+          <div className="vertical-word" aria-hidden="true">
+            TAO BOBA · TAO BOBA · TAO BOBA ·
+          </div>
+        </div>
+        <div className="hero-small">A modern coffee + boba tea bar</div>
+        <div className="hero-scroll" aria-hidden="true">Scroll</div>
+      </section>
 
-        {/* Hero photo — five-drink travertine lineup.
-            Static image: no video, guaranteed to show the boba product lineup. */}
-        <div className="hero__photo-wrap" ref={heroVidWrapEl}>
-          <div className="hero__photo-inner">
+      {/* ═══════════════════════════ EDITORIAL — petit gateau ═════════════════
+          Center dividing line + wave glyphs.
+          Row A: copy left  / petit-purple right.
+          Row B: petit-orange left / copy right.
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="editorial" id="story">
+        <div className="wave w1" aria-hidden="true">~</div>
+        <div className="wave w2" aria-hidden="true">~</div>
+
+        <div className="ed-row row-a">
+          <div className="ed-copy">
+            <h2>Not just sweetness.<br />A study in texture.</h2>
+            <span className="ed-sub">Dessert as a little ritual</span>
+            <div className="rule" />
+            <p>
+              Crack, pull, pour, bite. Tao's most memorable moments happen where
+              texture becomes part of the experience — glossy shells, soft centers,
+              fruit, cream, tea and contrast.
+            </p>
+          </div>
+          <div className="ed-photo">
             <img
-              className="hero__photo"
-              src={heroPoster}
-              alt="Five Tao Boba signature drinks on travertine"
+              className="parallax-photo"
+              src={petitPurple}
+              alt="Purple petit gateau broken open"
             />
           </div>
         </div>
 
-        {/* Small intro — upper right */}
-        <div className="hero__intro-wrap" ref={heroIntroWrapEl}>
-          <div className="hero__intro-inner">
-            <span className="hero__context">Tao Boba · Denver</span>
-            <p className="hero__body">
-              Each drink built to be<br />
-              seen first, then tasted.
+        <div className="ed-row row-b">
+          <div className="ed-photo">
+            <img
+              className="parallax-photo"
+              src={petitOrange}
+              alt="Orange petit gateau broken open"
+            />
+          </div>
+          <div className="ed-copy right">
+            <h2>Built to be looked at.<br />Made to disappear.</h2>
+            <span className="ed-sub">Small things, fully considered</span>
+            <div className="rule" />
+            <p>
+              The page should feel the same way: composed without feeling stiff,
+              rich without feeling busy, and always giving the product enough room
+              to carry the color.
             </p>
-            <a href="https://www.thetaoboba.com/menu" className="hero__small-link">
-              Explore menu
-            </a>
           </div>
         </div>
-
-        {/* TAO BOBA wordmark */}
-        <div className="hero__wordmark-wrap" ref={heroWordWrapEl}>
-          <div className="hero__wordmark-inner" aria-label="Tao Boba">
-            TAO BOBA
-          </div>
-        </div>
-
-        {/* Scroll cue — lower right */}
-        <span className="hero__scroll" aria-hidden="true">Scroll ↓</span>
-
       </section>
 
-      {/* ══════════════════════════════ BRIDGE ════════════════════════════════ */}
-      <div className="bridge">
-        <span className="bridge__line" data-reveal>Art-directed. Denver-made.</span>
-      </div>
-
-      {/* ══════════════════════════════ SCENE 02 — EDITORIAL ══════════════════ */}
-      <section className="editorial" ref={editSecEl}>
-
-        <div className="editorial__imgA" ref={editImgAEl}>
-          <img src={editA} alt="" />
-        </div>
-
-        <div className="editorial__imgB" ref={editImgBEl}>
-          <img src={editB} alt="" />
-        </div>
-
-        <div className="editorial__text" ref={editTxtEl} data-reveal>
-          <span className="edt-label">Craft · 2026</span>
-          <p className="edt-body">
-            Every layer<br />is a decision.
-          </p>
-          <a href="https://www.thetaoboba.com/menu" className="edt-link">
-            Full menu ↗
-          </a>
-        </div>
-
-      </section>
-
-      {/* ══════════════════════════ SCENE 03 — PRODUCT SEQUENCE ══════════════
-          Andtea layout: text left, full editorial photo right.
-          Photos are used full-frame — travertine pedestals included.
-          500vh scroll | sticky 100svh stage | Andtea swap timing preserved.
-      ═══════════════════════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════ PRODUCT SEQUENCE — 500vh pinned ══════════
+          3-column grid: 13% rail nav | 50% copy | 34% cup stack.
+          Left rail: all 5 drinks, active indicator line.
+          Center: index, title, Flavor + Finish notes.
+          Right: cup swap at 70vh.
+          Ghost glyph (number) top-right.
+          Word band (repeated short name) bottom.
+      ══════════════════════════════════════════════════════════════════════ */}
       <section
-        className="products"
-        ref={seriesEl}
-        style={{ height: `${N * 100}svh` }}
+        className="product-scroll"
         id="drinks"
+        ref={productScrollEl}
       >
         <div
-          className="products__stage"
+          className="product-stage"
           ref={stageEl}
-          style={{ backgroundColor: PRODUCTS[0].bg }}
+          style={{ backgroundColor: PRODUCTS[0].tint }}
         >
-          {/* Index — upper left */}
-          <span className="products__idx" ref={idxEl}>
-            01 / {String(N).padStart(2, '0')}
-          </span>
+          {/* Ghost glyph — number, Baskerville */}
+          <div className="ghost-glyph" ref={ghostEl} aria-hidden="true">01</div>
 
-          {/* Name — upper left, large display */}
-          <h2
-            className="products__name"
-            ref={nameEl}
-            style={{ fontSize: PRODUCTS[0].fontSize }}
-            dangerouslySetInnerHTML={{ __html: PRODUCTS[0].name.replace(/\n/g, '<br>') }}
-          />
+          {/* Rail nav — built by JS in useEffect */}
+          <nav className="series-rail" aria-label="Series index">
+            <ul ref={railEl} />
+          </nav>
 
-          {/* Accent rule */}
-          <span
-            className="products__accent"
-            ref={accentEl}
-            style={{ background: PRODUCTS[0].accent }}
-          />
-
-          {/* Description — lower left */}
-          <p className="products__desc" ref={descEl}>
-            {PRODUCTS[0].desc}
-          </p>
-
-          {/* Background glyph — centered behind cup */}
-          <div className="products__glyph" ref={glyphEl} aria-hidden="true">
-            {PRODUCTS[0].word}
+          {/* Copy column */}
+          <div className="product-copy">
+            <p className="product-index" ref={indexEl}>01 / 05</p>
+            <h2 className="product-title" ref={titleEl}>
+              {PRODUCTS[0].name}
+            </h2>
+            <div className="product-note" ref={noteEl}>
+              <div className="product-note-item">
+                <h3>Flavor</h3>
+                <p>{PRODUCTS[0].copy[0]}</p>
+              </div>
+              <div className="product-note-item">
+                <h3>Finish</h3>
+                <p>{PRODUCTS[0].copy[1]}</p>
+              </div>
+            </div>
           </div>
 
-          {/* Word band — large cropped type grounded at stage bottom.
-              Static swap (texture), not marquee. Changes with active drink. */}
-          <div className="products__word-band" ref={wordBandEl} aria-hidden="true">
-            {PRODUCTS[0].word}
+          {/* Cup stack — DOM injection target */}
+          <div className="cup-stack" ref={stackEl} />
+
+          {/* CTA */}
+          <a className="product-cta" href="#essay">
+            View collection <i />
+          </a>
+
+          {/* Word band — repeated short name, Baskerville */}
+          <div className="word-band" ref={bandEl} aria-hidden="true">
+            <span>{PRODUCTS[0].short}</span>
+            <span>{PRODUCTS[0].short}</span>
+            <span>{PRODUCTS[0].short}</span>
+            <span>{PRODUCTS[0].short}</span>
           </div>
-
-          {/* Cup DOM injection target */}
-          <div className="products__stack" ref={stackEl} />
-
         </div>
       </section>
 
-      {/* ══════════════════════════ SCENE 04 — PHOTOGRAPHY ═══════════════════ */}
-      <section className="gallery">
+      {/* ═══════════════════════════ LOWER STORY — seasonal editorial ══════════
+          Same visual grammar as first editorial.
+          Row D: copy left / golden-rose right.
+          Row E: cupid-love left / copy right.
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="lower-story" id="essay">
+        <div className="wave" style={{ top: '18%' }} aria-hidden="true">~</div>
+        <div className="wave" style={{ top: '61%' }} aria-hidden="true">~</div>
 
-        <div className="gallery__a" data-reveal>
-          <img src={gallA} alt="" />
+        <div className="ed-row row-d">
+          <div className="ed-copy">
+            <h2>Seasonal drinks,<br />same point of view.</h2>
+            <span className="ed-sub">Color without the noise</span>
+            <div className="rule" />
+            <p>
+              Limited drinks can be playful without changing the entire visual
+              language. Warm space, one strong image, and the drink still gets to
+              be the loudest thing in the room.
+            </p>
+          </div>
+          <div className="ed-photo campaign-crop golden">
+            <img
+              className="parallax-photo"
+              src={goldenRose}
+              alt="Golden Rose Matcha Latte"
+            />
+          </div>
         </div>
 
-        <div className="gallery__b" data-reveal>
-          <img src={gallB} alt="" />
+        <div className="ed-row row-e">
+          <div className="ed-photo campaign-crop cupid">
+            <img
+              className="parallax-photo"
+              src={cupidLove}
+              alt="Cupid Love seasonal drink"
+            />
+          </div>
+          <div className="ed-copy right">
+            <h2>Pour, layer,<br />finish.</h2>
+            <span className="ed-sub">The drink stays the hero</span>
+            <div className="rule" />
+            <p>
+              Even when the campaign changes, Tao should still feel like Tao:
+              expressive drinks, soft neutrals around them, and a composition that
+              gives color room to breathe.
+            </p>
+          </div>
         </div>
+      </section>
 
-        <div className="gallery__dessert-caption" data-reveal>
-          <span className="gallery__caption-label">Small bites</span>
-          <p className="gallery__caption-body">
-            Five sculpted confections.<br />
-            Made to be admired before anything else.
+      {/* ═══════════════════════════ CLOSING — three-cup composition ══════════
+          Cloud Mango Matcha (left, -5°) / Butterfly (center, z-index 2) /
+          Shiso Yuzu (right, +5°). Large Baskerville word at bottom.
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="closing">
+        <div className="closing-copy">
+          <span className="kicker">Five signatures · one collection</span>
+          <h2>Come back to the drinks.</h2>
+          <p>
+            Desserts and seasonal releases add to the world, but the brand should
+            always resolve around what Tao is first: a boba and tea bar.
           </p>
         </div>
-
-        <div className="gallery__c" data-reveal>
-          <img src={gallC} alt="" />
+        <div className="closing-cups" aria-label="Tao Boba signature drinks">
+          <img src={cup3} alt="Cloud Mango Matcha" />
+          <img src={cup1} alt="Butterfly Mango Jasmine" />
+          <img src={cup5} alt="Shiso Yuzu" />
         </div>
-
-        <div className="gallery__affogato-caption" data-reveal>
-          <span className="gallery__caption-label">Affogato</span>
-          <p className="gallery__caption-body">
-            Soft serve, poured to order.<br />
-            Matcha or espresso shot.
-          </p>
-        </div>
-
+        <div className="closing-word" aria-hidden="true">TAO BOBA · TAO BOBA ·</div>
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
-      <footer className="foot">
-        <div className="foot__col">
-          <span className="foot__label">Hours</span>
-          <p>Mon – Sun<br />11 : 00 – 21 : 00</p>
+      <footer className="site-footer">
+        <div className="footer-top">
+          <div className="footer-brand">TAO BOBA</div>
+          <div className="footer-meta">
+            Denver, Colorado<br />
+            1550 S Federal Blvd<br />
+            Mon – Sun 11:00 – 21:00
+          </div>
         </div>
-        <div className="foot__center">
-          <img src={logoPath} alt="Tao Boba" className="foot__mark" />
-        </div>
-        <div className="foot__col foot__col--right">
-          <span className="foot__label">Location</span>
-          <p>1550 S Federal Blvd<br />Denver CO 80219</p>
-          <a
-            href="https://www.exploretock.com/taoboba"
-            className="foot__order"
-          >
-            Order Online →
-          </a>
+        <div className="footer-bottom">
+          <span>Tea · Coffee · Boba · Dessert</span>
+          <a href="#top">Back to top ↑</a>
         </div>
       </footer>
     </>
