@@ -284,32 +284,12 @@ p     { margin: 0 }
   font-size: 13px; line-height: 1.9; color: var(--muted);
 }
 
-/* Dark photographic backdrop — fades from light copy area into near-black
-   behind the cup column. Makes black-bg drink shots look intentional and
-   lets the drink colors glow the way they were photographed to. */
-.product-stage::before {
-  content: "";
-  position: absolute; right: 0; top: 0; bottom: 0;
-  /* covers the rightmost ~48% of the stage */
-  width: 48%;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(6,4,1,.80) 30%,
-    rgba(6,4,1,.94) 100%
-  );
-  z-index: 2; /* above ghost-glyph(1), below word-band(4), cup(7), copy(9) */
-  pointer-events: none;
-}
-/* stacking order inside .product-stage:
-   ghost-glyph(1) → dark-panel(2) → word-band(4) → cup-stack(7) → rail(8) → copy(9)
-   Ghost renders under dark panel (mostly on the right anyway — fine).
-   Word-band and cup float above dark panel — cream band looks great on dark. */
-
-/* Right cup stack */
+/* Right cup stack — contained within its grid column */
 .cup-stack {
   grid-column: 3; position: relative;
-  height: 70vh; align-self: center; z-index: 7;
+  height: clamp(260px, 46vh, 420px);
+  align-self: center; z-index: 7;
+  overflow: visible; /* allow animation to breathe slightly outside bounds */
 }
 .cup-wrap {
   position: absolute; inset: 0;
@@ -317,12 +297,11 @@ p     { margin: 0 }
   will-change: transform, opacity;
 }
 .cup-wrap img {
-  height: 100%; width: auto;
-  max-width: none; object-fit: contain;
-  /* warm ambient glow to separate drink from dark backdrop */
-  filter:
-    drop-shadow(0 0 55px rgba(200,155,70,.14))
-    drop-shadow(0 28px 36px rgba(10,6,2,.55));
+  /* fill cup-stack but never overflow its column */
+  max-height: 100%; max-width: 100%;
+  width: auto; height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 28px rgba(53,42,27,.14));
 }
 
 /* Cup swap keyframes — identical to prototype */
@@ -353,24 +332,23 @@ p     { margin: 0 }
 /* CTA — hidden; floats awkwardly over the cup */
 .product-cta { display: none }
 
-/* Word band — Baskerville, repeated short name; floats above dark panel */
+/* Word band — Baskerville, repeated short name */
 .word-band {
   position: absolute; left: 0; right: 0; bottom: -.22em;
   font-family: Baskerville, Georgia, serif;
   font-size: clamp(86px, 10.5vw, 156px);
   line-height: .88; letter-spacing: .02em;
   color: #e3d5c3; white-space: nowrap; overflow: hidden;
-  z-index: 4; pointer-events: none;
+  z-index: 2; pointer-events: none;
 }
 .word-band span { display: inline-block; margin-right: .48em }
 
-/* Ghost glyph — Baskerville number; renders under dark panel (right side)
-   so it gently disappears into shadow — only its edge shows on the border */
+/* Ghost glyph — Baskerville number */
 .ghost-glyph {
   position: absolute; right: 6vw; top: 8vh;
   font-size: clamp(150px, 20vw, 320px);
   font-family: Baskerville, Georgia, serif;
-  color: rgba(200,170,120,.09);
+  color: rgba(177,148,115,.07);
   line-height: 1; z-index: 1; pointer-events: none;
 }
 
