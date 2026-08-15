@@ -409,8 +409,24 @@ export default function Home() {
           <img src={gallB} alt="" />
         </div>
 
+        <div className="gallery__dessert-caption" data-reveal>
+          <span className="gallery__caption-label">Small bites</span>
+          <p className="gallery__caption-body">
+            Five sculpted confections.<br />
+            Made to be admired before anything else.
+          </p>
+        </div>
+
         <div className="gallery__c" data-reveal>
           <img src={gallC} alt="" />
+        </div>
+
+        <div className="gallery__affogato-caption" data-reveal>
+          <span className="gallery__caption-label">Affogato</span>
+          <p className="gallery__caption-body">
+            Soft serve, poured to order.<br />
+            Matcha or espresso shot.
+          </p>
         </div>
 
       </section>

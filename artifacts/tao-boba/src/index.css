@@ -618,6 +618,43 @@ video.hero__photo {
   display: block;
 }
 
+/* Gallery captions — editorial labels in the negative space */
+.gallery__caption-label {
+  display: block;
+  font-family: var(--body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+  margin-bottom: 12px;
+}
+.gallery__caption-body {
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Small bites — sits in the open zone below gallA, left of gallB */
+.gallery__dessert-caption {
+  position: absolute;
+  left: 72px;
+  top:  680px;
+  width: 260px;
+}
+
+/* Affogato — sits to the right of gallC in the open right margin */
+.gallery__affogato-caption {
+  position: absolute;
+  right: 72px;
+  top:   960px;
+  width: 240px;
+  text-align: right;
+}
+
 /* ══════════════════════════════════════════════════════ FOOTER ════════ */
 .foot {
   display: grid;
