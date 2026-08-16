@@ -327,26 +327,30 @@ p     { margin: 0 }
   object-fit: contain;
   margin: 0 auto;
   filter: contrast(1.06) saturate(1.12);
-  /* Consistent elliptical vignette — fades ALL edges uniformly across every cup.
-     Opaque at centre, gradual dissolve from 55% → transparent at 90%.
-     This is the primary edge-blending mechanism (replaces per-PNG erosion). */
+  /* Ellipse radii 58%/62% → image edges land at ~82-86% of the ellipse radius,
+     deep in the fade zone. Image boundary gets ~15% opacity = clear visible fog.
+     Shrinking the ellipse is the only lever; 86%/90% extended past the image box. */
+  /* Centre shifted to 38% — top stays inside opaque zone, sides+bottom
+     fall deep into the fade. Narrow horizontal radius (50%) = heavy side fog. */
   mask-image: radial-gradient(
-    ellipse 86% 90% at 50% 52%,
+    ellipse 50% 68% at 50% 38%,
     black              0%,
-    black             52%,
-    rgba(0,0,0,0.85)  63%,
-    rgba(0,0,0,0.55)  73%,
-    rgba(0,0,0,0.20)  83%,
-    transparent       92%
+    black             38%,
+    rgba(0,0,0,0.88)  50%,
+    rgba(0,0,0,0.60)  62%,
+    rgba(0,0,0,0.25)  74%,
+    rgba(0,0,0,0.05)  86%,
+    transparent       95%
   );
   -webkit-mask-image: radial-gradient(
-    ellipse 86% 90% at 50% 52%,
+    ellipse 50% 68% at 50% 38%,
     black              0%,
-    black             52%,
-    rgba(0,0,0,0.85)  63%,
-    rgba(0,0,0,0.55)  73%,
-    rgba(0,0,0,0.20)  83%,
-    transparent       92%
+    black             38%,
+    rgba(0,0,0,0.88)  50%,
+    rgba(0,0,0,0.60)  62%,
+    rgba(0,0,0,0.25)  74%,
+    rgba(0,0,0,0.05)  86%,
+    transparent       95%
   );
   image-rendering: -webkit-optimize-contrast;
 }
@@ -930,22 +934,24 @@ p     { margin: 0 }
     margin: 0 auto;
     filter: contrast(1.04) saturate(1.08);
     mask-image: radial-gradient(
-      ellipse 86% 90% at 50% 52%,
+      ellipse 50% 68% at 50% 38%,
       black              0%,
-      black             52%,
-      rgba(0,0,0,0.85)  63%,
-      rgba(0,0,0,0.55)  73%,
-      rgba(0,0,0,0.20)  83%,
-      transparent       92%
+      black             38%,
+      rgba(0,0,0,0.88)  50%,
+      rgba(0,0,0,0.60)  62%,
+      rgba(0,0,0,0.25)  74%,
+      rgba(0,0,0,0.05)  86%,
+      transparent       95%
     );
     -webkit-mask-image: radial-gradient(
-      ellipse 86% 90% at 50% 52%,
+      ellipse 50% 68% at 50% 38%,
       black              0%,
-      black             52%,
-      rgba(0,0,0,0.85)  63%,
-      rgba(0,0,0,0.55)  73%,
-      rgba(0,0,0,0.20)  83%,
-      transparent       92%
+      black             38%,
+      rgba(0,0,0,0.88)  50%,
+      rgba(0,0,0,0.60)  62%,
+      rgba(0,0,0,0.25)  74%,
+      rgba(0,0,0,0.05)  86%,
+      transparent       95%
     );
   }
 
