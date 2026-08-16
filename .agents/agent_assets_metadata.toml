@@ -7,3 +7,10 @@ uri = "file://attached_assets/cloud-green-tea-new_no_bg.png"
 type = "image"
 title = "Cloud Green Tea — background removed"
 description = "Transparent PNG, ready to use."
+
+[[outputs]]
+id = "7N9EkIEzgqdozeMTbLdYX"
+uri = "file://attached_assets/mango-boba-clean.png"
+type = "image"
+title = "Mango Boba — background removed"
+description = "Transparent PNG, edges cleaned."
