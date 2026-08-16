@@ -326,14 +326,13 @@ p     { margin: 0 }
   max-width: none !important;
   object-fit: contain;
   margin: 0 auto;
-  /* Full glow: bright white rim → warm mid halo → wide coloured corona */
+  /* Pure white glow — bleeds outward to dissolve the cut edge */
   filter:
     drop-shadow(0 0  2px #fff)
-    drop-shadow(0 0  8px rgba(255, 255, 255, .95))
-    drop-shadow(0 0 20px rgba(255, 250, 230, .90))
-    drop-shadow(0 0 45px color-mix(in srgb, var(--cup-glow, #e8c87a) 55%, #fff))
-    drop-shadow(0 0 85px color-mix(in srgb, var(--cup-glow, #e8c87a) 40%, transparent))
-    drop-shadow(0 0 130px color-mix(in srgb, var(--cup-glow, #e8c87a) 25%, transparent))
+    drop-shadow(0 0 10px rgba(255,255,255,1.0))
+    drop-shadow(0 0 24px rgba(255,255,255,.85))
+    drop-shadow(0 0 48px rgba(255,255,255,.60))
+    drop-shadow(0 0 80px rgba(255,255,255,.35))
     contrast(1.06)
     saturate(1.12);
   image-rendering: -webkit-optimize-contrast;
@@ -918,11 +917,10 @@ p     { margin: 0 }
     margin: 0 auto;
     filter:
       drop-shadow(0 0  2px #fff)
-      drop-shadow(0 0  8px rgba(255, 255, 255, .95))
-      drop-shadow(0 0 20px rgba(255, 250, 230, .90))
-      drop-shadow(0 0 45px color-mix(in srgb, var(--cup-glow, #e8c87a) 55%, #fff))
-      drop-shadow(0 0 85px color-mix(in srgb, var(--cup-glow, #e8c87a) 40%, transparent))
-      drop-shadow(0 0 130px color-mix(in srgb, var(--cup-glow, #e8c87a) 25%, transparent))
+      drop-shadow(0 0 10px rgba(255,255,255,1.0))
+      drop-shadow(0 0 24px rgba(255,255,255,.85))
+      drop-shadow(0 0 48px rgba(255,255,255,.60))
+      drop-shadow(0 0 80px rgba(255,255,255,.35))
       contrast(1.04)
       saturate(1.08);
   }
