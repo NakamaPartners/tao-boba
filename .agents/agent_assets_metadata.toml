@@ -35,3 +35,10 @@ uri = "file://attached_assets/matcha-boba-v3.png"
 type = "image"
 title = "Matcha Boba — final clean"
 description = "Transparent PNG, bottom shelf removed, edges smooth."
+
+[[outputs]]
+id = "zfkAvqVNgYhWZu2RiA1mx"
+uri = "file://attached_assets/matcha-boba-final.png"
+type = "image"
+title = "Matcha Boba — final clean"
+description = "Transparent PNG — click to open full size."
