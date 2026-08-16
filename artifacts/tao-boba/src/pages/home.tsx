@@ -462,11 +462,14 @@ export default function Home() {
           </nav>
 
           {/* Copy column */}
-          <div className="product-copy">
+          <div className="product-copy-head">
             <p className="product-index" ref={indexEl}>01 / 05</p>
             <h2 className="product-title" ref={titleEl}>
               {PRODUCTS[0].name}
             </h2>
+          </div>
+
+          <div className="product-copy-body">
             <div className="product-note" ref={noteEl}>
               <div className="product-note-item">
                 <h3>Flavor</h3>
