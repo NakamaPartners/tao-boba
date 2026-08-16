@@ -306,7 +306,7 @@ p     { margin: 0 }
 .cup-stack {
   grid-column: 3; grid-row: 1 / -1; /* span both copy rows */
   position: relative;
-  height: clamp(42vh, 52vh, 62vh);
+  height: clamp(28vh, 34vh, 40vh);
   align-self: center; z-index: 7;
   overflow: visible;
   margin-bottom: 0;
