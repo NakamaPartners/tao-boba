@@ -18,7 +18,7 @@ import cupidLove   from '@assets/cupid-love_1786791932027.jpg';
 // Product cups — prototype set
 import cup1 from '@assets/butterfly-mango-jasmine_1786791932019.png';
 import cup2 from '@assets/cloud-mango-green-tea_1786791932021.png';
-import cup3 from '@assets/cloud-mango-matcha_1786791932022.png';
+import cup3 from '@assets/matcha-boba-clean2.png';
 import cup4 from '@assets/mango-boba-clean.png';
 import cup5 from '@assets/cloud-green-tea-clean-final.png';
 
@@ -89,28 +89,27 @@ const PRODUCTS: ReadonlyArray<{
     ],
   },
   {
-    name:  'Cloud Mango Matcha',
+    name:  'Matcha Latte',
     short: 'Matcha',
     photo: cup3,
-    tint:  '#eff2e7',
-    tone:  '#5d733d',
+    tint:  '#edf2e8',
+    tone:  '#3d6b35',
     copy:  [
-      'Matcha, milk and mango stack into one of Tao\'s most recognizable layered drinks.',
-      'Earthy green tea, fruit and cream create contrast in both flavor and color.',
+      'Rich matcha poured over fresh milk, layered with boba pearls at the base.',
+      'Deep, earthy and creamy. The purist\'s pick.',
     ],
-    /* fine matcha powder dots (green circles), matcha leaves, mango wedge */
+    /* matcha powder dots, tea leaves, cream circles */
     particles: [
-      { shape:'circle', color:'rgba(74,124,63,.95)',  w:8, h:8, x:15, top:4,  delay:0,   dur:1.5, rot:0, drot:0, dx:5  },
-      { shape:'circle', color:'rgba(90,158,58,.90)',  w:6, h:6, x:35, top:9,  delay:0.3, dur:1.7, rot:0, drot:0, dx:-4 },
-      { shape:'circle', color:'rgba(61,107,53,.95)',  w:9, h:9, x:55, top:3,  delay:0.7, dur:1.6, rot:0, drot:0, dx:6  },
-      { shape:'circle', color:'rgba(74,124,63,.80)',  w:5, h:5, x:72, top:12, delay:0.2, dur:1.4, rot:0, drot:0, dx:3  },
-      { shape:'circle', color:'rgba(106,170,64,.85)', w:7, h:7, x:85, top:6,  delay:1.0, dur:1.8, rot:0, drot:0, dx:-5 },
-      { shape:'circle', color:'rgba(53,94,43,.90)',   w:6, h:6, x:25, top:15, delay:1.4, dur:1.6, rot:0, drot:0, dx:4  },
-      { shape:'circle', color:'rgba(120,190,75,.75)', w:5, h:5, x:47, top:7,  delay:0.5, dur:1.9, rot:0, drot:0, dx:-3 },
-      { shape:'circle', color:'rgba(74,124,63,.70)',  w:4, h:4, x:62, top:18, delay:1.8, dur:1.5, rot:0, drot:0, dx:5  },
-      { shape:'leaf',   color:'#4a7c3f', w:10,h:15, x:8,  top:5,  delay:0.9, dur:2.2, rot:15, drot:175, dx:7  },
-      { shape:'leaf',   color:'#3d6b35', w:8, h:13, x:78, top:8,  delay:1.6, dur:2.4, rot:-20,drot:160, dx:-6 },
-      { shape:'wedge',  color:'#e8a020', w:13,h:10, x:42, top:11, delay:1.2, dur:1.9, rot:60, drot:90,  dx:-6 },
+      { shape:'circle', color:'rgba(61,107,53,.95)',  w:9, h:9,  x:15, top:4,  delay:0,   dur:1.6, rot:0, drot:0, dx:5  },
+      { shape:'circle', color:'rgba(74,124,63,.90)',  w:7, h:7,  x:38, top:9,  delay:0.4, dur:1.5, rot:0, drot:0, dx:-4 },
+      { shape:'circle', color:'rgba(90,158,58,.85)',  w:8, h:8,  x:60, top:3,  delay:0.8, dur:1.7, rot:0, drot:0, dx:6  },
+      { shape:'circle', color:'rgba(53,94,43,.90)',   w:6, h:6,  x:80, top:11, delay:1.3, dur:1.5, rot:0, drot:0, dx:-4 },
+      { shape:'circle', color:'rgba(106,170,64,.80)', w:5, h:5,  x:25, top:14, delay:0.2, dur:1.8, rot:0, drot:0, dx:3  },
+      { shape:'circle', color:'rgba(40,20,5,.85)',    w:8, h:8,  x:48, top:16, delay:1.1, dur:1.7, rot:0, drot:0, dx:-3 },
+      { shape:'circle', color:'rgba(30,15,5,.80)',    w:6, h:6,  x:68, top:13, delay:1.7, dur:1.6, rot:0, drot:0, dx:4  },
+      { shape:'leaf',   color:'#3d6b35', w:12,h:17, x:8,  top:5,  delay:0.6, dur:2.2, rot:20,  drot:170, dx:7  },
+      { shape:'leaf',   color:'#4a7c3f', w:10,h:14, x:72, top:7,  delay:1.4, dur:2.0, rot:-25, drot:155, dx:-6 },
+      { shape:'circle', color:'rgba(255,250,245,.75)', w:6, h:6, x:35, top:6,  delay:0.9, dur:2.1, rot:0, drot:0, dx:4  },
     ],
   },
   {
