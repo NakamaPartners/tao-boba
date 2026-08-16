@@ -239,14 +239,14 @@ p     { margin: 0 }
   background: #f8f3ea;
   transition: background-color .7s ease;
   display: grid;
-  grid-template-columns: 13% minmax(0, 48%) 39%;
+  grid-template-columns: 11% minmax(0, 52%) 26%;
   grid-template-rows: auto 1fr;
-  padding: calc(var(--header) + 2vh) var(--gutter) 4vh;
+  padding: calc(var(--header) + 2vh) 140px 4vh;
   align-items: start;
 }
 
 /* Left rail */
-.series-rail { grid-column: 1; padding-top: 0; z-index: 8 }
+.series-rail { grid-column: 1; padding-top: 0; z-index: 8; max-width: 88px }
 .series-rail ul { margin: 0; padding: 0; list-style: none }
 .series-rail li {
   font-size: 13px; line-height: 1.4;
@@ -261,9 +261,7 @@ p     { margin: 0 }
   width: 15px; height: 1px; background: var(--ink);
 }
 .series-rail span {
-  display: block; font-size: 10px;
-  letter-spacing: .2em; text-transform: uppercase;
-  margin-top: 5px; opacity: .65;
+  display: none;
 }
 
 /* Center copy — split into head (title) and body (notes) */
@@ -286,11 +284,11 @@ p     { margin: 0 }
 }
 .product-title {
   font-weight: 300;
-  font-size: clamp(62px, 7.2vw, 108px);
-  line-height: .91; letter-spacing: -.06em; max-width: 9ch;
+  font-size: clamp(30px, 3.4vw, 46px);
+  line-height: 1.06; letter-spacing: -.04em; max-width: 16ch;
 }
 .product-note {
-  margin-top: 28px; max-width: 41ch;
+  margin-top: 56px; max-width: 41ch;
   display: grid; gap: 16px;
 }
 .product-note-item h3 {
@@ -306,9 +304,10 @@ p     { margin: 0 }
 .cup-stack {
   grid-column: 3; grid-row: 1 / -1; /* span both copy rows */
   position: relative;
-  height: clamp(28vh, 34vh, 40vh);
-  align-self: center; z-index: 7;
+  height: 85vh;
+  align-self: start; z-index: 7;
   overflow: visible;
+  margin-top: -9vh;
   margin-bottom: 0;
 }
 .cup-wrap {
@@ -317,9 +316,10 @@ p     { margin: 0 }
   will-change: transform, opacity;
 }
 .cup-wrap img {
-  max-height: 100%; max-width: 100%;
-  width: auto; height: auto;
+  height: 100%; width: auto;
+  max-width: none;
   object-fit: contain;
+  margin: 0 auto;
   /* HD appearance: sharper contrast, richer color, crisper edges */
   filter:
     drop-shadow(0 22px 38px rgba(30,20,10,.14))
@@ -405,11 +405,7 @@ p     { margin: 0 }
 
 /* Ghost glyph — Baskerville number */
 .ghost-glyph {
-  position: absolute; right: 6vw; top: 8vh;
-  font-size: clamp(150px, 20vw, 320px);
-  font-family: Baskerville, Georgia, serif;
-  color: rgba(177,148,115,.07);
-  line-height: 1; z-index: 1; pointer-events: none;
+  display: none;
 }
 
 /* ══════════════════════════════════════════════ LOWER STORY ════════════

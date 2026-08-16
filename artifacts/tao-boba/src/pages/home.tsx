@@ -36,7 +36,7 @@ interface Ptcl {
 const PRODUCTS: ReadonlyArray<{
   name: string; short: string; photo: string;
   tint: string; tone: string;
-  copy: readonly [string, string];
+  copy: readonly [string, string, string];
   particles: Ptcl[];
 }> = [
   {
@@ -49,6 +49,7 @@ const PRODUCTS: ReadonlyArray<{
     copy:  [
       'Creamy ube latte with earthy purple taro — rich, sweet and unmistakably vibrant.',
       'Bold in color, smooth in taste. The drink that turns heads first.',
+      'House-made ube extract blended daily. No artificial color, no shortcuts.',
     ],
     /* ube petals (deep purple), lavender circles, cream dots */
     particles: [
@@ -74,6 +75,7 @@ const PRODUCTS: ReadonlyArray<{
     copy:  [
       'Bold Thai tea steeped strong and poured over ice with a silky cream float.',
       'Intense, sweet and unmistakably orange. A street-food classic, elevated.',
+      'Brewed from Assam loose leaf, sweetened with cane sugar, never syrup.',
     ],
     /* orange tea swirls, cream floats, spice dots */
     particles: [
@@ -99,6 +101,7 @@ const PRODUCTS: ReadonlyArray<{
     copy:  [
       'Rich matcha poured over fresh milk, layered with boba pearls at the base.',
       'Deep, earthy and creamy. The purist\'s pick.',
+      'Ceremonial-grade Uji matcha. Stone-ground, never pre-mixed.',
     ],
     /* matcha powder dots, tea leaves, cream circles */
     particles: [
@@ -124,6 +127,7 @@ const PRODUCTS: ReadonlyArray<{
     copy:  [
       'Sun-bright passionfruit poured over chilled green tea, with boba and coconut jelly.',
       'Tropical, layered and built for heat. Every sip is a different depth.',
+      'Fresh passionfruit pulp, pressed same-day. No concentrate.',
     ],
     /* passion fruit seeds (golden), green tea leaves, boba pearls (dark) */
     particles: [
@@ -149,6 +153,7 @@ const PRODUCTS: ReadonlyArray<{
     copy:  [
       'Bright strawberry meets earthy matcha cream in a vivid two-tone pour.',
       'Sweet, lush and striking. A drink that looks as good as it tastes.',
+      'Kyoto matcha, Colorado strawberries. Two climates, one cup.',
     ],
     /* matcha leaves (green), strawberry dots (red/pink), cream circles */
     particles: [
@@ -484,6 +489,10 @@ export default function Home() {
               <div className="product-note-item">
                 <h3>Finish</h3>
                 <p>{PRODUCTS[0].copy[1]}</p>
+              </div>
+              <div className="product-note-item">
+                <h3>Origin</h3>
+                <p>{PRODUCTS[0].copy[2]}</p>
               </div>
             </div>
           </div>

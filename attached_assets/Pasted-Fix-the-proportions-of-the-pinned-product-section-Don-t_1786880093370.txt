@@ -1,0 +1,57 @@
+Fix the proportions of the pinned product section. Don't redesign it — the structure is right, the sizing is wrong. These numbers were measured from a 1440×900 screenshot, so treat them as targets.
+
+The core problem: the product image is too small and the heading is too large. Shrink the type, grow the cup.
+
+1 — Heading: halve it, force one line
+
+css
+.title .name{ font-size:clamp(30px,3.4vw,46px); line-height:1.06; max-width:16ch; }
+
+"Passion Fruit Green Tea" must fit on one line. If a name still wraps, shorten the name — don't grow the box.
+
+2 — Product image: size by viewport, let it overflow
+
+css
+.stack{ grid-column:3; position:relative; height:85vh; align-self:start; margin-top:-9vh; overflow:visible; }
+.stack img{ height:100%; width:auto; max-width:none; margin:0 auto; }
+
+max-width:none is critical. Without it the column clamps the width and the cup stays squat.
+
+3 — Columns and gutter
+
+css
+.stage{ grid-template-columns:11% minmax(0,52%) 26%; padding-left:140px; padding-right:140px; }
+
+4 — Rail: one line per entry
+
+css
+.rail{ max-width:88px }
+.rail .sub{ display:none }
+
+5 — Close the gap, add a third note
+
+css
+.notes{ margin-top:56px }
+
+Each drink currently has two notes. Add a third note to every drink in the data array.
+
+6 — Delete the large translucent "04" behind the cup. Keep the small "04 / 05" label.
+
+Do not:
+
+change any animation timing, easing, or keyframe (0.33s exit, 0.90s enter, 0.12s delay, cubic-bezier(.16,1,.3,1) stay exactly as they are)
+add hover effects, scroll reveals, or idle motion
+add overflow:hidden anywhere in the product column — the cup is meant to break out
+change colours, fonts, or copy beyond the third note
+
+Then screenshot at 1440×900 and report these back to me:
+
+cup height           should be ~690px   (currently 588)
+cup width            should be ~300px   (currently 446)
+cup top edge         above the heading top
+cup base             100px+ clear of the window bottom, not clipped
+heading cap height   ~40px, one line    (currently 76px, two lines)
+heading → first note ~56px gap          (currently 103)
+copy block height    ~360px             (currently 190)
+
+If any is off by more than 10%, tell me which and why — don't adjust something else to compensate.
