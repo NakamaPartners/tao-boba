@@ -565,16 +565,16 @@ p     { margin: 0 }
     align-self: center;
   }
   .cup-wrap { place-items: end center }
-  /* mobile order: rail → title → cup → notes */
+  /* mobile order: rail → title → notes → cup */
   .product-copy-head {
     order: 2; flex: 0 0 auto;
     padding: 0 24px; margin-top: 0;
   }
   .product-copy-body {
-    order: 4; flex: 0 0 auto;
+    order: 3; flex: 0 0 auto;
     padding: 0 24px;
   }
-  .cup-stack { order: 3 }
+  .cup-stack { order: 4 }
   .product-title { font-size: 40px; max-width: 12ch; letter-spacing: -.05em }
   .product-note { margin-top: 16px; gap: 10px }
   .product-note-item:nth-child(2) { display: none }
