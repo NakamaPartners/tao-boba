@@ -20,7 +20,7 @@ import cup1 from '@assets/butterfly-mango-jasmine_1786791932019.png';
 import cup2 from '@assets/cloud-mango-green-tea_1786791932021.png';
 import cup3 from '@assets/cloud-mango-matcha_1786791932022.png';
 import cup4 from '@assets/mango-passionfruit_1786791932031.png';
-import cup5 from '@assets/shiso-yuzu_1786791932037.png';
+import cup5 from '@assets/cloud-green-tea-clean-final.png';
 
 /* ── product data (matches prototype JS array exactly) ─────────────────── */
 /* ── particle type ─────────────────────────────────────────────────────────── */
@@ -138,27 +138,27 @@ const PRODUCTS: ReadonlyArray<{
     ],
   },
   {
-    name:  'Shiso Yuzu',
-    short: 'Shiso Yuzu',
+    name:  'Strawberry Matcha Latte',
+    short: 'Strawberry',
     photo: cup5,
-    tint:  '#f7eceb',
-    tone:  '#d74f63',
+    tint:  '#fce9ee',
+    tone:  '#d4486a',
     copy:  [
-      'Yuzu citrus and shiso create the sharpest, most aromatic drink in the set.',
-      'Fresh, vivid and a little unexpected. A clean finish to the collection.',
+      'Bright strawberry meets earthy matcha cream in a vivid two-tone pour.',
+      'Sweet, lush and striking. A drink that looks as good as it tastes.',
     ],
-    /* shiso leaves (green-purple ovals), yuzu disc slices (yellow) */
+    /* matcha leaves (green), strawberry dots (red/pink), cream circles */
     particles: [
-      { shape:'leaf',   color:'#6b9a5e', w:13,h:19, x:10, top:3,  delay:0,   dur:2.2, rot:25,  drot:160, dx:8  },
-      { shape:'leaf',   color:'#7a6b9e', w:11,h:17, x:32, top:9,  delay:0.5, dur:2.0, rot:-35, drot:145, dx:-7 },
-      { shape:'leaf',   color:'#5a8050', w:14,h:20, x:58, top:4,  delay:1.0, dur:2.4, rot:40,  drot:170, dx:9  },
-      { shape:'leaf',   color:'#8b7bc0', w:10,h:15, x:78, top:11, delay:1.6, dur:2.1, rot:-20, drot:155, dx:-6 },
-      { shape:'leaf',   color:'#4a6e40', w:12,h:18, x:20, top:14, delay:0.3, dur:2.3, rot:60,  drot:165, dx:7  },
-      { shape:'wedge',  color:'#facc15', w:14,h:14, x:42, top:6,  delay:0.7, dur:1.8, rot:0,   drot:60,  dx:-5 },
-      { shape:'wedge',  color:'#fde047', w:12,h:12, x:68, top:12, delay:1.2, dur:1.7, rot:30,  drot:70,  dx:6  },
-      { shape:'wedge',  color:'#fef08a', w:11,h:11, x:85, top:7,  delay:1.8, dur:2.0, rot:-15, drot:65,  dx:-4 },
-      { shape:'circle', color:'rgba(250,204,21,.90)', w:7,h:7, x:25,top:5,  delay:0.4, dur:1.6, rot:0, drot:0, dx:4  },
-      { shape:'circle', color:'rgba(253,224,71,.85)', w:5,h:5, x:52,top:17, delay:1.4, dur:1.8, rot:0, drot:0, dx:-3 },
+      { shape:'leaf',   color:'#4a7c3f', w:13,h:19, x:10, top:3,  delay:0,   dur:2.1, rot:20,  drot:165, dx:7  },
+      { shape:'leaf',   color:'#5a9e3a', w:11,h:16, x:35, top:8,  delay:0.5, dur:2.3, rot:-30, drot:150, dx:-8 },
+      { shape:'leaf',   color:'#3d6b35', w:14,h:20, x:60, top:4,  delay:1.0, dur:2.0, rot:40,  drot:170, dx:9  },
+      { shape:'leaf',   color:'#6aab42', w:10,h:15, x:80, top:11, delay:1.6, dur:2.4, rot:-15, drot:155, dx:-6 },
+      { shape:'circle', color:'#e8325a', w:11,h:11, x:20, top:5,  delay:0.3, dur:1.7, rot:0,   drot:0,   dx:5  },
+      { shape:'circle', color:'#f06080', w:9, h:9,  x:48, top:9,  delay:0.8, dur:1.6, rot:0,   drot:0,   dx:-4 },
+      { shape:'circle', color:'#c02050', w:12,h:12, x:68, top:6,  delay:1.3, dur:1.8, rot:0,   drot:0,   dx:6  },
+      { shape:'circle', color:'rgba(240,96,128,.85)', w:8,h:8, x:85,top:14, delay:1.9, dur:1.6, rot:0, drot:0, dx:-5 },
+      { shape:'circle', color:'rgba(255,230,235,.90)', w:7,h:7, x:30,top:14, delay:0.6, dur:1.9, rot:0, drot:0, dx:3  },
+      { shape:'circle', color:'rgba(255,220,230,.80)', w:5,h:5, x:55,top:17, delay:1.5, dur:2.0, rot:0, drot:0, dx:-3 },
     ],
   },
 ];
