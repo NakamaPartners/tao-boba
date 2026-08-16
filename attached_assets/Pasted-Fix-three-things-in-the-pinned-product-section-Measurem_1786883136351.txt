@@ -1,0 +1,68 @@
+Fix three things in the pinned product section. Measurements are from the reference site at 1440×815.
+
+FIRST — the copy body is rendering at y858, below the fold. The cup is still a grid item and its height is sizing a grid row, which pushes the copy down. Take the cup out of the grid entirely:
+
+.cup-stack {
+position: absolute;
+top: 193px;
+right: 140px;
+width: 302px;
+height: 515px;
+z-index: 7;
+}
+
+Remove grid-column, grid-row, align-self and margin-top from .cup-stack. Then:
+
+.cup-wrap { position: absolute; inset: 0; display: grid; place-items: center; will-change: transform, opacity }
+.cup-wrap img { height: 515px; width: auto; max-width: none !important; object-fit: contain; margin: 0 auto }
+
+height must be 515px in absolute pixels, not 100%. The 100% keeps resolving against a stretched container, which is how it got to 625px.
+
+SECOND — the left rail is 12px and should be 21px. It is a real design element on the reference, not a caption, and it has a vertical hairline running down it:
+
+.series-rail { grid-column: 1; max-width: 150px; padding-left: 34px; position: relative }
+.series-rail::before { content:""; position:absolute; left:0; top:4px; bottom:4px; width:1px; background:#d8cdbd }
+.series-rail li { font-size:21px; line-height:1.25; margin-bottom:19px; color:#c3b49f; letter-spacing:.01em }
+.series-rail li.active { color: var(--ink) }
+.series-rail li.active::before { content:""; position:absolute; left:-34px; top:.62em; width:30px; height:1px; background:var(--ink) }
+
+THIRD — every drink has only two notes and the copy column comes out 130px short. Each drink needs three. Replace the drink data with this:
+
+const DRINKS = [
+{ cat:'Speciality Drinks', name:'Ube Latte', notes:[
+['Flavor','Steamed purple yam whisked into cold milk. Earthy and only faintly sweet, closer to taro root than to candy, with a vanilla edge sitting underneath it.'],
+['Build','The ube paste is folded in by hand rather than pumped from a syrup bottle, which is why the colour streaks through the cup instead of sitting flat.'],
+['Finish','Thick, round and slow. It coats the tongue and stays there, so most people drink it more slowly than they mean to.']]},
+
+{ cat:'Milk Tea Series', name:'Thai Tea', notes:[
+['Flavor','Thai tea steeped strong, with star anise and cardamom carried the whole way through, then poured over ice and cut with condensed milk.'],
+['Build','The tea goes in first and the milk falls through it, so the cup reaches you in two tones and you decide when the two of them meet.'],
+['Finish','Sweet at the front, spiced at the back, a little tannic once the ice starts working. Best drunk inside the first ten minutes.']]},
+
+{ cat:'Matcha Series', name:'Matcha Latte', notes:[
+['Flavor','Ceremonial grade, whisked to order. Grassy and full rather than bitter, with the sweetness arriving from the milk and from nothing else.'],
+['Build','Whisked in the cup, never pre-mixed and never held. Matcha that has sat for an hour goes flat, and no amount of sugar hides it.'],
+['Finish','Clean and short. It leaves the palate quickly, which is the point — it is the one drink on the board you can have two of.']]},
+
+{ cat:'Fruit Tea Series', name:'Passion Fruit Green Tea', notes:[
+['Flavor','Sun-bright passionfruit poured over chilled green tea, with boba and coconut jelly settled through the bottom third of the cup.'],
+['Build','The fruit is pressed the same morning and the seeds are left in. They are texture, and they are proof it did not come from a bottle.'],
+['Finish','Tropical, layered and built for heat. Every sip reaches a different depth, and the last one is the sweetest of them.']]},
+
+{ cat:'Matcha Madness', name:'Strawberry Matcha Latte', notes:[
+['Flavor','Strawberry puree under whisked matcha and cold milk. Tart, green and creamy all at once — three flavours that never quite merge.'],
+['Build','Three densities stacked cold: fruit, then milk, then matcha. Pour them out of order and you get a brown cup, so we do not.'],
+['Finish','Bright, then grassy, then round. It shifts as it settles, which is why it reaches you unstirred and stays that way.']]}
+];
+
+Do not change the title size. At 43px cap height it is already correct and slightly larger than the reference. Do not change padding-top, the 56px title-to-copy gap, or any animation timing or easing curve.
+
+Then screenshot at 1440×815 and report these back:
+
+rail type size — should be 21px, block ~180px tall, hairline visible
+copy body — FLAVOR should sit at roughly y412, fully on screen
+copy block height — should be ~371px
+cup — 515px tall, ~107px clear of the window bottom, ~79px clear of the right
+text block to cup ratio — should land near 1.07
+
+If any measurement is off by more than 10 percent, say which one and why. Do not adjust something else to compensate.

@@ -246,19 +246,21 @@ p     { margin: 0 }
 }
 
 /* Left rail */
-.series-rail { grid-column: 1; padding-top: 0; z-index: 8; max-width: 88px }
+.series-rail { grid-column: 1; max-width: 150px; padding-left: 34px; position: relative; z-index: 8 }
+.series-rail::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 1px; background: #d8cdbd }
 .series-rail ul { margin: 0; padding: 0; list-style: none }
 .series-rail li {
-  font-size: 12px; line-height: 1.5;
-  color: #b4aa9d; margin-bottom: 18px;
+  font-size: 21px; line-height: 1.25;
+  color: #c3b49f; margin-bottom: 19px;
+  letter-spacing: .01em;
   position: relative; cursor: default;
   transition: color .35s ease;
 }
 .series-rail li.active { color: var(--ink) }
 .series-rail li.active::before {
   content: ""; position: absolute;
-  left: -24px; top: .65em;
-  width: 15px; height: 1px; background: var(--ink);
+  left: -34px; top: .62em;
+  width: 30px; height: 1px; background: var(--ink);
 }
 .series-rail span {
   display: none;
@@ -302,12 +304,10 @@ p     { margin: 0 }
 
 /* Right cup stack — contained within its grid column */
 .cup-stack {
-  grid-column: 3; grid-row: 1;
-  position: relative;
-  height: 515px;
-  align-self: start; z-index: 7;
-  overflow: visible;
-  margin-top: 18px;
+  position: absolute;
+  top: 193px; right: 140px;
+  width: 302px; height: 515px;
+  z-index: 7; overflow: visible;
 }
 .cup-wrap {
   position: absolute; inset: 0;

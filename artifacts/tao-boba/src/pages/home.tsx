@@ -34,9 +34,9 @@ interface Ptcl {
 }
 
 const PRODUCTS: ReadonlyArray<{
-  name: string; short: string; photo: string;
+  name: string; short: string; category: string; photo: string;
   tint: string; tone: string;
-  copy: readonly [string, string, string];
+  notes: ReadonlyArray<readonly [string, string]>;
   particles: Ptcl[];
 }> = [
   {
@@ -46,10 +46,10 @@ const PRODUCTS: ReadonlyArray<{
     photo: cup1,
     tint:  '#f0eaf7',
     tone:  '#6b3fa0',
-    copy:  [
-      'Creamy ube latte with earthy purple taro — rich, sweet and unmistakably vibrant.',
-      'Bold in color, smooth in taste. The drink that turns heads first.',
-      'House-made ube extract blended daily. No artificial color, no shortcuts.',
+    notes: [
+      ['Flavor', 'Steamed purple yam whisked into cold milk. Earthy and only faintly sweet, closer to taro root than to candy, with a vanilla edge sitting underneath it.'],
+      ['Build',  'The ube paste is folded in by hand rather than pumped from a syrup bottle, which is why the colour streaks through the cup instead of sitting flat.'],
+      ['Finish', 'Thick, round and slow. It coats the tongue and stays there, so most people drink it more slowly than they mean to.'],
     ],
     /* ube petals (deep purple), lavender circles, cream dots */
     particles: [
@@ -72,10 +72,10 @@ const PRODUCTS: ReadonlyArray<{
     photo: cup2,
     tint:  '#f7ede0',
     tone:  '#c85a0a',
-    copy:  [
-      'Bold Thai tea steeped strong and poured over ice with a silky cream float.',
-      'Intense, sweet and unmistakably orange. A street-food classic, elevated.',
-      'Brewed from Assam loose leaf, sweetened with cane sugar, never syrup.',
+    notes: [
+      ['Flavor', 'Thai tea steeped strong, with star anise and cardamom carried the whole way through, then poured over ice and cut with condensed milk.'],
+      ['Build',  'The tea goes in first and the milk falls through it, so the cup reaches you in two tones and you decide when the two of them meet.'],
+      ['Finish', 'Sweet at the front, spiced at the back, a little tannic once the ice starts working. Best drunk inside the first ten minutes.'],
     ],
     /* orange tea swirls, cream floats, spice dots */
     particles: [
@@ -98,10 +98,10 @@ const PRODUCTS: ReadonlyArray<{
     photo: cup3,
     tint:  '#edf2e8',
     tone:  '#3d6b35',
-    copy:  [
-      'Rich matcha poured over fresh milk, layered with boba pearls at the base.',
-      'Deep, earthy and creamy. The purist\'s pick.',
-      'Ceremonial-grade Uji matcha. Stone-ground, never pre-mixed.',
+    notes: [
+      ['Flavor', 'Ceremonial grade, whisked to order. Grassy and full rather than bitter, with the sweetness arriving from the milk and from nothing else.'],
+      ['Build',  'Whisked in the cup, never pre-mixed and never held. Matcha that has sat for an hour goes flat, and no amount of sugar hides it.'],
+      ['Finish', 'Clean and short. It leaves the palate quickly, which is the point — it is the one drink on the board you can have two of.'],
     ],
     /* matcha powder dots, tea leaves, cream circles */
     particles: [
@@ -124,10 +124,10 @@ const PRODUCTS: ReadonlyArray<{
     photo: cup4,
     tint:  '#f6f2e4',
     tone:  '#5a8c2a',
-    copy:  [
-      'Sun-bright passionfruit poured over chilled green tea, with boba and coconut jelly.',
-      'Tropical, layered and built for heat. Every sip is a different depth.',
-      'Fresh passionfruit pulp, pressed same-day. No concentrate.',
+    notes: [
+      ['Flavor', 'Sun-bright passionfruit poured over chilled green tea, with boba and coconut jelly settled through the bottom third of the cup.'],
+      ['Build',  'The fruit is pressed the same morning and the seeds are left in. They are texture, and they are proof it did not come from a bottle.'],
+      ['Finish', 'Tropical, layered and built for heat. Every sip reaches a different depth, and the last one is the sweetest of them.'],
     ],
     /* passion fruit seeds (golden), green tea leaves, boba pearls (dark) */
     particles: [
@@ -150,10 +150,10 @@ const PRODUCTS: ReadonlyArray<{
     photo: cup5,
     tint:  '#fce9ee',
     tone:  '#d4486a',
-    copy:  [
-      'Bright strawberry meets earthy matcha cream in a vivid two-tone pour.',
-      'Sweet, lush and striking. A drink that looks as good as it tastes.',
-      'Kyoto matcha, Colorado strawberries. Two climates, one cup.',
+    notes: [
+      ['Flavor', 'Strawberry puree under whisked matcha and cold milk. Tart, green and creamy all at once — three flavours that never quite merge.'],
+      ['Build',  'Three densities stacked cold: fruit, then milk, then matcha. Pour them out of order and you get a brown cup, so we do not.'],
+      ['Finish', 'Bright, then grassy, then round. It shifts as it settles, which is why it reaches you unstirred and stays that way.'],
     ],
     /* matcha leaves (green), strawberry dots (red/pink), cream circles */
     particles: [
@@ -225,10 +225,9 @@ export default function Home() {
     if (ghostEl.current)
       ghostEl.current.textContent = String(next + 1).padStart(2, '0');
     if (noteEl.current) {
-      noteEl.current.innerHTML = `
-        <div class="product-note-item"><h3>Flavor</h3><p>${p.copy[0]}</p></div>
-        <div class="product-note-item"><h3>Finish</h3><p>${p.copy[1]}</p></div>
-      `;
+      noteEl.current.innerHTML = p.notes
+        .map(([label, text]) => `<div class="product-note-item"><h3>${label}</h3><p>${text}</p></div>`)
+        .join('');
     }
     if (bandEl.current) {
       bandEl.current.innerHTML =
@@ -482,18 +481,12 @@ export default function Home() {
 
           <div className="product-copy-body">
             <div className="product-note" ref={noteEl}>
-              <div className="product-note-item">
-                <h3>Flavor</h3>
-                <p>{PRODUCTS[0].copy[0]}</p>
-              </div>
-              <div className="product-note-item">
-                <h3>Finish</h3>
-                <p>{PRODUCTS[0].copy[1]}</p>
-              </div>
-              <div className="product-note-item">
-                <h3>Origin</h3>
-                <p>{PRODUCTS[0].copy[2]}</p>
-              </div>
+              {PRODUCTS[0].notes.map(([label, text]) => (
+                <div className="product-note-item" key={label}>
+                  <h3>{label}</h3>
+                  <p>{text}</p>
+                </div>
+              ))}
             </div>
           </div>
 
