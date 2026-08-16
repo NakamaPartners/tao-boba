@@ -16,7 +16,7 @@ import goldenRose  from '@assets/golden-rose_1786791932029.jpg';
 import cupidLove   from '@assets/cupid-love_1786791932027.jpg';
 
 // Product cups — prototype set
-import cup1 from '@assets/taro-boba-clean.png';
+import cup1 from '@assets/taro-boba-smooth.png';
 import cup2 from '@assets/brown-sugar-boba-clean.png';
 import cup3 from '@assets/matcha-boba-clean2.png';
 import cup4 from '@assets/mango-boba-clean.png';
