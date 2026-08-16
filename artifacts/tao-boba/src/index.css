@@ -540,24 +540,35 @@ p     { margin: 0 }
   .row-b .ed-photo { order: 2 }
   .row-b .ed-copy { order: 1 }
 
-  /* product stage */
+  /* product stage — stack: rail → cup → copy */
   .product-stage {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto 1fr;
-    padding: calc(var(--header) + 18px) 24px 0;
+    display: flex; flex-direction: column; align-items: stretch;
+    padding: calc(var(--header) + 10px) 0 0;
+    overflow: hidden;
   }
-  .series-rail { grid-column: 1; padding: 0 }
-  .series-rail ul { display: flex; gap: 16px; flex-wrap: wrap }
-  .series-rail li { margin: 0 }
+  .series-rail {
+    order: 1; flex: 0 0 auto;
+    padding: 0 24px 10px;
+  }
+  .series-rail ul { display: flex; gap: 20px; flex-wrap: nowrap; overflow-x: auto }
+  .series-rail li { margin: 0; white-space: nowrap }
   .series-rail li.active::before, .series-rail span { display: none }
-  .product-copy { grid-column: 1; padding-right: 0; margin-top: 18px }
-  .product-title { font-size: 44px; max-width: 10ch }
-  .product-note { margin-top: 20px; gap: 10px }
+  .cup-stack {
+    order: 2; flex: 0 0 44vh; height: 44vh;
+    width: 80%; margin: 0 auto 2vh;
+    align-self: center;
+  }
+  .cup-wrap { place-items: end center }
+  .product-copy {
+    order: 3; flex: 0 0 auto;
+    padding: 0 24px; margin-top: 0;
+  }
+  .product-title { font-size: 40px; max-width: 12ch; letter-spacing: -.05em }
+  .product-note { margin-top: 16px; gap: 10px }
   .product-note-item:nth-child(2) { display: none }
-  .cup-stack { grid-column: 1; height: 43vh; margin-top: 2vh }
   .product-cta { display: none }
-  .word-band { font-size: 82px }
-  .ghost-glyph { font-size: 160px; right: -30px; top: 23vh }
+  .word-band { font-size: 72px }
+  .ghost-glyph { display: none }
 
   /* lower story */
   .lower-story::before, .lower-story .wave { display: none }
