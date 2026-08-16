@@ -14,3 +14,10 @@ uri = "file://attached_assets/mango-boba-clean.png"
 type = "image"
 title = "Mango Boba — background removed"
 description = "Transparent PNG, edges cleaned."
+
+[[outputs]]
+id = "kuKeD6isowJvVNlwTK_45"
+uri = "file://attached_assets/matcha-boba-clean.png"
+type = "image"
+title = "Matcha Boba — background removed"
+description = "Transparent PNG, edges cleaned."
