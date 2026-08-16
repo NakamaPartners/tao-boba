@@ -304,11 +304,11 @@ p     { margin: 0 }
 .cup-stack {
   grid-column: 3; grid-row: 1 / -1; /* span both copy rows */
   position: relative;
-  height: 85vh;
-  align-self: start; z-index: 7;
+  height: 63vh;
+  align-self: end; z-index: 7;
   overflow: visible;
-  margin-top: -9vh;
-  margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 13vh;
 }
 .cup-wrap {
   position: absolute; inset: 0;
