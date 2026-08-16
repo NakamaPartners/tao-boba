@@ -233,8 +233,11 @@ export default function Home() {
     if (next === currentIdx.current) return;
     const p = PRODUCTS[next];
 
-    /* stage background */
-    if (stageEl.current) stageEl.current.style.backgroundColor = p.tint;
+    /* stage background + glow colour variable */
+    if (stageEl.current) {
+      stageEl.current.style.backgroundColor = p.tint;
+      stageEl.current.style.setProperty('--cup-glow', p.tone);
+    }
 
     /* rail active state */
     if (railEl.current) {

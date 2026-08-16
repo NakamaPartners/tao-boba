@@ -326,12 +326,14 @@ p     { margin: 0 }
   max-width: none !important;
   object-fit: contain;
   margin: 0 auto;
-  /* Glowing rim: tight bright pass → mid halo → wide ambient bleed */
+  /* Full glow: bright white rim → warm mid halo → wide coloured corona */
   filter:
-    drop-shadow(0 0  3px rgba(255, 252, 244, 1.0))
-    drop-shadow(0 0 12px rgba(255, 248, 230, .80))
-    drop-shadow(0 0 28px rgba(250, 238, 210, .50))
-    drop-shadow(0 0 52px rgba(245, 230, 195, .28))
+    drop-shadow(0 0  2px #fff)
+    drop-shadow(0 0  8px rgba(255, 255, 255, .95))
+    drop-shadow(0 0 20px rgba(255, 250, 230, .90))
+    drop-shadow(0 0 45px color-mix(in srgb, var(--cup-glow, #e8c87a) 55%, #fff))
+    drop-shadow(0 0 85px color-mix(in srgb, var(--cup-glow, #e8c87a) 40%, transparent))
+    drop-shadow(0 0 130px color-mix(in srgb, var(--cup-glow, #e8c87a) 25%, transparent))
     contrast(1.06)
     saturate(1.12);
   image-rendering: -webkit-optimize-contrast;
@@ -915,10 +917,12 @@ p     { margin: 0 }
     object-fit: contain;
     margin: 0 auto;
     filter:
-      drop-shadow(0 0  3px rgba(255, 252, 244, 1.0))
-      drop-shadow(0 0 12px rgba(255, 248, 230, .80))
-      drop-shadow(0 0 28px rgba(250, 238, 210, .50))
-      drop-shadow(0 0 52px rgba(245, 230, 195, .28))
+      drop-shadow(0 0  2px #fff)
+      drop-shadow(0 0  8px rgba(255, 255, 255, .95))
+      drop-shadow(0 0 20px rgba(255, 250, 230, .90))
+      drop-shadow(0 0 45px color-mix(in srgb, var(--cup-glow, #e8c87a) 55%, #fff))
+      drop-shadow(0 0 85px color-mix(in srgb, var(--cup-glow, #e8c87a) 40%, transparent))
+      drop-shadow(0 0 130px color-mix(in srgb, var(--cup-glow, #e8c87a) 25%, transparent))
       contrast(1.04)
       saturate(1.08);
   }
