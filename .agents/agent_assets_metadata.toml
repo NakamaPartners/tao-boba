@@ -1,0 +1,9 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "djHpmnqjd7zJ4vAT25pM_"
+uri = "file://attached_assets/cloud-green-tea-new_no_bg.png"
+type = "image"
+title = "Cloud Green Tea — background removed"
+description = "Transparent PNG, ready to use."
