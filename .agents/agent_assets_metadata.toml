@@ -49,3 +49,10 @@ uri = "file://attached_assets/brown-sugar-boba-clean.png"
 type = "image"
 title = "Brown Sugar Boba — HD, background removed"
 description = "Transparent PNG, 1104×1372 — click Open to inspect."
+
+[[outputs]]
+id = "yH3rK1ToNJOP31tO-QjMn"
+uri = "file://attached_assets/taro-boba-clean.png"
+type = "image"
+title = "Taro Boba — background removed"
+description = "Transparent PNG — click Open to inspect."
