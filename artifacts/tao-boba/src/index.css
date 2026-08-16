@@ -326,24 +326,12 @@ p     { margin: 0 }
   max-width: none !important;
   object-fit: contain;
   margin: 0 auto;
-  filter: contrast(1.06) saturate(1.12);
-  position: relative; z-index: 1;
+  /* Fogged edges baked into PNG alpha; tiny drop-shadow seals the outermost pixel */
+  filter:
+    drop-shadow(0 0 6px rgba(246,241,232,.95))
+    drop-shadow(0 0 18px rgba(246,241,232,.55))
+    contrast(1.06) saturate(1.12);
   image-rendering: -webkit-optimize-contrast;
-}
-
-/* ── Inner glow layer ────────────────────────────────────────────────────────
-   Same image, positioned behind the real cup. Saturate→0 + extreme brightness
-   turns the cup shape pure white; blur spreads it outward from inside the edge.
-   The result: glow starts from within the cup boundary, not outside it. */
-.cup-glow-img {
-  position: absolute !important;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 0 !important;
-  filter: saturate(0) brightness(18) blur(36px) !important;
-  opacity: 0.72;
-  pointer-events: none;
-  user-select: none;
 }
 
 /* ── Ingredient particle animations ─────────────────────────────────────────
@@ -923,8 +911,10 @@ p     { margin: 0 }
     max-height: 505px;
     object-fit: contain;
     margin: 0 auto;
-    filter: contrast(1.04) saturate(1.08);
-    position: relative; z-index: 1;
+    filter:
+      drop-shadow(0 0 6px rgba(246,241,232,.95))
+      drop-shadow(0 0 18px rgba(246,241,232,.55))
+      contrast(1.04) saturate(1.08);
   }
 
   /* Clean reference composition */

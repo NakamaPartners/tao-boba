@@ -300,16 +300,6 @@ export default function Home() {
 
       const incoming = document.createElement('div');
       incoming.className = 'cup-wrap';
-
-      /* glow layer — sits behind the real cup, white-blasted + blurred */
-      const glowImg = document.createElement('img');
-      glowImg.src = p.photo;
-      glowImg.alt = '';
-      glowImg.className = 'cup-glow-img';
-      glowImg.setAttribute('aria-hidden', 'true');
-      incoming.appendChild(glowImg);
-
-      /* main cup image on top */
       const img = document.createElement('img');
       img.src = p.photo;
       img.alt = p.name;
