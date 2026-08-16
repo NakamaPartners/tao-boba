@@ -42,3 +42,10 @@ uri = "file://attached_assets/matcha-boba-final.png"
 type = "image"
 title = "Matcha Boba — final clean"
 description = "Transparent PNG — click to open full size."
+
+[[outputs]]
+id = "GCmKDzKRrQa7WFp3eI5CX"
+uri = "file://attached_assets/brown-sugar-boba-clean.png"
+type = "image"
+title = "Brown Sugar Boba — HD, background removed"
+description = "Transparent PNG, 1104×1372 — click Open to inspect."
