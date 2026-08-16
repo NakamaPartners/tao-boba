@@ -306,14 +306,14 @@ p     { margin: 0 }
 .cup-stack {
   grid-column: 3; grid-row: 1 / -1; /* span both copy rows */
   position: relative;
-  height: clamp(46vh, 56vh, 68vh);
-  align-self: end; z-index: 7;
+  height: clamp(52vh, 62vh, 72vh);
+  align-self: center; z-index: 7;
   overflow: visible;
-  margin-bottom: 4vh;
+  margin-bottom: 0;
 }
 .cup-wrap {
   position: absolute; inset: 0;
-  display: grid; place-items: end center; /* image base = stack base */
+  display: grid; place-items: center; /* image centered in stack */
   will-change: transform, opacity;
 }
 .cup-wrap img {
