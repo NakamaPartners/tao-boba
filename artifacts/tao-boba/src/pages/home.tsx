@@ -19,7 +19,7 @@ import cupidLove   from '@assets/cupid-love_1786791932027.jpg';
 import cup1 from '@assets/butterfly-mango-jasmine_1786791932019.png';
 import cup2 from '@assets/cloud-mango-green-tea_1786791932021.png';
 import cup3 from '@assets/cloud-mango-matcha_1786791932022.png';
-import cup4 from '@assets/mango-passionfruit_1786791932031.png';
+import cup4 from '@assets/mango-boba-clean.png';
 import cup5 from '@assets/cloud-green-tea-clean-final.png';
 
 /* ── product data (matches prototype JS array exactly) ─────────────────── */
@@ -114,27 +114,27 @@ const PRODUCTS: ReadonlyArray<{
     ],
   },
   {
-    name:  'Mango Passionfruit',
-    short: 'Mango',
+    name:  'Passion Fruit Green Tea',
+    short: 'Passion Fruit',
     photo: cup4,
-    tint:  '#f8f1df',
-    tone:  '#d08a1d',
+    tint:  '#f6f2e4',
+    tone:  '#5a8c2a',
     copy:  [
-      'Mango and passionfruit bring a bright tropical hit over ice.',
-      'Juicy, crisp and built for the days when something refreshing is the whole point.',
+      'Sun-bright passionfruit poured over chilled green tea, with boba and coconut jelly.',
+      'Tropical, layered and built for heat. Every sip is a different depth.',
     ],
-    /* mango wedges (orange), passionfruit seed dots (golden) */
+    /* passion fruit seeds (golden), green tea leaves, boba pearls (dark) */
     particles: [
-      { shape:'wedge',  color:'#f97316', w:16,h:12, x:10, top:4,  delay:0,   dur:2.0, rot:55,  drot:100, dx:9  },
-      { shape:'wedge',  color:'#ea580c', w:14,h:11, x:35, top:8,  delay:0.5, dur:1.8, rot:-35, drot:115, dx:-7 },
-      { shape:'wedge',  color:'#fb923c', w:15,h:11, x:62, top:3,  delay:1.0, dur:2.2, rot:70,  drot:90,  dx:6  },
-      { shape:'wedge',  color:'#c2410c', w:12,h:9,  x:82, top:12, delay:1.6, dur:1.9, rot:-60, drot:105, dx:-5 },
-      { shape:'wedge',  color:'#fed7aa', w:11,h:8,  x:22, top:16, delay:0.3, dur:2.1, rot:40,  drot:85,  dx:8  },
-      { shape:'circle', color:'#eab308', w:8, h:8,  x:45, top:5,  delay:0.7, dur:1.6, rot:0,   drot:0,   dx:4  },
-      { shape:'circle', color:'#fbbf24', w:6, h:6,  x:70, top:10, delay:1.2, dur:1.5, rot:0,   drot:0,   dx:-4 },
-      { shape:'circle', color:'#f59e0b', w:9, h:9,  x:28, top:13, delay:1.8, dur:1.7, rot:0,   drot:0,   dx:5  },
-      { shape:'circle', color:'#fde68a', w:7, h:7,  x:55, top:18, delay:0.4, dur:1.8, rot:0,   drot:0,   dx:-3 },
-      { shape:'circle', color:'rgba(234,179,8,.85)', w:5,h:5, x:88,top:7, delay:0.9, dur:1.6, rot:0, drot:0, dx:-5 },
+      { shape:'circle', color:'#c8a820', w:10,h:10, x:15, top:4,  delay:0,   dur:1.7, rot:0, drot:0, dx:5  },
+      { shape:'circle', color:'#e4c030', w:8, h:8,  x:38, top:8,  delay:0.5, dur:1.6, rot:0, drot:0, dx:-4 },
+      { shape:'circle', color:'#d4b025', w:11,h:11, x:60, top:3,  delay:1.0, dur:1.8, rot:0, drot:0, dx:6  },
+      { shape:'circle', color:'#b89010', w:7, h:7,  x:82, top:10, delay:1.5, dur:1.6, rot:0, drot:0, dx:-5 },
+      { shape:'circle', color:'rgba(60,30,10,.90)',  w:9, h:9,  x:25, top:12, delay:0.3, dur:1.9, rot:0, drot:0, dx:4  },
+      { shape:'circle', color:'rgba(40,20,5,.85)',   w:7, h:7,  x:55, top:16, delay:1.2, dur:1.7, rot:0, drot:0, dx:-3 },
+      { shape:'leaf',   color:'#4a7c3f', w:12,h:17, x:10, top:6,  delay:0.7, dur:2.0, rot:25,  drot:160, dx:7  },
+      { shape:'leaf',   color:'#5a9e3a', w:10,h:15, x:45, top:5,  delay:1.4, dur:2.2, rot:-20, drot:150, dx:-6 },
+      { shape:'leaf',   color:'#3d6b35', w:13,h:18, x:72, top:9,  delay:0.2, dur:1.9, rot:40,  drot:165, dx:8  },
+      { shape:'circle', color:'rgba(255,240,200,.85)', w:6,h:6, x:68,top:14, delay:0.8, dur:2.0, rot:0, drot:0, dx:-4 },
     ],
   },
   {
