@@ -1,1 +1,2 @@
 - [Tao Boba homepage architecture](tao-boba-architecture.md) — cup swap engine is direct DOM (not Framer), series JS engine must be preserved on all edits
+- [ImageMagick alpha pipeline for cup cutouts](imagemagick-alpha-pipeline.md) — only `-channel Alpha -blur -level` is safe; Multiply gradient and CopyOpacity both break transparency
