@@ -1,6 +1,6 @@
 ---
 name: Tao Boba homepage architecture
-description: Core decisions for the Tao Boba React/Vite homepage — cup engine, scroll system, and glow approach
+description: Core decisions for the Tao Boba React/Vite homepage — cup engine, scroll system, and edge treatment
 ---
 
 ## Cup swap engine
@@ -20,22 +20,27 @@ description: Core decisions for the Tao Boba React/Vite homepage — cup engine,
 - 130ms fade-out window before DOM update; stale-capture guard: `if (currentIdx.current !== captured) return`
 - First load (currentIdx === -1) skips animation
 
-## Cup image glow (CSS only, no JS)
-- Pure white 5-layer `drop-shadow` on `.cup-wrap img`
-- Layers: 2px / 10px / 24px / 48px / 80px, white at full→0.35 opacity
-- Purpose: dissolves hard PNG cutout edge into the tinted stage background
-- **Keep it pure white — no color-mix, no drink-color tinting** (user confirmed)
-- Applied in two CSS blocks: base rule (~line 324) and one breakpoint override (~line 908)
+## Cup image edge treatment (CSS + PNG pipeline)
+- CSS filter on `.cup-wrap img`: two tiny `drop-shadow` in page cream color (6px + 18px) + contrast + saturate
+- **No glow layer, no duplicate image** — previous attempts with blurred duplicate caused white blob
+- Edge quality comes from ImageMagick pre-processing on the PNG files
 
-## PNG processing pipeline (ImageMagick)
-- Background removal: AI tool first, then `magick -channel Alpha -blur 0x2.0 -level 12%,88%`
-- Edge feathering: `magick input.png ( +clone -channel Alpha -separate -morphology Dilate Disk:1.5 -blur 0x2.5 -level 3%,97% ) -alpha off -compose CopyOpacity -composite output.png`
-- Safe ops: `-channel Alpha -blur`, `-level`, `-morphology Dilate`, `CopyOpacity` (confirmed working)
-- Unsafe: Multiply gradient (breaks transparency per earlier sessions)
+## PNG edge pipeline (applied in sequence, cumulative)
+1. AI background removal
+2. `magick -channel Alpha -blur 0x2.0 -level 12%,88%` — initial alpha smoothing
+3. `magick ( +clone -channel Alpha -separate -morphology Dilate Disk:1.5 -blur 0x2.5 -level 3%,97% ) -alpha off -compose CopyOpacity -composite` — edge feathering outward
+4. `magick -channel Alpha -morphology Erode Disk:10 -blur 0x10 +channel` — fog pass 1
+5. `magick -channel Alpha -morphology Erode Disk:22 -blur 0x20 +channel` — fog pass 2
+6. `magick -channel Alpha -morphology Erode Disk:40 -blur 0x35 +channel` — fog pass 3
+7. **Pre-blend toward cream**: `magick cup.png ( +clone -background '#f6f1e8' -flatten ) ( -clone 0 -alpha extract ) -compose CopyOpacity -composite output.png`
+
+**Why step 7 is critical**: Alpha erosion leaves semi-transparent dark pixels at edges. On a light background they show as a dark ghost fringe. Pre-blending shifts edge pixel *colours* toward the background cream, so they become invisible when rendered — no dark halo.
+
+**Rule**: after any alpha erosion on dark cups, always run the pre-blend step with the actual stage/page background color.
 
 ## Active cup files
-- `taro-boba-smooth.png` — Ube Latte
+- `taro-boba-smooth.png` — Ube Latte (tint: #f0eaf7, tone: #6b3fa0)
 - `thai-tea-clean.png` — Thai Tea
-- `matcha-boba-clean2.png` — Matcha Latte
+- `matcha-boba-clean2.png` — Matcha Latte (has dark boba at bottom — most prone to dark fringe)
 - `mango-boba-clean.png` — Passion Fruit Green Tea
 - `cloud-green-tea-clean-final.png` — Strawberry Matcha Latte
