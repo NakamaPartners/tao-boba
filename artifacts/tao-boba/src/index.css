@@ -302,7 +302,7 @@ p     { margin: 0 }
 
 /* Right cup stack — contained within its grid column */
 .cup-stack {
-  grid-column: 3; grid-row: 1 / -1; /* span both copy rows */
+  grid-column: 3; grid-row: 1;
   position: relative;
   height: 515px;
   align-self: start; z-index: 7;
@@ -315,7 +315,7 @@ p     { margin: 0 }
   will-change: transform, opacity;
 }
 .cup-wrap img {
-  height: 100%; width: auto;
+  height: 515px; width: auto;
   max-width: none !important;
   object-fit: contain;
   margin: 0 auto;
@@ -335,7 +335,7 @@ p     { margin: 0 }
    before falling down into the drink. Negative top pulls it above cup-stack. */
 .cup-particles {
   position: absolute;
-  top: -100px; left: -15%; right: -15%;
+  top: -100px; left: 0; right: 0;
   height: 110px;
   pointer-events: none; z-index: 8; overflow: visible;
 }
