@@ -239,7 +239,7 @@ p     { margin: 0 }
   background: #f8f3ea;
   transition: background-color .7s ease;
   display: grid;
-  grid-template-columns: 12% minmax(0, 40%) 48%;
+  grid-template-columns: 13% minmax(0, 48%) 39%;
   grid-template-rows: auto 1fr;
   padding: calc(var(--header) + 2vh) var(--gutter) 4vh;
   align-items: start;
@@ -268,11 +268,11 @@ p     { margin: 0 }
 
 /* Center copy — split into head (title) and body (notes) */
 .product-copy-head {
-  grid-column: 2; padding-right: 13%;
+  grid-column: 2; padding-right: 8%;
   position: relative; z-index: 9;
 }
 .product-copy-body {
-  grid-column: 2; padding-right: 13%;
+  grid-column: 2; padding-right: 8%;
   position: relative; z-index: 9;
 }
 .product-index {
@@ -286,8 +286,8 @@ p     { margin: 0 }
 }
 .product-title {
   font-weight: 300;
-  font-size: clamp(54px, 6.2vw, 92px);
-  line-height: .91; letter-spacing: -.06em; max-width: 8ch;
+  font-size: clamp(62px, 7.2vw, 108px);
+  line-height: .91; letter-spacing: -.06em; max-width: 9ch;
 }
 .product-note {
   margin-top: 28px; max-width: 41ch;
@@ -299,15 +299,15 @@ p     { margin: 0 }
   margin: 0 0 10px;
 }
 .product-note-item p {
-  font-size: 16px; line-height: 1.85; color: var(--muted);
+  font-size: 17px; line-height: 1.85; color: var(--muted);
 }
 
 /* Right cup stack — contained within its grid column */
 .cup-stack {
   grid-column: 3; grid-row: 1 / -1; /* span both copy rows */
   position: relative;
-  height: calc(100svh - var(--header) - 22vh);
-  align-self: start; z-index: 7;
+  height: clamp(42vh, 52vh, 62vh);
+  align-self: center; z-index: 7;
   overflow: visible;
   margin-bottom: 0;
 }
