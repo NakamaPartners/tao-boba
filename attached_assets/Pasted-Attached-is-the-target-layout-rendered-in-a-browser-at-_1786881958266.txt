@@ -1,0 +1,72 @@
+Attached is the target layout, rendered in a browser at 1440×815. Match it.
+
+The governing rule: the text block on the left and the cup on the right must read as two objects of the same visual height, starting on the same line. Text block ≈ 495px tall, cup 515px tall, ratio around 0.9–0.96, tops 18px apart. Everything below serves that.
+
+css
+.stage{
+  padding-top:175px;                        /* push the whole content block down */
+  grid-template-columns:11% minmax(0,52%) 26%;
+  padding-left:140px;
+  padding-right:140px;
+}
+
+/* heading — bigger than it is now, on purpose */
+.title .name, .stage h1{
+  font-size:58px;
+  line-height:1.02;
+  letter-spacing:-.02em;
+  max-width:14ch;
+  margin:0;
+}
+
+/* body — bigger and looser, this is what fills the column height */
+.note p{
+  font-size:14px;
+  line-height:2.0;
+}
+.note h3{
+  font-size:12px;
+  letter-spacing:.08em;
+  margin:0 0 8px;
+}
+.notes{
+  margin-top:56px;
+  gap:30px;
+  max-width:46ch;
+}
+
+/* cup — top-aligned to the text, not centred, not bottom-anchored */
+.stack{
+  grid-column:3;
+  align-self:start;
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+}
+.stack img{
+  height:515px;
+  width:auto;
+  max-width:none;
+  display:block;
+}
+
+/* rail */
+.rail{ max-width:88px }
+.rail li{ font-size:12px; line-height:1.5; margin-bottom:18px }
+
+Every drink needs three notes. The text block only reaches 495px with three. If any drink currently has two, add a third — that's a data change, not a CSS one.
+
+Do not set a width or an aspect-ratio on the cup. Height is fixed at 515px, width is free. The five drinks will render between 319px and 386px wide and that is correct — it means all five cups stand the same height. If max-width:none doesn't take, find the global img { max-width:100% } rule that's overriding it.
+
+Do not change any animation timing or easing. The swap values stay exactly as they are.
+
+Verify at 1440×815 and report these six:
+
+text block height     ~495px   (eyebrow top to last line of copy)
+cup height            515px, identical on all five drinks
+text-to-cup ratio     0.90 – 0.96
+cup top               ~18px below the text block top
+cup base              ~105px clear of the window bottom
+cup right             200px+ clear, not clipped
+
+If any measurement is off by more than 10%, tell me which and why rather than compensating elsewhere.

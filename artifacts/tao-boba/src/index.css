@@ -241,7 +241,7 @@ p     { margin: 0 }
   display: grid;
   grid-template-columns: 11% minmax(0, 52%) 26%;
   grid-template-rows: auto 1fr;
-  padding: calc(var(--header) + 2vh) 140px 4vh;
+  padding: 175px 140px 4vh;
   align-items: start;
 }
 
@@ -249,8 +249,8 @@ p     { margin: 0 }
 .series-rail { grid-column: 1; padding-top: 0; z-index: 8; max-width: 88px }
 .series-rail ul { margin: 0; padding: 0; list-style: none }
 .series-rail li {
-  font-size: 13px; line-height: 1.4;
-  color: #b4aa9d; margin-bottom: 20px;
+  font-size: 12px; line-height: 1.5;
+  color: #b4aa9d; margin-bottom: 18px;
   position: relative; cursor: default;
   transition: color .35s ease;
 }
@@ -284,31 +284,30 @@ p     { margin: 0 }
 }
 .product-title {
   font-weight: 300;
-  font-size: clamp(30px, 3.4vw, 46px);
-  line-height: 1.06; letter-spacing: -.04em; max-width: 16ch;
+  font-size: 58px;
+  line-height: 1.02; letter-spacing: -.02em; max-width: 14ch;
 }
 .product-note {
-  margin-top: 56px; max-width: 41ch;
-  display: grid; gap: 16px;
+  margin-top: 56px; max-width: 46ch;
+  display: grid; gap: 30px;
 }
 .product-note-item h3 {
-  font-size: 13px; letter-spacing: .08em;
+  font-size: 12px; letter-spacing: .08em;
   text-transform: uppercase; font-weight: 500;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 .product-note-item p {
-  font-size: 17px; line-height: 1.85; color: var(--muted);
+  font-size: 14px; line-height: 2.0; color: var(--muted);
 }
 
 /* Right cup stack — contained within its grid column */
 .cup-stack {
   grid-column: 3; grid-row: 1 / -1; /* span both copy rows */
   position: relative;
-  height: 63vh;
-  align-self: end; z-index: 7;
+  height: 515px;
+  align-self: start; z-index: 7;
   overflow: visible;
-  margin-top: 0;
-  margin-bottom: 13vh;
+  margin-top: 18px;
 }
 .cup-wrap {
   position: absolute; inset: 0;
@@ -317,7 +316,7 @@ p     { margin: 0 }
 }
 .cup-wrap img {
   height: 100%; width: auto;
-  max-width: none;
+  max-width: none !important;
   object-fit: contain;
   margin: 0 auto;
   /* HD appearance: sharper contrast, richer color, crisper edges */
