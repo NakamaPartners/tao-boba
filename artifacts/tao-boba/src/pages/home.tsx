@@ -17,7 +17,7 @@ import cupidLove   from '@assets/cupid-love_1786791932027.jpg';
 
 // Product cups — prototype set
 import cup1 from '@assets/butterfly-mango-jasmine_1786791932019.png';
-import cup2 from '@assets/cloud-mango-green-tea_1786791932021.png';
+import cup2 from '@assets/brown-sugar-boba-clean.png';
 import cup3 from '@assets/matcha-boba-clean2.png';
 import cup4 from '@assets/mango-boba-clean.png';
 import cup5 from '@assets/cloud-green-tea-clean-final.png';
@@ -65,27 +65,27 @@ const PRODUCTS: ReadonlyArray<{
     ],
   },
   {
-    name:  'Cloud Mango Green Tea',
-    short: 'Cloud Green',
+    name:  'Authentic Milk Tea',
+    short: 'Milk Tea',
     photo: cup2,
-    tint:  '#f6f0e7',
-    tone:  '#b77627',
+    tint:  '#f4ede0',
+    tone:  '#8b5e3c',
     copy:  [
-      'Mango green tea finished with a soft cloud of cream.',
-      'A lighter, cleaner profile with a creamy finish and a warm amber body.',
+      'Classic milk tea with brown sugar boba — the one that started it all.',
+      'Creamy, warming and deeply satisfying. Timeless for a reason.',
     ],
-    /* green tea leaves, mango wedges, pale cream dots */
+    /* brown sugar swirls (dark amber circles), boba pearls, cream dots */
     particles: [
-      { shape:'leaf',   color:'#4a7c3f', w:11,h:17, x:12, top:4,  delay:0,   dur:2.1, rot:20,  drot:180, dx:6  },
-      { shape:'leaf',   color:'#5a9e3a', w:10,h:15, x:38, top:8,  delay:0.5, dur:2.4, rot:-30, drot:160, dx:-9 },
-      { shape:'leaf',   color:'#3d6b35', w:13,h:18, x:62, top:3,  delay:1.0, dur:2.0, rot:40,  drot:140, dx:8  },
-      { shape:'leaf',   color:'#6aab42', w:9, h:14, x:82, top:10, delay:1.6, dur:2.6, rot:-15, drot:165, dx:-6 },
-      { shape:'leaf',   color:'#2d5a25', w:12,h:16, x:28, top:14, delay:0.3, dur:1.9, rot:55,  drot:150, dx:7  },
-      { shape:'wedge',  color:'#f59e0b', w:14,h:11, x:50, top:6,  delay:0.7, dur:2.0, rot:70,  drot:85,  dx:-5 },
-      { shape:'wedge',  color:'#d97706', w:12,h:10, x:20, top:12, delay:1.3, dur:1.8, rot:-50, drot:95,  dx:7  },
-      { shape:'wedge',  color:'#fbbf24', w:11,h:9,  x:72, top:16, delay:1.9, dur:2.2, rot:40,  drot:80,  dx:-4 },
-      { shape:'circle', color:'rgba(240,234,218,.90)', w:7,h:7, x:44,top:5,  delay:0.4, dur:1.7, rot:0, drot:0, dx:3  },
-      { shape:'circle', color:'rgba(255,248,230,.85)', w:5,h:5, x:68,top:18, delay:1.1, dur:2.0, rot:0, drot:0, dx:-2 },
+      { shape:'circle', color:'rgba(101,62,20,.90)',  w:10,h:10, x:12, top:4,  delay:0,   dur:1.7, rot:0, drot:0, dx:5  },
+      { shape:'circle', color:'rgba(139,94,60,.85)',  w:8, h:8,  x:35, top:9,  delay:0.4, dur:1.6, rot:0, drot:0, dx:-4 },
+      { shape:'circle', color:'rgba(80,45,12,.90)',   w:11,h:11, x:58, top:3,  delay:0.8, dur:1.8, rot:0, drot:0, dx:6  },
+      { shape:'circle', color:'rgba(120,78,35,.85)',  w:7, h:7,  x:78, top:11, delay:1.3, dur:1.6, rot:0, drot:0, dx:-4 },
+      { shape:'circle', color:'rgba(40,20,5,.90)',    w:9, h:9,  x:22, top:13, delay:0.2, dur:1.9, rot:0, drot:0, dx:4  },
+      { shape:'circle', color:'rgba(30,15,5,.85)',    w:7, h:7,  x:50, top:16, delay:1.0, dur:1.7, rot:0, drot:0, dx:-3 },
+      { shape:'circle', color:'rgba(50,28,8,.80)',    w:8, h:8,  x:70, top:14, delay:1.6, dur:1.8, rot:0, drot:0, dx:5  },
+      { shape:'circle', color:'rgba(210,175,130,.80)', w:6,h:6, x:42, top:6,  delay:0.6, dur:2.0, rot:0, drot:0, dx:3  },
+      { shape:'circle', color:'rgba(230,200,160,.75)', w:5,h:5, x:65, top:18, delay:1.4, dur:1.9, rot:0, drot:0, dx:-3 },
+      { shape:'circle', color:'rgba(185,140,90,.70)',  w:7,h:7, x:88, top:7,  delay:0.9, dur:1.6, rot:0, drot:0, dx:-4 },
     ],
   },
   {
