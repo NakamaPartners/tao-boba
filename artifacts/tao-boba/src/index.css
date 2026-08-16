@@ -240,11 +240,9 @@ p     { margin: 0 }
   transition: background-color .7s ease;
   display: grid;
   grid-template-columns: 12% minmax(0, 40%) 48%;
-  grid-template-rows: auto auto;
-  padding: calc(var(--header) + 2vh) var(--gutter) 6vh;
+  grid-template-rows: auto 1fr;
+  padding: calc(var(--header) + 2vh) var(--gutter) 4vh;
   align-items: start;
-  align-content: center;
-  row-gap: clamp(16px, 2.5vh, 32px);
 }
 
 /* Left rail */
@@ -308,9 +306,8 @@ p     { margin: 0 }
 .cup-stack {
   grid-column: 3; grid-row: 1 / -1; /* span both copy rows */
   position: relative;
-  height: auto;
-  max-height: calc(100svh - var(--header) - 14vh);
-  align-self: stretch; z-index: 7;
+  height: calc(100svh - var(--header) - 22vh);
+  align-self: start; z-index: 7;
   overflow: visible;
   margin-bottom: 0;
 }
