@@ -1,0 +1,290 @@
+Rebuild only the desktop layout of the existing pinned product section. Work with the existing React markup and existing selectors. Do not replace the current selector names with generic names such as .head, .rail, .copy, .cup, or .band.
+
+CRITICAL BEHAVIOR TO PRESERVE
+
+- Keep .product-scroll at height: 500vh.
+- Keep .product-stage position: sticky and top: 0.
+- Preserve all active-product state logic, scroll calculations, cup swap classes, keyframes, timing, easing, and reverse-direction behavior.
+- Do not change the cup animation implementation.
+- The desktop redesign applies only above 900px.
+- Update both the JSX and CSS where required.
+
+DESKTOP STRUCTURE — 1440×815 VIEWPORT
+
+.product-stage must be the positioning container:
+
+.product-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
+  display: block;
+  padding: 0;
+  background: #fafafa;
+}
+
+Remove any product-data or inline backgroundColor that overrides #fafafa. Keep the existing background transition only if it does not change the reference color.
+
+HEADING
+
+Position the existing .product-copy-head at:
+
+.product-copy-head {
+  position: absolute;
+  left: 146px;
+  top: 175px;
+  width: 620px;
+  padding: 0;
+  z-index: 9;
+}
+
+Hide .product-index and .product-category on desktop.
+
+Change the product-title JSX so it contains three elements:
+
+<h2 className="product-title">
+  <span className="product-title-name">{activeProduct.name}</span>
+  <span className="product-title-series">Series</span>
+</h2>
+
+Style it as:
+
+.product-title {
+  display: flex;
+  align-items: baseline;
+  white-space: nowrap;
+  max-width: none;
+  margin: 0;
+  font-size: 54px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+.product-title-name {
+  color: #c3b49f;
+}
+
+.product-title-series {
+  position: relative;
+  margin-left: 92px;
+  color: #171613;
+}
+
+.product-title-series::before {
+  content: "";
+  position: absolute;
+  left: -40px;
+  top: .56em;
+  width: 28px;
+  height: 2px;
+  background: #171613;
+}
+
+LEFT RAIL
+
+Use the existing .series-rail selector:
+
+.series-rail {
+  position: absolute;
+  left: 144px;
+  top: 276px;
+  width: 164px;
+  max-width: none;
+  padding-left: 34px;
+  z-index: 8;
+}
+
+.series-rail::before {
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+}
+
+.series-rail li {
+  height: 16px;
+  margin: 0 0 25px;
+  font-size: 17px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.series-rail li.active::before {
+  left: -47px;
+  top: 8px;
+  width: 25px;
+  height: 1px;
+}
+
+Shorten the visible rail labels in the product data to:
+
+Speciality
+Milk Tea
+Matcha
+Fruit Tea
+Limited
+
+Do not change the underlying product IDs or state keys.
+
+BODY COPY
+
+Position the existing .product-copy-body at:
+
+.product-copy-body {
+  position: absolute;
+  left: 371px;
+  top: 269px;
+  width: 337px;
+  padding: 0;
+  z-index: 9;
+}
+
+.product-note {
+  display: block;
+  max-width: none;
+  margin: 0;
+}
+
+.product-note-item {
+  margin: 0 0 36px;
+}
+
+.product-note-item:last-child {
+  margin-bottom: 0;
+}
+
+.product-note-item h3 {
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.product-note-item p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 26px;
+  color: #6f675d;
+}
+
+CUP
+
+Use the existing .cup-stack selector:
+
+.cup-stack {
+  position: absolute;
+  left: 935px;
+  right: auto;
+  top: 193px;
+  width: 294px;
+  height: 517px;
+  z-index: 7;
+  overflow: visible;
+}
+
+Do not assume the Tao Boba cup has the same aspect ratio as the Andtea cup. Inspect the transparent bounds of every cup asset.
+
+Preserve each cup’s aspect ratio. Normalize the assets to a consistent transparent canvas before sizing if necessary. Do not stretch or use scaleX to force the Tao Boba cup into Andtea’s narrow proportions.
+
+The desired visual footprint is approximately x=935–1229 and y=193–710, but adjust the normalized asset rather than distorting the cup.
+
+Disable the ingredient particles in this section to match the clean reference:
+
+.cup-particles {
+  display: none;
+}
+
+CTA
+
+The existing .product-cta is currently hidden. Make it visible and position it:
+
+.product-cta {
+  position: absolute;
+  left: 1258px;
+  top: 448px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  color: #6f675d;
+  z-index: 9;
+}
+
+Use a 64px × 1px horizontal rule or arrow treatment after the CTA text.
+
+WORD BAND
+
+Use the existing .word-band selector:
+
+.word-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 744px;
+  bottom: auto;
+  padding-left: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 96px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: .06em;
+  color: #e6dbc9;
+}
+
+MOBILE PROTECTION
+
+Inside the existing @media (max-width: 900px) block, explicitly reset every desktop absolute position:
+
+.series-rail {
+  position: relative;
+  left: auto;
+  top: auto;
+  width: auto;
+  max-width: none;
+}
+
+.product-copy-head,
+.product-copy-body {
+  position: relative;
+  left: auto;
+  top: auto;
+  width: auto;
+}
+
+.cup-stack {
+  position: relative;
+  left: auto;
+  right: auto;
+  top: auto;
+}
+
+.word-band {
+  top: auto;
+  bottom: -.22em;
+}
+
+Keep the rest of the existing mobile flex layout.
+
+VERIFICATION
+
+Test at an actual CSS viewport of 1440×815, excluding browser chrome. Confirm:
+
+- heading left: 146px
+- heading top: 175px
+- first rail label top: 276px
+- rail label pitch: 41px
+- copy left: 371px
+- copy top: 269px
+- copy width: 337px
+- cup top: 193px
+- word band top: 744px
+- section remains sticky throughout the 500vh product scroll
+- active series changes still work
+- forward and reverse cup animations still work
+- no horizontal overflow at 901px, 1024px, 1280px, or 1440px
+
+Do not report completion based only on the CSS declarations. Compare a rendered 1440×815 screenshot against the reference.

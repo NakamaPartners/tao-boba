@@ -72,6 +72,13 @@ p     { margin: 0 }
   display: flex; align-items: center; justify-content: center;
   pointer-events: none;
   mix-blend-mode: multiply;
+  transition: background-color .35s ease, backdrop-filter .35s ease;
+}
+.masthead.scrolled {
+  background-color: rgba(246, 241, 232, .88);
+  backdrop-filter: blur(14px) saturate(1.4);
+  mix-blend-mode: normal;
+  pointer-events: auto;
 }
 .brand {
   display: flex; align-items: center;
@@ -319,10 +326,12 @@ p     { margin: 0 }
   max-width: none !important;
   object-fit: contain;
   margin: 0 auto;
-  /* HD appearance: sharper contrast, richer color, crisper edges */
+  /* Glowing rim: tight bright pass → mid halo → wide ambient bleed */
   filter:
-    drop-shadow(0 22px 38px rgba(30,20,10,.14))
-    drop-shadow(0 5px 10px rgba(30,20,10,.07))
+    drop-shadow(0 0  3px rgba(255, 252, 244, 1.0))
+    drop-shadow(0 0 12px rgba(255, 248, 230, .80))
+    drop-shadow(0 0 28px rgba(250, 238, 210, .50))
+    drop-shadow(0 0 52px rgba(245, 230, 195, .28))
     contrast(1.06)
     saturate(1.12);
   image-rendering: -webkit-optimize-contrast;
@@ -610,6 +619,69 @@ p     { margin: 0 }
   .footer-bottom { flex-direction: column; gap: 16px }
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   SCROLL REVEALS — section blocks fade-up as they enter the viewport.
+   IntersectionObserver in home.tsx adds `.revealed` once crossing threshold.
+══════════════════════════════════════════════════════════════════════════ */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity  .8s cubic-bezier(.22, 1, .36, 1),
+    transform .8s cubic-bezier(.22, 1, .36, 1);
+}
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-reveal][data-delay="1"] { transition-delay: .13s }
+[data-reveal][data-delay="2"] { transition-delay: .26s }
+[data-reveal][data-delay="3"] { transition-delay: .38s }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   HERO LOAD ANIMATION — panel text enters when page first loads.
+══════════════════════════════════════════════════════════════════════════ */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(22px) }
+  to   { opacity: 1; transform: translateY(0) }
+}
+.hero-panel .kicker {
+  animation: heroFadeUp .85s cubic-bezier(.22, 1, .36, 1) .15s both;
+}
+.hero-panel h1 {
+  animation: heroFadeUp .9s  cubic-bezier(.22, 1, .36, 1) .3s  both;
+}
+.hero-panel .hero-copy {
+  animation: heroFadeUp .85s cubic-bezier(.22, 1, .36, 1) .48s both;
+}
+.hero-panel .marquee-wrap {
+  animation: heroFadeUp .8s  cubic-bezier(.22, 1, .36, 1) .62s both;
+}
+.hero-scroll, .hero-small {
+  animation: heroFadeUp .75s cubic-bezier(.22, 1, .36, 1) .75s both;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PRODUCT TEXT TRANSITIONS — content fades when drink changes.
+   .text-leaving / .text-entering toggled by changeProduct() in home.tsx.
+══════════════════════════════════════════════════════════════════════════ */
+@keyframes textLeave {
+  from { opacity: 1; transform: translateY(0)    }
+  to   { opacity: 0; transform: translateY(-9px) }
+}
+@keyframes textEnter {
+  from { opacity: 0; transform: translateY(12px) }
+  to   { opacity: 1; transform: translateY(0)    }
+}
+.text-leaving {
+  animation: textLeave .13s ease forwards;
+  pointer-events: none;
+}
+.text-entering {
+  animation: textEnter .5s cubic-bezier(.22, 1, .36, 1) forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto }
   *, *::before, *::after {
@@ -617,4 +689,1967 @@ p     { margin: 0 }
     transition-duration: .001s !important;
   }
   .hero-media img, .ed-photo img, .campaign-crop img { transform: none !important }
+}
+/* ═══════════════════════════════════════════════════════════════════════
+   TAO BOBA — ANDTEA-INSPIRED PINNED PRODUCT LAYOUT
+   Desktop override only. Existing mobile rules and animations preserved.
+═══════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 901px) {
+  .product-scroll {
+    height: 500vh;
+    position: relative;
+  }
+
+  .product-stage {
+    position: sticky;
+    top: 0;
+    display: block;
+    height: 100svh;
+    min-height: 620px;
+    overflow: hidden;
+    padding: 0;
+    background: #fafafa !important;
+    transition: background-color .7s ease;
+  }
+
+  /* Heading spans the left side above the rail and body copy */
+  .product-copy-head {
+    position: absolute;
+    left: 146px;
+    top: 175px;
+    width: 650px;
+    padding: 0;
+    z-index: 9;
+  }
+
+  .product-index,
+  .product-category {
+    display: none;
+  }
+
+  .product-title {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    max-width: none;
+    margin: 0;
+    color: #c3b49f;
+    font-size: 54px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -.02em;
+    white-space: nowrap;
+  }
+
+  /* Adds the dash and “Series” without requiring a JSX edit */
+  .product-title::after {
+    content: "Series";
+    display: inline-block;
+    margin-left: 40px;
+    padding-left: 52px;
+    color: #171613;
+    background:
+      linear-gradient(#171613, #171613)
+      left .56em / 28px 2px no-repeat;
+  }
+
+  /* Left series rail */
+  .series-rail {
+    position: absolute;
+    left: 144px;
+    top: 276px;
+    width: 164px;
+    max-width: none;
+    padding: 0 0 0 34px;
+    z-index: 8;
+  }
+
+  .series-rail::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    bottom: 2px;
+    width: 1px;
+    background: #d8cdbd;
+  }
+
+  .series-rail ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .series-rail li {
+    position: relative;
+    height: 16px;
+    margin: 0 0 25px;
+    color: #c3b49f;
+    font-size: 0;
+    line-height: 1;
+    letter-spacing: .01em;
+    white-space: nowrap;
+    cursor: default;
+    transition: color .35s ease;
+  }
+
+  .series-rail li:last-child {
+    margin-bottom: 0;
+  }
+
+  .series-rail li::after {
+    display: block;
+    color: inherit;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 16px;
+    white-space: nowrap;
+  }
+
+  .series-rail li:nth-child(1)::after {
+    content: "Speciality";
+  }
+
+  .series-rail li:nth-child(2)::after {
+    content: "Milk Tea";
+  }
+
+  .series-rail li:nth-child(3)::after {
+    content: "Matcha";
+  }
+
+  .series-rail li:nth-child(4)::after {
+    content: "Fruit Tea";
+  }
+
+  .series-rail li:nth-child(5)::after {
+    content: "Limited";
+  }
+
+  .series-rail li.active {
+    color: #171613;
+  }
+
+  .series-rail li.active::before {
+    content: "";
+    position: absolute;
+    left: -47px;
+    top: 8px;
+    width: 25px;
+    height: 1px;
+    background: #171613;
+  }
+
+  .series-rail span {
+    display: none;
+  }
+
+  /* Product description */
+  .product-copy-body {
+    position: absolute;
+    left: 371px;
+    top: 269px;
+    width: 337px;
+    padding: 0;
+    z-index: 9;
+  }
+
+  .product-note {
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+
+  .product-note-item {
+    margin: 0 0 36px;
+  }
+
+  .product-note-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .product-note-item h3 {
+    margin: 0 0 16px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+
+  .product-note-item p {
+    margin: 0;
+    color: #6f675d;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 26px;
+  }
+
+  /* Wider Tao Boba cup, optimized without distortion */
+  .cup-stack {
+    position: absolute;
+    left: auto;
+    right: 210px;
+    top: 205px;
+    width: 390px;
+    height: 505px;
+    z-index: 7;
+    overflow: visible;
+  }
+
+  .cup-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: end center;
+    will-change: transform, opacity;
+  }
+
+  .cup-wrap img {
+    width: 100%;
+    height: auto;
+    max-width: 390px !important;
+    max-height: 505px;
+    object-fit: contain;
+    margin: 0 auto;
+    filter:
+      drop-shadow(0 0  3px rgba(255, 252, 244, 1.0))
+      drop-shadow(0 0 12px rgba(255, 248, 230, .80))
+      drop-shadow(0 0 28px rgba(250, 238, 210, .50))
+      drop-shadow(0 0 52px rgba(245, 230, 195, .28))
+      contrast(1.04)
+      saturate(1.08);
+  }
+
+  /* Clean reference composition */
+  .cup-particles {
+    display: none;
+  }
+
+  /* View-series CTA */
+  .product-cta {
+    position: absolute;
+    left: 1258px;
+    top: 448px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #6f675d;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1;
+    white-space: nowrap;
+    z-index: 9;
+  }
+
+  .product-cta i {
+    display: block;
+    width: 54px;
+    height: 1px;
+    background: #6f675d;
+  }
+
+  /* Bottom repeated product-name band */
+  .word-band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 744px;
+    bottom: auto;
+    z-index: 2;
+    overflow: hidden;
+    padding-left: 20px;
+    color: #e6dbc9;
+    font-family: Baskerville, Georgia, serif;
+    font-size: 96px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: .06em;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .word-band span {
+    display: inline-block;
+    margin-right: .48em;
+  }
+}/* ═══════════════════════════════════════════════════════════════════════
+   CORRECTION — preserve original names and ingredient animations
+═══════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 901px) {
+  /* Keep the real product name only */
+  .product-copy-head {
+    left: 146px;
+    top: 175px;
+    width: 620px;
+  }
+
+  .product-title {
+    max-width: 620px;
+    color: #c3b49f;
+    font-size: 54px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Remove the artificial “Series” label */
+  .product-title::after {
+    content: none !important;
+    display: none !important;
+    margin: 0;
+    padding: 0;
+    background: none;
+  }
+
+  /* Restore every original series name */
+  .series-rail {
+    left: 144px;
+    top: 276px;
+    width: 205px;
+    padding-left: 34px;
+  }
+
+  .series-rail li {
+    height: auto;
+    min-height: 16px;
+    margin-bottom: 25px;
+    color: #c3b49f;
+    font-size: 16px;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .series-rail li::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  .series-rail li.active {
+    color: #171613;
+  }
+
+  .series-rail li.active::before {
+    left: -47px;
+    top: .55em;
+    width: 25px;
+  }
+
+  /* Keep body copy aligned with the reference */
+  .product-copy-body {
+    left: 371px;
+    top: 269px;
+    width: 337px;
+  }
+
+  /* Preserve the wider Tao Boba cup */
+  .cup-stack {
+    top: 193px;
+    right: 210px;
+    width: 390px;
+    height: 517px;
+  }
+
+  .cup-wrap {
+    place-items: end center;
+  }
+
+  .cup-wrap img {
+    width: 100%;
+    height: auto;
+    max-width: 390px !important;
+    max-height: 517px;
+    object-fit: contain;
+  }
+
+  /* Restore the showering ingredient animation */
+  .cup-particles {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1;
+    top: -100px;
+    left: 0;
+    right: 0;
+    height: 110px;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 8;
+  }
+
+  .ptcl {
+    display: block;
+  }
+}/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE PRODUCT STAGE — clean stacked layout
+═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  .product-stage {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100svh;
+    min-height: 0;
+    padding: calc(var(--header) + 8px) 0 0;
+    overflow: hidden;
+  }
+
+  /* Horizontal series selector */
+  .series-rail {
+    position: relative;
+    inset: auto;
+    order: 1;
+    width: 100%;
+    max-width: none;
+    flex: 0 0 auto;
+    padding: 0 24px 12px;
+  }
+
+  .series-rail::before {
+    display: none;
+  }
+
+  .series-rail ul {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .series-rail ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .series-rail li {
+    height: auto;
+    min-height: 18px;
+    margin: 0;
+    color: #c3b49f;
+    font-size: 14px;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .series-rail li.active {
+    color: #171613;
+  }
+
+  .series-rail li.active::before,
+  .series-rail li::after,
+  .series-rail span {
+    display: none !important;
+  }
+
+  /* Product title */
+  .product-copy-head {
+    position: relative;
+    inset: auto;
+    order: 2;
+    width: auto;
+    flex: 0 0 auto;
+    padding: 4px 24px 0;
+    margin: 0;
+  }
+
+  .product-index {
+    display: block;
+    margin: 0 0 8px;
+    color: #a59b8f;
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  .product-category {
+    display: block;
+    margin: 0 0 14px;
+    color: #171613;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .product-title {
+    max-width: 100%;
+    color: #171613;
+    font-size: clamp(38px, 11vw, 52px);
+    line-height: .96;
+    letter-spacing: -.055em;
+    white-space: nowrap;
+  }
+
+  .product-title::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Cup must return to normal flow — this fixes the overlap */
+  .cup-stack {
+    position: relative;
+    inset: auto;
+    order: 3;
+    width: min(92%, 390px);
+    height: 42svh;
+    min-height: 280px;
+    max-height: 460px;
+    flex: 0 0 42svh;
+    margin: 8px auto 0;
+    align-self: center;
+  }
+
+  .cup-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: end center;
+  }
+
+  .cup-wrap img {
+    width: auto;
+    height: 100%;
+    max-width: 100% !important;
+    max-height: 42svh;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  /* Keep the ingredient shower, but smaller on mobile */
+  .cup-particles {
+    display: block !important;
+    top: -62px;
+    height: 80px;
+    transform: scale(.72);
+    transform-origin: center bottom;
+  }
+
+  /* Show just the key flavour note underneath; no text across the cup */
+  .product-copy-body {
+    position: relative;
+    inset: auto;
+    order: 4;
+    width: auto;
+    flex: 0 0 auto;
+    padding: 4px 24px 44px;
+    margin: 0;
+  }
+
+  .product-note {
+    display: block;
+    margin: 0;
+  }
+
+  .product-note-item {
+    display: none;
+    margin: 0;
+  }
+
+  .product-note-item:first-child {
+    display: block;
+  }
+
+  .product-note-item h3 {
+    margin: 0 0 8px;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .product-note-item p {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .product-cta {
+    display: none;
+  }
+
+  .word-band {
+    top: auto;
+    bottom: -.12em;
+    padding-left: 0;
+    font-size: 64px;
+    line-height: .9;
+  }
+}/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE PRODUCT STAGE — clean stacked layout
+═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  .product-stage {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100svh;
+    min-height: 0;
+    padding: calc(var(--header) + 8px) 0 0;
+    overflow: hidden;
+  }
+
+  /* Horizontal series selector */
+  .series-rail {
+    position: relative;
+    inset: auto;
+    order: 1;
+    width: 100%;
+    max-width: none;
+    flex: 0 0 auto;
+    padding: 0 24px 12px;
+  }
+
+  .series-rail::before {
+    display: none;
+  }
+
+  .series-rail ul {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .series-rail ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .series-rail li {
+    height: auto;
+    min-height: 18px;
+    margin: 0;
+    color: #c3b49f;
+    font-size: 14px;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .series-rail li.active {
+    color: #171613;
+  }
+
+  .series-rail li.active::before,
+  .series-rail li::after,
+  .series-rail span {
+    display: none !important;
+  }
+
+  /* Product title */
+  .product-copy-head {
+    position: relative;
+    inset: auto;
+    order: 2;
+    width: auto;
+    flex: 0 0 auto;
+    padding: 4px 24px 0;
+    margin: 0;
+  }
+
+  .product-index {
+    display: block;
+    margin: 0 0 8px;
+    color: #a59b8f;
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  .product-category {
+    display: block;
+    margin: 0 0 14px;
+    color: #171613;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .product-title {
+    max-width: 100%;
+    color: #171613;
+    font-size: clamp(38px, 11vw, 52px);
+    line-height: .96;
+    letter-spacing: -.055em;
+    white-space: nowrap;
+  }
+
+  .product-title::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Cup must return to normal flow — this fixes the overlap */
+  .cup-stack {
+    position: relative;
+    inset: auto;
+    order: 3;
+    width: min(92%, 390px);
+    height: 42svh;
+    min-height: 280px;
+    max-height: 460px;
+    flex: 0 0 42svh;
+    margin: 8px auto 0;
+    align-self: center;
+  }
+
+  .cup-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: end center;
+  }
+
+  .cup-wrap img {
+    width: auto;
+    height: 100%;
+    max-width: 100% !important;
+    max-height: 42svh;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  /* Keep the ingredient shower, but smaller on mobile */
+  .cup-particles {
+    display: block !important;
+    top: -62px;
+    height: 80px;
+    transform: scale(.72);
+    transform-origin: center bottom;
+  }
+
+  /* Show just the key flavour note underneath; no text across the cup */
+  .product-copy-body {
+    position: relative;
+    inset: auto;
+    order: 4;
+    width: auto;
+    flex: 0 0 auto;
+    padding: 4px 24px 44px;
+    margin: 0;
+  }
+
+  .product-note {
+    display: block;
+    margin: 0;
+  }
+
+  .product-note-item {
+    display: none;
+    margin: 0;
+  }
+
+  .product-note-item:first-child {
+    display: block;
+  }
+
+  .product-note-item h3 {
+    margin: 0 0 8px;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .product-note-item p {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .product-cta {
+    display: none;
+  }
+
+  .word-band {
+    top: auto;
+    bottom: -.12em;
+    padding-left: 0;
+    font-size: 64px;
+    line-height: .9;
+  }
+}/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE SPACING + RESTORE FLAVOR / BUILD / FINISH
+═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  /* More breathing room between 01 / 05 and the category */
+  .product-index {
+    margin: 0 0 16px;
+  }
+
+  .product-category {
+    margin: 0 0 22px;
+  }
+
+  /* Keep title separated from the cup */
+  .product-title {
+    margin: 0;
+  }
+
+  /* Move the cup slightly lower while keeping it inside the viewport */
+  .cup-stack {
+    width: min(90%, 380px);
+    height: 38svh;
+    min-height: 250px;
+    max-height: 420px;
+    flex: 0 0 38svh;
+    margin: 22px auto 0;
+  }
+
+  .cup-wrap img {
+    width: auto;
+    height: 100%;
+    max-width: 100% !important;
+    max-height: 38svh;
+    object-fit: contain;
+  }
+
+  /* Keep ingredients directly above the lowered cup */
+  .cup-particles {
+    display: block !important;
+    top: -58px;
+    height: 76px;
+  }
+
+  /* Push Flavor down and create a swipeable notes area */
+  .product-copy-body {
+    position: relative;
+    inset: auto;
+    order: 4;
+    width: 100%;
+    flex: 0 0 auto;
+    padding: 28px 24px 54px;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .product-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .product-note::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Restore Flavor, Build and Finish */
+  .product-note-item,
+  .product-note-item:nth-child(2),
+  .product-note-item:nth-child(3) {
+    display: block !important;
+    flex: 0 0 100%;
+    width: 100%;
+    margin: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .product-note-item h3 {
+    margin: 0 0 12px;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: .14em;
+  }
+
+  .product-note-item p {
+    margin: 0;
+    color: #6f675d;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+}/* ═══════════════════════════════════════════════════════════════════════
+   FINAL RESPONSIVE PRODUCT STAGE
+   Phones, Android devices, landscape views and tablets
+═══════════════════════════════════════════════════════════════════════ */
+
+/* Shared responsive behavior */
+@media (max-width: 1199px) {
+  .product-stage {
+    box-sizing: border-box;
+  }
+
+  /* Long titles wrap instead of being cropped */
+  .product-title {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow: visible;
+    color: #171613;
+    font-size: clamp(36px, 10vw, 56px);
+    font-weight: 300;
+    line-height: .94;
+    letter-spacing: -.055em;
+    white-space: normal !important;
+    overflow-wrap: normal;
+    word-break: normal;
+    text-wrap: balance;
+  }
+
+  .product-title::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Scrollable Flavor / Build / Finish */
+  .product-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 5px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-padding-inline: 0;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .product-note::-webkit-scrollbar {
+    display: none;
+  }
+
+  /*
+   * Leave part of the next note visible.
+   * This visually communicates that the section is swipeable.
+   */
+  .product-note-item,
+  .product-note-item:nth-child(2),
+  .product-note-item:nth-child(3) {
+    display: block !important;
+    flex: 0 0 calc(100% - 38px);
+    width: calc(100% - 38px);
+    min-width: 0;
+    margin: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .product-note-item h3 {
+    margin: 0 0 11px;
+    color: #171613;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: .14em;
+  }
+
+  .product-note-item p {
+    margin: 0;
+    color: #6f675d;
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* Permanent swipe instruction */
+  .product-copy-body::after {
+    content: "Swipe for Build + Finish  →";
+    display: block;
+    margin-top: 15px;
+    color: #978d81;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: .14em;
+    text-align: right;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .product-cta {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   PHONE PORTRAIT
+   320px–767px
+───────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .product-stage {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    height: 100svh;
+    min-height: 560px;
+    padding:
+      calc(var(--header) + 6px)
+      0
+      max(8px, env(safe-area-inset-bottom));
+    overflow: hidden;
+  }
+
+  /* Horizontally scrollable series rail */
+  .series-rail {
+    position: relative;
+    inset: auto;
+    order: 1;
+    width: 100%;
+    max-width: none;
+    flex: 0 0 auto;
+    padding: 0 24px 12px;
+  }
+
+  .series-rail::before {
+    display: none;
+  }
+
+  .series-rail ul {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-padding-left: 24px;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .series-rail ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .series-rail ul::after {
+    content: "";
+    flex: 0 0 12px;
+  }
+
+  .series-rail li {
+    height: auto;
+    min-height: 18px;
+    flex: 0 0 auto;
+    margin: 0;
+    color: #c3b49f;
+    font-size: 14px;
+    line-height: 18px;
+    white-space: nowrap;
+  }
+
+  .series-rail li.active {
+    color: #171613;
+  }
+
+  .series-rail li.active::before,
+  .series-rail li::after,
+  .series-rail span {
+    display: none !important;
+  }
+
+  /* Product information */
+  .product-copy-head {
+    position: relative;
+    inset: auto;
+    order: 2;
+    width: 100%;
+    flex: 0 0 auto;
+    padding: 4px 24px 0;
+    margin: 0;
+  }
+
+  .product-index {
+    display: block;
+    margin: 0 0 16px;
+    color: #a59b8f;
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  .product-category {
+    display: block;
+    margin: 0 0 20px;
+    color: #716b62;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: .18em;
+  }
+
+  .product-title {
+    font-size: clamp(34px, 10.5vw, 50px);
+    line-height: .92;
+  }
+
+  /* Cup remains in normal document flow */
+  .cup-stack {
+    position: relative;
+    inset: auto;
+    order: 3;
+    width: min(88%, 370px);
+    height: clamp(210px, 30svh, 330px);
+    min-height: 0;
+    max-height: none;
+    flex: 0 1 clamp(210px, 30svh, 330px);
+    margin: clamp(16px, 2.5svh, 24px) auto 0;
+    align-self: center;
+    overflow: visible;
+  }
+
+  .cup-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: end center;
+  }
+
+  .cup-wrap img {
+    width: auto;
+    height: 100%;
+    max-width: 100% !important;
+    max-height: 100%;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  .cup-particles {
+    display: block !important;
+    top: -52px;
+    height: 70px;
+    transform: scale(.7);
+    transform-origin: center bottom;
+  }
+
+  /* Notes appear underneath the cup */
+  .product-copy-body {
+    position: relative;
+    inset: auto;
+    order: 4;
+    width: 100%;
+    min-height: 0;
+    flex: 1 1 auto;
+    padding:
+      clamp(20px, 3svh, 30px)
+      24px
+      max(52px, env(safe-area-inset-bottom));
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .word-band {
+    top: auto;
+    bottom: -.08em;
+    padding-left: 0;
+    font-size: clamp(52px, 17vw, 70px);
+    line-height: .9;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   SHORT PHONE SCREENS
+   iPhone SE, compact Android screens and reduced browser height
+───────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) and (max-height: 700px) {
+  .product-stage {
+    min-height: 520px;
+    padding-top: calc(var(--header) + 2px);
+  }
+
+  .series-rail {
+    padding-bottom: 8px;
+  }
+
+  .product-copy-head {
+    padding-top: 0;
+  }
+
+  .product-index {
+    margin-bottom: 10px;
+  }
+
+  .product-category {
+    margin-bottom: 13px;
+  }
+
+  .product-title {
+    font-size: clamp(31px, 9.5vw, 42px);
+    line-height: .92;
+  }
+
+  .cup-stack {
+    width: min(82%, 330px);
+    height: clamp(175px, 27svh, 250px);
+    flex-basis: clamp(175px, 27svh, 250px);
+    margin-top: 12px;
+  }
+
+  .cup-particles {
+    top: -42px;
+    transform: scale(.6);
+  }
+
+  .product-copy-body {
+    padding-top: 15px;
+    padding-bottom: max(43px, env(safe-area-inset-bottom));
+  }
+
+  .product-note-item p {
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .product-copy-body::after {
+    margin-top: 10px;
+    font-size: 8px;
+  }
+
+  .word-band {
+    font-size: 50px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   TABLETS + LANDSCAPE PHONES
+   Includes iPad portrait/landscape and Android tablets
+───────────────────────────────────────────────────────────────────── */
+
+@media (min-width: 768px) and (max-width: 1199px),
+       (orientation: landscape) and (min-width: 568px) and (max-height: 600px) {
+  .product-stage {
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 43%) minmax(0, 57%);
+    grid-template-rows: auto auto minmax(0, 1fr);
+    column-gap: clamp(28px, 4vw, 58px);
+    width: 100%;
+    height: 100svh;
+    min-height: 0;
+    padding:
+      calc(var(--header) + 14px)
+      clamp(32px, 5vw, 70px)
+      max(54px, env(safe-area-inset-bottom));
+    overflow: hidden;
+  }
+
+  .series-rail {
+    position: relative;
+    inset: auto;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    width: 100%;
+    max-width: none;
+    padding: 0 0 18px;
+  }
+
+  .series-rail::before {
+    display: none;
+  }
+
+  .series-rail ul {
+    display: flex;
+    gap: clamp(24px, 4vw, 52px);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .series-rail ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .series-rail li {
+    height: auto;
+    flex: 0 0 auto;
+    margin: 0;
+    color: #c3b49f;
+    font-size: clamp(14px, 1.8vw, 19px);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .series-rail li.active {
+    color: #171613;
+  }
+
+  .series-rail li.active::before,
+  .series-rail li::after,
+  .series-rail span {
+    display: none !important;
+  }
+
+  .product-copy-head {
+    position: relative;
+    inset: auto;
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    padding: clamp(20px, 3svh, 36px) 0 0;
+    margin: 0;
+  }
+
+  .product-index {
+    display: block;
+    margin: 0 0 16px;
+    font-size: 9px;
+  }
+
+  .product-category {
+    display: block;
+    margin: 0 0 20px;
+    font-size: 11px;
+  }
+
+  .product-title {
+    font-size: clamp(38px, 5.8vw, 62px);
+    line-height: .92;
+  }
+
+  .cup-stack {
+    position: relative;
+    inset: auto;
+    grid-column: 2;
+    grid-row: 2 / 4;
+    width: 100%;
+    height: min(58svh, 620px);
+    min-height: 0;
+    max-height: none;
+    margin: clamp(14px, 2svh, 26px) auto 0;
+    align-self: start;
+    overflow: visible;
+  }
+
+  .cup-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: end center;
+  }
+
+  .cup-wrap img {
+    width: auto;
+    height: 100%;
+    max-width: 100% !important;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .cup-particles {
+    display: block !important;
+    top: -58px;
+    height: 80px;
+    transform: scale(.75);
+    transform-origin: center bottom;
+  }
+
+  .product-copy-body {
+    position: relative;
+    inset: auto;
+    grid-column: 1;
+    grid-row: 3;
+    width: 100%;
+    min-height: 0;
+    padding: clamp(26px, 4svh, 44px) 0 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .product-note-item {
+    flex-basis: calc(100% - 42px);
+    width: calc(100% - 42px);
+  }
+
+  .product-note-item p {
+    font-size: clamp(13px, 1.5vw, 16px);
+    line-height: 1.65;
+  }
+
+  .product-copy-body::after {
+    text-align: left;
+  }
+
+  .product-cta {
+    display: none;
+  }
+
+  .word-band {
+    top: auto;
+    bottom: -.12em;
+    font-size: clamp(76px, 11vw, 126px);
+  }
+}
+
+/* Extra compression for landscape phones with very little height */
+@media (orientation: landscape) and (min-width: 568px) and (max-height: 500px) {
+  .product-stage {
+    padding-top: calc(var(--header) + 2px);
+    padding-bottom: 30px;
+  }
+
+  .series-rail {
+    padding-bottom: 8px;
+  }
+
+  .product-copy-head {
+    padding-top: 7px;
+  }
+
+  .product-index {
+    margin-bottom: 7px;
+  }
+
+  .product-category {
+    margin-bottom: 9px;
+  }
+
+  .product-title {
+    font-size: clamp(30px, 5vw, 42px);
+  }
+
+  .cup-stack {
+    height: 62svh;
+    margin-top: 4px;
+  }
+
+  .product-copy-body {
+    padding-top: 12px;
+  }
+
+  .product-note-item p {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .product-copy-body::after {
+    margin-top: 7px;
+    font-size: 8px;
+  }
+
+  .word-band {
+    display: none;
+  }
+}/* ═══════════════════════════════════════════════════════════════════════
+   DRINK-MATCHED BACKGROUND COLORS
+   Changes whenever the active drink changes during scrolling
+═══════════════════════════════════════════════════════════════════════ */
+
+.product-stage {
+  --drink-background: #fafafa;
+
+  background-color: var(--drink-background) !important;
+  transition:
+    background-color .9s cubic-bezier(.16, 1, .3, 1);
+}
+
+/* 01 — Speciality Drinks / Ube */
+.product-stage:has(.series-rail li:nth-child(1).active) {
+  --drink-background: #f1ecf7;
+}
+
+/* 02 — Milk Tea */
+.product-stage:has(.series-rail li:nth-child(2).active) {
+  --drink-background: #f5eee4;
+}
+
+/* 03 — Matcha */
+.product-stage:has(.series-rail li:nth-child(3).active) {
+  --drink-background: #edf3e8;
+}
+
+/* 04 — Fruit Tea */
+.product-stage:has(.series-rail li:nth-child(4).active) {
+  --drink-background: #f8f1df;
+}
+
+/* 05 — Matcha Madness / Strawberry Matcha */
+.product-stage:has(.series-rail li:nth-child(5).active) {
+  --drink-background: #f7e9ed;
+}/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE SAFARI CUP VISIBILITY FIX
+═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1199px) {
+  .cup-stack {
+    isolation: isolate;
+  }
+
+  .cup-wrap {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cup-wrap img {
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain;
+    flex: 0 1 auto;
+    margin: 0 auto;
+  }
+
+  .cup-particles {
+    z-index: 8;
+  }
+}
+
+/* Phone portrait sizing, including iPhone XS Max */
+@media (max-width: 767px) and (orientation: portrait) {
+  .cup-stack {
+    width: min(88vw, 370px);
+    height: clamp(240px, 34svh, 350px);
+    flex: 0 0 clamp(240px, 34svh, 350px);
+  }
+
+  .cup-wrap img {
+    width: auto !important;
+    height: auto !important;
+    max-width: min(88vw, 370px) !important;
+    max-height: clamp(240px, 34svh, 350px) !important;
+  }
+}
+
+/* Extra protection for Safari/iOS */
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 1199px) {
+    .cup-wrap {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .cup-wrap img {
+      width: auto !important;
+      height: auto !important;
+      min-width: 1px;
+      min-height: 1px;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FINAL MOBILE PRODUCT OVERRIDE
+   One predictable layout for phones, landscape phones and tablets.
+   This block intentionally comes last so older experiments cannot win.
+═══════════════════════════════════════════════════════════════════════ */
+
+.product-note-dots {
+  display: none;
+}
+
+@media (max-width: 1199px) {
+  .product-copy-body::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  .product-note {
+    display: flex !important;
+    gap: 0 !important;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .product-note::-webkit-scrollbar {
+    display: none;
+  }
+
+  .product-note-item,
+  .product-note-item:nth-child(2),
+  .product-note-item:nth-child(3) {
+    display: block !important;
+    box-sizing: border-box;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .product-note-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 18px;
+    margin-top: 12px;
+  }
+
+  .product-note-dot {
+    appearance: none;
+    width: 6px;
+    height: 6px;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: #c9bca9;
+    opacity: .58;
+    cursor: pointer;
+    transition: width .25s var(--ease), opacity .25s ease, background-color .25s ease;
+  }
+
+  .product-note-dot.active {
+    width: 20px;
+    background: #716b62;
+    opacity: 1;
+  }
+
+  .product-title {
+    max-width: 100% !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    overflow-wrap: normal;
+    word-break: normal;
+    text-wrap: balance;
+  }
+
+  .cup-stack {
+    isolation: isolate;
+  }
+
+  .cup-wrap {
+    display: flex !important;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cup-wrap img {
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 1px;
+    min-height: 1px;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain;
+    flex: 0 1 auto;
+    margin: 0 auto;
+  }
+
+  .cup-particles {
+    display: block !important;
+    z-index: 8;
+  }
+}
+
+/* Portrait phones: 320px through large iPhones and large Android phones. */
+@media (max-width: 767px) and (orientation: portrait) {
+  .product-stage {
+    --phone-edge: clamp(20px, 5.8vw, 28px);
+    --phone-cup-top: clamp(292px, 38svh, 338px);
+    --phone-cup-height: clamp(215px, 31svh, 285px);
+
+    position: sticky;
+    top: 0;
+    display: block !important;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100svh;
+    min-height: 560px;
+    padding: 0;
+    overflow: hidden;
+    transition: background-color .9s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .series-rail {
+    position: absolute !important;
+    z-index: 12;
+    top: calc(var(--header) + 12px) !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+    width: 100%;
+    max-width: none;
+    padding: 0 var(--phone-edge) 10px;
+    margin: 0;
+  }
+
+  .series-rail::before {
+    display: none;
+  }
+
+  .series-rail ul {
+    display: flex;
+    gap: clamp(22px, 7vw, 34px);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .series-rail ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .series-rail ul::after {
+    content: "";
+    flex: 0 0 1px;
+  }
+
+  .series-rail li {
+    display: block;
+    height: auto;
+    min-height: 19px;
+    flex: 0 0 auto;
+    margin: 0;
+    color: #c3b49f;
+    font-size: clamp(13px, 3.7vw, 15px);
+    line-height: 19px;
+    white-space: nowrap;
+  }
+
+  .series-rail li.active {
+    color: #171613;
+  }
+
+  .series-rail li.active::before,
+  .series-rail li::after,
+  .series-rail span {
+    display: none !important;
+  }
+
+  .product-copy-head {
+    position: absolute !important;
+    z-index: 10;
+    top: calc(var(--header) + 58px) !important;
+    right: var(--phone-edge) !important;
+    bottom: auto !important;
+    left: var(--phone-edge) !important;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .product-index {
+    display: block;
+    margin: 0 0 18px;
+    color: #a59b8f;
+    font-size: 9px;
+    line-height: 1;
+    letter-spacing: .22em;
+  }
+
+  .product-category {
+    display: block;
+    margin: 0 0 25px;
+    color: #716b62;
+    font-size: clamp(10px, 2.8vw, 12px);
+    line-height: 1;
+    letter-spacing: .18em;
+  }
+
+  .product-title {
+    width: 100%;
+    margin: 0;
+    font-size: clamp(32px, 9.7vw, 46px) !important;
+    font-weight: 300;
+    line-height: .92 !important;
+    letter-spacing: -.055em;
+  }
+
+  .cup-stack {
+    position: absolute !important;
+    z-index: 5;
+    top: var(--phone-cup-top) !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: 50% !important;
+    width: min(84vw, 356px) !important;
+    height: var(--phone-cup-height) !important;
+    min-height: 0;
+    max-height: none;
+    margin: 0 !important;
+    transform: translateX(-50%);
+    overflow: visible;
+  }
+
+  .cup-wrap {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cup-wrap img {
+    max-width: min(84vw, 356px) !important;
+    max-height: var(--phone-cup-height) !important;
+  }
+
+  .cup-particles {
+    top: -48px;
+    height: 68px;
+    transform: scale(.68);
+    transform-origin: center bottom;
+  }
+
+  .product-copy-body {
+    position: absolute !important;
+    z-index: 10;
+    top: auto !important;
+    right: var(--phone-edge) !important;
+    bottom: max(58px, calc(env(safe-area-inset-bottom) + 48px)) !important;
+    left: var(--phone-edge) !important;
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .product-note {
+    min-height: 100px;
+  }
+
+  .product-note-item h3 {
+    margin: 0 0 12px;
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: .14em;
+  }
+
+  .product-note-item p {
+    margin: 0;
+    font-size: clamp(12px, 3.4vw, 14px);
+    line-height: 1.58;
+  }
+
+  .product-note-dots {
+    margin-top: 10px;
+  }
+
+  .word-band {
+    top: auto !important;
+    bottom: -.08em !important;
+    padding-left: 0;
+    font-size: clamp(50px, 17vw, 72px);
+    line-height: .9;
+  }
+
+  .product-cta,
+  .ghost-glyph {
+    display: none !important;
+  }
+}
+
+/* Short displays: iPhone SE-class and compact Android browser viewports. */
+@media (max-width: 767px) and (orientation: portrait) and (max-height: 700px) {
+  .product-stage {
+    --phone-cup-top: clamp(250px, 37svh, 270px);
+    --phone-cup-height: clamp(170px, 27svh, 205px);
+    min-height: 520px;
+  }
+
+  .series-rail {
+    top: calc(var(--header) + 4px) !important;
+  }
+
+  .product-copy-head {
+    top: calc(var(--header) + 43px) !important;
+  }
+
+  .product-index {
+    margin-bottom: 11px;
+  }
+
+  .product-category {
+    margin-bottom: 16px;
+  }
+
+  .product-title {
+    font-size: clamp(29px, 9vw, 39px) !important;
+  }
+
+  .cup-stack {
+    width: min(78vw, 310px) !important;
+  }
+
+  .cup-wrap img {
+    max-width: min(78vw, 310px) !important;
+  }
+
+  .product-copy-body {
+    bottom: max(43px, calc(env(safe-area-inset-bottom) + 35px)) !important;
+  }
+
+  .product-note {
+    min-height: 79px;
+  }
+
+  .product-note-item h3 {
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+
+  .product-note-item p {
+    font-size: 11px;
+    line-height: 1.42;
+  }
+
+  .product-note-dots {
+    margin-top: 6px;
+  }
+
+  .word-band {
+    font-size: 48px;
+  }
+}
+
+/* Tablets and landscape phones keep the two-column layout, with clean slides. */
+@media (min-width: 768px) and (max-width: 1199px),
+       (orientation: landscape) and (min-width: 568px) and (max-height: 600px) {
+  .product-note-item,
+  .product-note-item:nth-child(2),
+  .product-note-item:nth-child(3) {
+    flex-basis: 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  .product-note-dots {
+    justify-content: flex-start;
+    margin-top: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-note {
+    scroll-behavior: auto;
+  }
 }

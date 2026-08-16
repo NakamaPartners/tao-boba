@@ -190,13 +190,39 @@ export default function Home() {
   const titleEl          = useRef<HTMLHeadingElement>(null);
   const indexEl          = useRef<HTMLParagraphElement>(null);
   const noteEl           = useRef<HTMLDivElement>(null);
+  const noteDotsEl       = useRef<HTMLDivElement>(null);
   const bandEl           = useRef<HTMLDivElement>(null);
   const ghostEl          = useRef<HTMLDivElement>(null);
   const categoryEl       = useRef<HTMLParagraphElement>(null);
 
+  const copyHeadEl     = useRef<HTMLDivElement>(null);
+  const rafId          = useRef<number>(0);
+  const targetScrollY  = useRef(0);
+  const smoothScrollY  = useRef(0);
+
   const currentIdx  = useRef(-1);
   const lastScrollY = useRef(0);
   const animTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function setActiveNoteDot(next: number) {
+    if (!noteDotsEl.current) return;
+
+    [...noteDotsEl.current.children].forEach((dot, index) => {
+      const isActive = index === next;
+      dot.classList.toggle('active', isActive);
+      dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+    });
+  }
+
+  function goToNote(next: number) {
+    if (!noteEl.current) return;
+
+    noteEl.current.scrollTo({
+      left: noteEl.current.clientWidth * next,
+      behavior: 'smooth',
+    });
+    setActiveNoteDot(next);
+  }
 
   /* ── cup swap engine — timing matches prototype exactly ─────────────────
      Exit:  0.33s cubic-bezier(.55,0,.85,.35)
@@ -217,18 +243,45 @@ export default function Home() {
       );
     }
 
-    /* text updates */
-    if (titleEl.current) titleEl.current.textContent = p.name;
-    if (categoryEl.current) categoryEl.current.textContent = p.category;
-    if (indexEl.current)
-      indexEl.current.textContent = `${String(next + 1).padStart(2, '0')} / 05`;
-    if (ghostEl.current)
-      ghostEl.current.textContent = String(next + 1).padStart(2, '0');
-    if (noteEl.current) {
-      noteEl.current.innerHTML = p.notes
-        .map(([label, text]) => `<div class="product-note-item"><h3>${label}</h3><p>${text}</p></div>`)
-        .join('');
+    /* text fade-out → update → fade-in */
+    const doTextUpdate = () => {
+      if (titleEl.current)    titleEl.current.textContent = p.name;
+      if (categoryEl.current) categoryEl.current.textContent = p.category;
+      if (indexEl.current)
+        indexEl.current.textContent = `${String(next + 1).padStart(2, '0')} / 05`;
+      if (ghostEl.current)
+        ghostEl.current.textContent = String(next + 1).padStart(2, '0');
+      if (noteEl.current) {
+        noteEl.current.innerHTML = p.notes
+          .map(([label, text]) => `<div class="product-note-item"><h3>${label}</h3><p>${text}</p></div>`)
+          .join('');
+        noteEl.current.scrollLeft = 0;
+      }
+      setActiveNoteDot(0);
+    };
+
+    const isFirstLoad = currentIdx.current === -1;
+    if (!REDUCED && !isFirstLoad && (copyHeadEl.current || noteEl.current)) {
+      const textEls = [copyHeadEl.current, noteEl.current].filter(Boolean) as HTMLElement[];
+      const captured = next;
+      textEls.forEach(el => {
+        el.style.animation = 'none';
+        void el.offsetHeight; // force reflow
+        el.classList.add('text-leaving');
+      });
+      setTimeout(() => {
+        if (currentIdx.current !== captured) return; // stale — another product queued
+        doTextUpdate();
+        textEls.forEach(el => {
+          el.classList.remove('text-leaving');
+          el.classList.add('text-entering');
+          el.addEventListener('animationend', () => el.classList.remove('text-entering'), { once: true });
+        });
+      }, 130);
+    } else {
+      doTextUpdate();
     }
+
     if (bandEl.current) {
       bandEl.current.innerHTML =
         `<span>${p.short}</span><span>${p.short}</span><span>${p.short}</span><span>${p.short}</span>`;
@@ -302,17 +355,12 @@ export default function Home() {
     /* init first product */
     changeProduct(0, false);
 
-    /* unified scroll handler — matches prototype onScroll() exactly */
-    function onScroll() {
-      const y = window.scrollY;
-
-      /* hero parallax */
+    /* ── parallax helper — called from RAF loop ──────────────────────── */
+    function applyParallax(y: number) {
       if (heroImgEl.current && !REDUCED) {
         heroImgEl.current.style.transform =
           `translateY(${Math.min(18, y * 0.025) - 6}%) scale(1.02)`;
       }
-
-      /* editorial parallax — same 0.06 rate, alternating direction */
       if (!REDUCED) {
         document.querySelectorAll<HTMLElement>('.parallax-photo').forEach((el, n) => {
           const r = el.parentElement?.getBoundingClientRect();
@@ -322,6 +370,23 @@ export default function Home() {
             `translate3d(0,${Math.max(-42, Math.min(42, p))}px,0) scale(1.04)`;
         });
       }
+    }
+
+    /* ── RAF lerp loop — smooths parallax each frame ──────────────────── */
+    function tick() {
+      const diff = targetScrollY.current - smoothScrollY.current;
+      if (Math.abs(diff) > 0.05) {
+        smoothScrollY.current += diff * 0.1;
+        applyParallax(smoothScrollY.current);
+      }
+      rafId.current = requestAnimationFrame(tick);
+    }
+
+    /* ── scroll handler — product scrub + masthead ─────────────────────
+       Parallax is now RAF-driven (lerped). Only discrete changes here. */
+    function onScroll() {
+      const y = window.scrollY;
+      targetScrollY.current = y;
 
       /* product series scrub */
       if (productScrollEl.current) {
@@ -334,14 +399,37 @@ export default function Home() {
           changeProduct(next, y < lastScrollY.current);
       }
 
+      /* masthead solidifies after first scroll */
+      document.querySelector('.masthead')?.classList.toggle('scrolled', y > 40);
+
       lastScrollY.current = y;
     }
 
+    /* ── IntersectionObserver for section reveals ──────────────────────── */
+    const revealIO = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).classList.add('revealed');
+          revealIO.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach(el => revealIO.observe(el));
+
+    /* init */
+    smoothScrollY.current = window.scrollY;
+    targetScrollY.current = window.scrollY;
+    applyParallax(window.scrollY);
+
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+    rafId.current = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(rafId.current);
+      revealIO.disconnect();
       if (animTimer.current) clearTimeout(animTimer.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -404,7 +492,7 @@ export default function Home() {
         <div className="wave w2" aria-hidden="true">~</div>
 
         <div className="ed-row row-a">
-          <div className="ed-copy">
+          <div className="ed-copy" data-reveal>
             <h2>Not just sweetness.<br />A study in texture.</h2>
             <span className="ed-sub">Dessert as a little ritual</span>
             <div className="rule" />
@@ -414,7 +502,7 @@ export default function Home() {
               fruit, cream, tea and contrast.
             </p>
           </div>
-          <div className="ed-photo">
+          <div className="ed-photo" data-reveal data-delay="1">
             <img
               className="parallax-photo"
               src={petitPurple}
@@ -424,14 +512,14 @@ export default function Home() {
         </div>
 
         <div className="ed-row row-b">
-          <div className="ed-photo">
+          <div className="ed-photo" data-reveal>
             <img
               className="parallax-photo"
               src={petitOrange}
               alt="Orange petit gateau broken open"
             />
           </div>
-          <div className="ed-copy right">
+          <div className="ed-copy right" data-reveal data-delay="1">
             <h2>One flavor.<br />Three textures. One bite.</h2>
             <span className="ed-sub">Petit gateau, made in Denver</span>
             <div className="rule" />
@@ -471,7 +559,7 @@ export default function Home() {
           </nav>
 
           {/* Copy column */}
-          <div className="product-copy-head">
+          <div className="product-copy-head" ref={copyHeadEl}>
             <p className="product-index" ref={indexEl}>01 / 05</p>
             <p className="product-category" ref={categoryEl}>{PRODUCTS[0].category}</p>
             <h2 className="product-title" ref={titleEl}>
@@ -480,12 +568,37 @@ export default function Home() {
           </div>
 
           <div className="product-copy-body">
-            <div className="product-note" ref={noteEl}>
+            <div
+              className="product-note"
+              ref={noteEl}
+              onScroll={(event) => {
+                const scroller = event.currentTarget;
+                if (!scroller.clientWidth) return;
+
+                const active = Math.max(
+                  0,
+                  Math.min(2, Math.round(scroller.scrollLeft / scroller.clientWidth)),
+                );
+                setActiveNoteDot(active);
+              }}
+            >
               {PRODUCTS[0].notes.map(([label, text]) => (
                 <div className="product-note-item" key={label}>
                   <h3>{label}</h3>
                   <p>{text}</p>
                 </div>
+              ))}
+            </div>
+            <div className="product-note-dots" ref={noteDotsEl} aria-label="Drink details">
+              {['Flavor', 'Build', 'Finish'].map((label, index) => (
+                <button
+                  key={label}
+                  type="button"
+                  className={`product-note-dot${index === 0 ? ' active' : ''}`}
+                  aria-label={`Show ${label}`}
+                  aria-current={index === 0 ? 'true' : 'false'}
+                  onClick={() => goToNote(index)}
+                />
               ))}
             </div>
           </div>
@@ -520,7 +633,7 @@ export default function Home() {
         <div className="wave" style={{ top: '61%' }} aria-hidden="true">~</div>
 
         <div className="ed-row row-d">
-          <div className="ed-copy">
+          <div className="ed-copy" data-reveal>
             <h2>One season.<br />One reason to go green.</h2>
             <span className="ed-sub">The Golden Rose special</span>
             <div className="rule" />
@@ -529,7 +642,7 @@ export default function Home() {
               layers. A Tao seasonal, made in-house while the season holds.
             </p>
           </div>
-          <div className="ed-photo campaign-crop golden">
+          <div className="ed-photo campaign-crop golden" data-reveal data-delay="1">
             <img
               className="parallax-photo"
               src={goldenRose}
@@ -539,14 +652,14 @@ export default function Home() {
         </div>
 
         <div className="ed-row row-e">
-          <div className="ed-photo campaign-crop cupid">
+          <div className="ed-photo campaign-crop cupid" data-reveal>
             <img
               className="parallax-photo"
               src={cupidLove}
               alt="Cupid Love seasonal drink"
             />
           </div>
-          <div className="ed-copy right">
+          <div className="ed-copy right" data-reveal data-delay="1">
             <h2>Pour, layer,<br />finish.</h2>
             <span className="ed-sub">Cupid Love, strawberry &amp; cream</span>
             <div className="rule" />
@@ -562,15 +675,16 @@ export default function Home() {
           Centered headline + address. No cups.
       ══════════════════════════════════════════════════════════════════════ */}
       <section className="closing">
-        <div className="closing-rule" aria-hidden="true" />
-        <span className="kicker">Five signatures · one collection</span>
-        <h2 className="closing-headline">Come back<br />to the drinks.</h2>
-        <p className="closing-address">
+        <div className="closing-rule" aria-hidden="true" data-reveal />
+        <span className="kicker" data-reveal data-delay="1">Five signatures · one collection</span>
+        <h2 className="closing-headline" data-reveal data-delay="2">Come back<br />to the drinks.</h2>
+        <p className="closing-address" data-reveal data-delay="3">
           1550 S Federal Blvd · Denver, CO · Mon–Sun 11:00–21:00
         </p>
         <a
           href="https://www.exploretock.com/taoboba"
           className="closing-cta"
+          data-reveal data-delay="3"
         >
           Order now
         </a>
