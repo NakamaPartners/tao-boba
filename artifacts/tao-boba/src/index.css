@@ -315,7 +315,13 @@ p     { margin: 0 }
   max-height: 100%; max-width: 100%;
   width: auto; height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 22px 38px rgba(30,20,10,.14)) drop-shadow(0 5px 10px rgba(30,20,10,.07));
+  /* HD appearance: sharper contrast, richer color, crisper edges */
+  filter:
+    drop-shadow(0 22px 38px rgba(30,20,10,.14))
+    drop-shadow(0 5px 10px rgba(30,20,10,.07))
+    contrast(1.06)
+    saturate(1.12);
+  image-rendering: -webkit-optimize-contrast;
 }
 
 /* ── Ingredient particle animations ─────────────────────────────────────────

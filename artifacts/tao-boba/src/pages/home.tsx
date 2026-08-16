@@ -16,11 +16,11 @@ import goldenRose  from '@assets/golden-rose_1786791932029.jpg';
 import cupidLove   from '@assets/cupid-love_1786791932027.jpg';
 
 // Product cups — prototype set
-import cup1 from '@assets/cup1_enhanced.png';
-import cup2 from '@assets/cup2_enhanced.png';
-import cup3 from '@assets/cup3_enhanced.png';
-import cup4 from '@assets/cup4_enhanced.png';
-import cup5 from '@assets/cup5_enhanced.png';
+import cup1 from '@assets/butterfly-mango-jasmine_1786791932019.png';
+import cup2 from '@assets/cloud-mango-green-tea_1786791932021.png';
+import cup3 from '@assets/cloud-mango-matcha_1786791932022.png';
+import cup4 from '@assets/mango-passionfruit_1786791932031.png';
+import cup5 from '@assets/shiso-yuzu_1786791932037.png';
 
 /* ── product data (matches prototype JS array exactly) ─────────────────── */
 /* ── particle type ─────────────────────────────────────────────────────────── */
