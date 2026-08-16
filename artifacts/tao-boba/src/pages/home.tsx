@@ -16,7 +16,7 @@ import goldenRose  from '@assets/golden-rose_1786791932029.jpg';
 import cupidLove   from '@assets/cupid-love_1786791932027.jpg';
 
 // Product cups — prototype set
-import cup1 from '@assets/butterfly-mango-jasmine_1786791932019.png';
+import cup1 from '@assets/taro-boba-clean.png';
 import cup2 from '@assets/brown-sugar-boba-clean.png';
 import cup3 from '@assets/matcha-boba-clean2.png';
 import cup4 from '@assets/mango-boba-clean.png';
@@ -40,28 +40,27 @@ const PRODUCTS: ReadonlyArray<{
   particles: Ptcl[];
 }> = [
   {
-    name:  'Butterfly Mango Jasmine',
-    short: 'Butterfly',
+    name:  'Ube Latte',
+    short: 'Ube',
     photo: cup1,
-    tint:  '#f3edf7',
-    tone:  '#7651aa',
+    tint:  '#f0eaf7',
+    tone:  '#6b3fa0',
     copy:  [
-      'Floral jasmine meets ripe mango in a vivid purple-to-gold gradient.',
-      'Bright, aromatic and visually unmistakable. A signature that leads with color.',
+      'Creamy ube latte with earthy purple taro — rich, sweet and unmistakably vibrant.',
+      'Bold in color, smooth in taste. The drink that turns heads first.',
     ],
-    /* butterfly pea petals (purple), jasmine dots (ivory), mango wedges (gold) */
+    /* ube petals (deep purple), lavender circles, cream dots */
     particles: [
-      { shape:'petal',  color:'#8b5cf6', w:15,h:10, x:10, top:4,  delay:0,   dur:2.2, rot:30,  drot:135, dx:9  },
-      { shape:'petal',  color:'#7c3aed', w:13,h:9,  x:30, top:10, delay:0.4, dur:1.9, rot:-25, drot:155, dx:-8 },
-      { shape:'petal',  color:'#a78bfa', w:17,h:11, x:55, top:3,  delay:0.9, dur:2.4, rot:50,  drot:110, dx:11 },
-      { shape:'petal',  color:'#6d28d9', w:12,h:8,  x:78, top:8,  delay:1.5, dur:2.0, rot:-60, drot:140, dx:-7 },
-      { shape:'petal',  color:'#c4b5fd', w:10,h:7,  x:42, top:6,  delay:0.2, dur:2.6, rot:15,  drot:120, dx:6  },
-      { shape:'wedge',  color:'#f59e0b', w:14,h:11, x:22, top:12, delay:0.6, dur:2.1, rot:65,  drot:90,  dx:-6 },
-      { shape:'wedge',  color:'#d97706', w:11,h:9,  x:65, top:7,  delay:1.1, dur:1.8, rot:-45, drot:100, dx:7  },
-      { shape:'wedge',  color:'#fbbf24', w:12,h:10, x:85, top:14, delay:1.8, dur:2.3, rot:80,  drot:95,  dx:-5 },
-      { shape:'circle', color:'rgba(255,252,248,.95)', w:7,h:7, x:48,top:5,  delay:0.3, dur:1.7, rot:0, drot:0, dx:4  },
-      { shape:'circle', color:'rgba(248,245,240,.90)', w:5,h:5, x:18,top:16, delay:1.3, dur:2.0, rot:0, drot:0, dx:-3 },
-      { shape:'circle', color:'rgba(245,243,255,.85)', w:6,h:6, x:70,top:11, delay:0.7, dur:1.9, rot:0, drot:0, dx:5  },
+      { shape:'circle', color:'#7c3aed', w:11,h:11, x:12, top:4,  delay:0,   dur:1.8, rot:0, drot:0, dx:6  },
+      { shape:'circle', color:'#6d28d9', w:9, h:9,  x:35, top:9,  delay:0.4, dur:1.7, rot:0, drot:0, dx:-5 },
+      { shape:'circle', color:'#8b5cf6', w:12,h:12, x:58, top:3,  delay:0.8, dur:1.9, rot:0, drot:0, dx:7  },
+      { shape:'circle', color:'#5b21b6', w:8, h:8,  x:80, top:11, delay:1.4, dur:1.6, rot:0, drot:0, dx:-4 },
+      { shape:'circle', color:'#a78bfa', w:10,h:10, x:22, top:13, delay:0.2, dur:2.0, rot:0, drot:0, dx:5  },
+      { shape:'circle', color:'#c4b5fd', w:7, h:7,  x:48, top:7,  delay:0.9, dur:1.8, rot:0, drot:0, dx:-3 },
+      { shape:'circle', color:'#4c1d95', w:9, h:9,  x:68, top:15, delay:1.6, dur:1.7, rot:0, drot:0, dx:4  },
+      { shape:'petal',  color:'#7c3aed', w:13,h:9,  x:30, top:5,  delay:0.5, dur:2.2, rot:30,  drot:140, dx:8  },
+      { shape:'petal',  color:'#a78bfa', w:15,h:10, x:72, top:8,  delay:1.2, dur:2.4, rot:-25, drot:155, dx:-7 },
+      { shape:'circle', color:'rgba(245,240,255,.85)', w:6,h:6, x:44,top:16, delay:0.7, dur:2.0, rot:0, drot:0, dx:3  },
     ],
   },
   {

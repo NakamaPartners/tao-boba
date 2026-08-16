@@ -56,3 +56,10 @@ uri = "file://attached_assets/taro-boba-clean.png"
 type = "image"
 title = "Taro Boba — background removed"
 description = "Transparent PNG — click Open to inspect."
+
+[[outputs]]
+id = "hYTBYHXULX6d3yZSLBoTJ"
+uri = "file://attached_assets/thai-tea-clean.png"
+type = "image"
+title = "Orange Thai Tea — background removed"
+description = "Transparent PNG — click Open to inspect."
