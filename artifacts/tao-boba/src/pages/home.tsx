@@ -42,6 +42,7 @@ const PRODUCTS: ReadonlyArray<{
   {
     name:  'Ube Latte',
     short: 'Ube',
+    category: 'Speciality Drinks',
     photo: cup1,
     tint:  '#f0eaf7',
     tone:  '#6b3fa0',
@@ -64,8 +65,9 @@ const PRODUCTS: ReadonlyArray<{
     ],
   },
   {
-    name:  'Thai Milk Tea',
+    name:  'Thai Tea',
     short: 'Thai Tea',
+    category: 'Milk Tea Series',
     photo: cup2,
     tint:  '#f7ede0',
     tone:  '#c85a0a',
@@ -90,6 +92,7 @@ const PRODUCTS: ReadonlyArray<{
   {
     name:  'Matcha Latte',
     short: 'Matcha',
+    category: 'Matcha Series',
     photo: cup3,
     tint:  '#edf2e8',
     tone:  '#3d6b35',
@@ -114,6 +117,7 @@ const PRODUCTS: ReadonlyArray<{
   {
     name:  'Passion Fruit Green Tea',
     short: 'Passion Fruit',
+    category: 'Fruit Tea Series',
     photo: cup4,
     tint:  '#f6f2e4',
     tone:  '#5a8c2a',
@@ -138,6 +142,7 @@ const PRODUCTS: ReadonlyArray<{
   {
     name:  'Strawberry Matcha Latte',
     short: 'Strawberry',
+    category: 'Matcha Madness',
     photo: cup5,
     tint:  '#fce9ee',
     tone:  '#d4486a',
@@ -182,6 +187,7 @@ export default function Home() {
   const noteEl           = useRef<HTMLDivElement>(null);
   const bandEl           = useRef<HTMLDivElement>(null);
   const ghostEl          = useRef<HTMLDivElement>(null);
+  const categoryEl       = useRef<HTMLParagraphElement>(null);
 
   const currentIdx  = useRef(-1);
   const lastScrollY = useRef(0);
@@ -208,6 +214,7 @@ export default function Home() {
 
     /* text updates */
     if (titleEl.current) titleEl.current.textContent = p.name;
+    if (categoryEl.current) categoryEl.current.textContent = p.category;
     if (indexEl.current)
       indexEl.current.textContent = `${String(next + 1).padStart(2, '0')} / 05`;
     if (ghostEl.current)
@@ -282,7 +289,7 @@ export default function Home() {
     if (railEl.current && railEl.current.children.length === 0) {
       PRODUCTS.forEach((p, i) => {
         const li = document.createElement('li');
-        li.innerHTML = `${p.short}<span>Series ${String(i + 1).padStart(2, '0')}</span>`;
+        li.innerHTML = `${p.category}<span>${p.name}</span>`;
         if (i === 0) li.classList.add('active');
         railEl.current!.appendChild(li);
       });
@@ -462,6 +469,7 @@ export default function Home() {
           {/* Copy column */}
           <div className="product-copy-head">
             <p className="product-index" ref={indexEl}>01 / 05</p>
+            <p className="product-category" ref={categoryEl}>{PRODUCTS[0].category}</p>
             <h2 className="product-title" ref={titleEl}>
               {PRODUCTS[0].name}
             </h2>

@@ -249,8 +249,8 @@ p     { margin: 0 }
 .series-rail { grid-column: 1; padding-top: 32px; z-index: 8 }
 .series-rail ul { margin: 0; padding: 0; list-style: none }
 .series-rail li {
-  font-size: 15px; line-height: 1.4;
-  color: #b4aa9d; margin-bottom: 22px;
+  font-size: 13px; line-height: 1.4;
+  color: #b4aa9d; margin-bottom: 20px;
   position: relative; cursor: default;
   transition: color .35s ease;
 }
@@ -277,7 +277,12 @@ p     { margin: 0 }
 }
 .product-index {
   font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
-  color: #a59b8f; margin: 0 0 26px; display: block;
+  color: #a59b8f; margin: 0 0 10px; display: block;
+}
+.product-category {
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink); opacity: .55; font-weight: 500;
+  margin: 0 0 18px; display: block;
 }
 .product-title {
   font-weight: 300;
@@ -301,7 +306,7 @@ p     { margin: 0 }
 .cup-stack {
   grid-column: 3; grid-row: 1 / -1; /* span both copy rows */
   position: relative;
-  height: clamp(62vh, 76vh, 88vh);
+  height: clamp(46vh, 56vh, 68vh);
   align-self: end; z-index: 7;
   overflow: visible;
   margin-bottom: 4vh;
