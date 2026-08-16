@@ -20,23 +20,32 @@ description: Core decisions for the Tao Boba React/Vite homepage — cup engine,
 - 130ms fade-out window before DOM update; stale-capture guard: `if (currentIdx.current !== captured) return`
 - First load (currentIdx === -1) skips animation
 
-## Cup image edge treatment (CSS + PNG pipeline)
-- CSS filter on `.cup-wrap img`: two tiny `drop-shadow` in page cream color (6px + 18px) + contrast + saturate
-- **No glow layer, no duplicate image** — previous attempts with blurred duplicate caused white blob
-- Edge quality comes from ImageMagick pre-processing on the PNG files
+## Cup image edge treatment — FINAL approach (do not add more erosion passes)
 
-## PNG edge pipeline (applied in sequence, cumulative)
+### CSS (primary, consistent across all 5 cups)
+Applied to `.cup-wrap img` in both base and mobile breakpoint rules:
+```css
+mask-image: radial-gradient(
+  ellipse 86% 90% at 50% 52%,
+  black 0%, black 52%, rgba(0,0,0,0.85) 63%,
+  rgba(0,0,0,0.55) 73%, rgba(0,0,0,0.20) 83%, transparent 92%
+);
+-webkit-mask-image: /* same */;
+```
+Fully opaque centre → gradual dissolve → transparent at edge. Identical for all 5. Tune only these CSS values if more/less fade is needed — do NOT stack more ImageMagick erosion passes.
+
+### PNG pipeline (applied once from clean source — do NOT stack more passes)
 1. AI background removal
-2. `magick -channel Alpha -blur 0x2.0 -level 12%,88%` — initial alpha smoothing
-3. `magick ( +clone -channel Alpha -separate -morphology Dilate Disk:1.5 -blur 0x2.5 -level 3%,97% ) -alpha off -compose CopyOpacity -composite` — edge feathering outward
-4. `magick -channel Alpha -morphology Erode Disk:10 -blur 0x10 +channel` — fog pass 1
-5. `magick -channel Alpha -morphology Erode Disk:22 -blur 0x20 +channel` — fog pass 2
-6. `magick -channel Alpha -morphology Erode Disk:40 -blur 0x35 +channel` — fog pass 3
-7. **Pre-blend toward cream**: `magick cup.png ( +clone -background '#f6f1e8' -flatten ) ( -clone 0 -alpha extract ) -compose CopyOpacity -composite output.png`
+2. Initial alpha feathering (Dilate Disk:1.5 → blur 0x2.5 → level 3%,97% → CopyOpacity)
+3. **Cream pre-blend**: `magick cup.png ( +clone -background '#f6f1e8' -flatten ) ( -clone 0 -alpha extract ) -compose CopyOpacity -composite output.png`
+   - Shifts semi-transparent edge pixel *colours* toward cream so they're invisible on cream background
 
-**Why step 7 is critical**: Alpha erosion leaves semi-transparent dark pixels at edges. On a light background they show as a dark ghost fringe. Pre-blending shifts edge pixel *colours* toward the background cream, so they become invisible when rendered — no dark halo.
+**Why cream pre-blend matters**: alpha erosion leaves semi-transparent dark pixels at edges. On a light background they show as a dark ghost fringe. Pre-blending shifts edge colours toward cream so transparent pixels are already cream-coloured → no dark halo.
 
-**Rule**: after any alpha erosion on dark cups, always run the pre-blend step with the actual stage/page background color.
+**WARNING — stacking erosion passes**: applying multiple rounds of `-morphology Erode Disk:N -blur 0xN` destroyed the files (alpha mean dropped from ~72% to ~48%). Restoring from git commit `742d2b9` was required. The CSS mask handles all visible edge fading — PNG files should only have the cream pre-blend applied.
+
+### Healthy source state
+Git commit `742d2b9` has the cups at ~70-75% alpha mean — the best available state if files get over-processed again.
 
 ## Active cup files
 - `taro-boba-smooth.png` — Ube Latte (tint: #f0eaf7, tone: #6b3fa0)

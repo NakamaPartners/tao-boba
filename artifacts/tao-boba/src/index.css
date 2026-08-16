@@ -326,11 +326,28 @@ p     { margin: 0 }
   max-width: none !important;
   object-fit: contain;
   margin: 0 auto;
-  /* Fogged edges baked into PNG alpha; tiny drop-shadow seals the outermost pixel */
-  filter:
-    drop-shadow(0 0 6px rgba(246,241,232,.95))
-    drop-shadow(0 0 18px rgba(246,241,232,.55))
-    contrast(1.06) saturate(1.12);
+  filter: contrast(1.06) saturate(1.12);
+  /* Consistent elliptical vignette — fades ALL edges uniformly across every cup.
+     Opaque at centre, gradual dissolve from 55% → transparent at 90%.
+     This is the primary edge-blending mechanism (replaces per-PNG erosion). */
+  mask-image: radial-gradient(
+    ellipse 86% 90% at 50% 52%,
+    black              0%,
+    black             52%,
+    rgba(0,0,0,0.85)  63%,
+    rgba(0,0,0,0.55)  73%,
+    rgba(0,0,0,0.20)  83%,
+    transparent       92%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 86% 90% at 50% 52%,
+    black              0%,
+    black             52%,
+    rgba(0,0,0,0.85)  63%,
+    rgba(0,0,0,0.55)  73%,
+    rgba(0,0,0,0.20)  83%,
+    transparent       92%
+  );
   image-rendering: -webkit-optimize-contrast;
 }
 
@@ -911,10 +928,25 @@ p     { margin: 0 }
     max-height: 505px;
     object-fit: contain;
     margin: 0 auto;
-    filter:
-      drop-shadow(0 0 6px rgba(246,241,232,.95))
-      drop-shadow(0 0 18px rgba(246,241,232,.55))
-      contrast(1.04) saturate(1.08);
+    filter: contrast(1.04) saturate(1.08);
+    mask-image: radial-gradient(
+      ellipse 86% 90% at 50% 52%,
+      black              0%,
+      black             52%,
+      rgba(0,0,0,0.85)  63%,
+      rgba(0,0,0,0.55)  73%,
+      rgba(0,0,0,0.20)  83%,
+      transparent       92%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 86% 90% at 50% 52%,
+      black              0%,
+      black             52%,
+      rgba(0,0,0,0.85)  63%,
+      rgba(0,0,0,0.55)  73%,
+      rgba(0,0,0,0.20)  83%,
+      transparent       92%
+    );
   }
 
   /* Clean reference composition */
