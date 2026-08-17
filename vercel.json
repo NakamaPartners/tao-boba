@@ -1,0 +1,10 @@
+{
+  "buildCommand": "pnpm --filter @workspace/tao-boba run build",
+  "outputDirectory": "artifacts/tao-boba/dist/public",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "env": {
+    "BASE_PATH": "/"
+  }
+}
