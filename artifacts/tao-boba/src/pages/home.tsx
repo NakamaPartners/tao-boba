@@ -51,18 +51,18 @@ const PRODUCTS: ReadonlyArray<{
       ['Build',  'The ube paste is folded in by hand rather than pumped from a syrup bottle, which is why the colour streaks through the cup instead of sitting flat.'],
       ['Finish', 'Thick, round and slow. It coats the tongue and stays there, so most people drink it more slowly than they mean to.'],
     ],
-    /* ube petals (deep purple), lavender circles, cream dots */
+    /* ube pearls with gradient sheen, gold sparkles, lavender foam */
     particles: [
-      { shape:'circle', color:'#7c3aed', w:11,h:11, x:12, top:4,  delay:0,   dur:1.8, rot:0, drot:0, dx:6  },
-      { shape:'circle', color:'#6d28d9', w:9, h:9,  x:35, top:9,  delay:0.4, dur:1.7, rot:0, drot:0, dx:-5 },
-      { shape:'circle', color:'#8b5cf6', w:12,h:12, x:58, top:3,  delay:0.8, dur:1.9, rot:0, drot:0, dx:7  },
-      { shape:'circle', color:'#5b21b6', w:8, h:8,  x:80, top:11, delay:1.4, dur:1.6, rot:0, drot:0, dx:-4 },
-      { shape:'circle', color:'#a78bfa', w:10,h:10, x:22, top:13, delay:0.2, dur:2.0, rot:0, drot:0, dx:5  },
-      { shape:'circle', color:'#c4b5fd', w:7, h:7,  x:48, top:7,  delay:0.9, dur:1.8, rot:0, drot:0, dx:-3 },
-      { shape:'circle', color:'#4c1d95', w:9, h:9,  x:68, top:15, delay:1.6, dur:1.7, rot:0, drot:0, dx:4  },
-      { shape:'petal',  color:'#7c3aed', w:13,h:9,  x:30, top:5,  delay:0.5, dur:2.2, rot:30,  drot:140, dx:8  },
-      { shape:'petal',  color:'#a78bfa', w:15,h:10, x:72, top:8,  delay:1.2, dur:2.4, rot:-25, drot:155, dx:-7 },
-      { shape:'circle', color:'rgba(245,240,255,.85)', w:6,h:6, x:44,top:16, delay:0.7, dur:2.0, rot:0, drot:0, dx:3  },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #ddd6fe, #7c3aed 55%, #3b0764)', w:17,h:17, x:10, top:3,  delay:0,   dur:3.2, rot:0,   drot:0,   dx:7  },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #c4b5fd, #6d28d9 55%, #2e1065)', w:13,h:13, x:38, top:8,  delay:0.8, dur:3.6, rot:0,   drot:0,   dx:-6 },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #ede9fe, #8b5cf6 50%, #4c1d95)', w:15,h:15, x:64, top:2,  delay:1.5, dur:3.0, rot:0,   drot:0,   dx:8  },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #ddd6fe, #5b21b6 55%, #2e1065)', w:11,h:11, x:86, top:10, delay:2.2, dur:3.4, rot:0,   drot:0,   dx:-5 },
+      { shape:'sparkle', color:'rgba(255,215,0,0.95)',  w:13,h:13, x:24, top:5,  delay:0.4, dur:2.8, rot:0,   drot:180, dx:5  },
+      { shape:'sparkle', color:'rgba(255,215,0,0.88)',  w:9, h:9,  x:74, top:12, delay:1.9, dur:3.2, rot:22,  drot:200, dx:-4 },
+      { shape:'petal',   color:'#a78bfa',               w:17,h:12, x:18, top:7,  delay:1.1, dur:4.2, rot:30,  drot:130, dx:9  },
+      { shape:'petal',   color:'#7c3aed',               w:15,h:10, x:52, top:4,  delay:2.5, dur:4.5, rot:-20, drot:148, dx:-8 },
+      { shape:'circle',  color:'rgba(237,233,254,0.70)', w:9, h:9,  x:44, top:15, delay:1.0, dur:3.8, rot:0,   drot:0,   dx:3  },
+      { shape:'circle',  color:'rgba(245,243,255,0.55)', w:6, h:6,  x:88, top:5,  delay:1.7, dur:3.5, rot:0,   drot:0,   dx:-3 },
     ],
   },
   {
@@ -77,18 +77,17 @@ const PRODUCTS: ReadonlyArray<{
       ['Build',  'Tea first, milk second — the cup comes to you in two tones and the two of them find each other as you drink.'],
       ['Finish', 'Smooth, clean, and just sweet enough. The kind of drink that does not ask anything of you.'],
     ],
-    /* orange tea swirls, cream floats, spice dots */
+    /* boba pearls with gradient sheen, gold sparkles, cream milk drops */
     particles: [
-      { shape:'circle', color:'rgba(200,80,10,.90)',  w:11,h:11, x:12, top:4,  delay:0,   dur:1.7, rot:0, drot:0, dx:6  },
-      { shape:'circle', color:'rgba(230,110,20,.85)', w:9, h:9,  x:35, top:9,  delay:0.4, dur:1.6, rot:0, drot:0, dx:-5 },
-      { shape:'circle', color:'rgba(180,60,5,.90)',   w:12,h:12, x:58, top:3,  delay:0.8, dur:1.8, rot:0, drot:0, dx:7  },
-      { shape:'circle', color:'rgba(215,95,15,.85)',  w:8, h:8,  x:80, top:11, delay:1.3, dur:1.6, rot:0, drot:0, dx:-4 },
-      { shape:'circle', color:'rgba(160,50,5,.80)',   w:10,h:10, x:22, top:13, delay:0.2, dur:1.9, rot:0, drot:0, dx:5  },
-      { shape:'wedge',  color:'#e8821a', w:13,h:10,  x:48, top:6,  delay:0.7, dur:1.8, rot:50, drot:85,  dx:-5 },
-      { shape:'wedge',  color:'#c85a0a', w:11,h:9,   x:70, top:14, delay:1.4, dur:2.0, rot:-40,drot:95,  dx:6  },
-      { shape:'circle', color:'rgba(255,235,210,.85)', w:7,h:7, x:42, top:7,  delay:0.5, dur:2.0, rot:0, drot:0, dx:3  },
-      { shape:'circle', color:'rgba(255,220,185,.80)', w:5,h:5, x:65, top:17, delay:1.2, dur:1.9, rot:0, drot:0, dx:-3 },
-      { shape:'circle', color:'rgba(240,200,150,.75)', w:6,h:6, x:88, top:8,  delay:0.9, dur:1.7, rot:0, drot:0, dx:-4 },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #6b5040, #1c0a00 55%, #000)', w:18,h:18, x:8,  top:3,  delay:0,   dur:3.4, rot:0,   drot:0,   dx:6  },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #7a5e48, #2a1200 55%, #000)', w:14,h:14, x:40, top:8,  delay:0.8, dur:3.8, rot:0,   drot:0,   dx:-7 },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #5a4030, #150800 60%, #000)', w:16,h:16, x:66, top:2,  delay:1.6, dur:3.2, rot:0,   drot:0,   dx:8  },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #8a6850, #201000 55%, #000)', w:11,h:11, x:84, top:11, delay:2.3, dur:3.6, rot:0,   drot:0,   dx:-5 },
+      { shape:'sparkle', color:'rgba(255,215,0,0.95)',           w:12,h:12, x:26, top:5,  delay:0.5, dur:2.9, rot:15,  drot:190, dx:4  },
+      { shape:'sparkle', color:'rgba(255,200,80,0.90)',          w:8, h:8,  x:58, top:13, delay:2.0, dur:3.3, rot:-10, drot:210, dx:-4 },
+      { shape:'drop',    color:'rgba(245,230,200,0.80)',         w:10,h:14, x:18, top:8,  delay:1.2, dur:4.1, rot:10,  drot:30,  dx:5  },
+      { shape:'drop',    color:'rgba(255,240,215,0.75)',         w:8, h:11, x:76, top:6,  delay:2.8, dur:4.4, rot:-15, drot:-25, dx:-6 },
+      { shape:'circle',  color:'rgba(255,248,235,0.65)',         w:9, h:9,  x:50, top:15, delay:0.7, dur:3.9, rot:0,   drot:0,   dx:3  },
     ],
   },
   {
@@ -103,18 +102,17 @@ const PRODUCTS: ReadonlyArray<{
       ['Build',  'Whisked in the cup, never pre-mixed and never held. Matcha that has sat for an hour goes flat, and no amount of sugar hides it.'],
       ['Finish', 'Clean and short. It leaves the palate quickly, which is the point — it is the one drink on the board you can have two of.'],
     ],
-    /* matcha powder dots, tea leaves, cream circles */
+    /* matcha pearls with sheen, dark boba, gold sparkles, ceremonial leaves */
     particles: [
-      { shape:'circle', color:'rgba(61,107,53,.95)',  w:9, h:9,  x:15, top:4,  delay:0,   dur:1.6, rot:0, drot:0, dx:5  },
-      { shape:'circle', color:'rgba(74,124,63,.90)',  w:7, h:7,  x:38, top:9,  delay:0.4, dur:1.5, rot:0, drot:0, dx:-4 },
-      { shape:'circle', color:'rgba(90,158,58,.85)',  w:8, h:8,  x:60, top:3,  delay:0.8, dur:1.7, rot:0, drot:0, dx:6  },
-      { shape:'circle', color:'rgba(53,94,43,.90)',   w:6, h:6,  x:80, top:11, delay:1.3, dur:1.5, rot:0, drot:0, dx:-4 },
-      { shape:'circle', color:'rgba(106,170,64,.80)', w:5, h:5,  x:25, top:14, delay:0.2, dur:1.8, rot:0, drot:0, dx:3  },
-      { shape:'circle', color:'rgba(40,20,5,.85)',    w:8, h:8,  x:48, top:16, delay:1.1, dur:1.7, rot:0, drot:0, dx:-3 },
-      { shape:'circle', color:'rgba(30,15,5,.80)',    w:6, h:6,  x:68, top:13, delay:1.7, dur:1.6, rot:0, drot:0, dx:4  },
-      { shape:'leaf',   color:'#3d6b35', w:12,h:17, x:8,  top:5,  delay:0.6, dur:2.2, rot:20,  drot:170, dx:7  },
-      { shape:'leaf',   color:'#4a7c3f', w:10,h:14, x:72, top:7,  delay:1.4, dur:2.0, rot:-25, drot:155, dx:-6 },
-      { shape:'circle', color:'rgba(255,250,245,.75)', w:6, h:6, x:35, top:6,  delay:0.9, dur:2.1, rot:0, drot:0, dx:4  },
+      { shape:'circle',  color:'radial-gradient(circle at 35% 35%, #b5d97a, #3d6b35 55%, #1a3010)', w:13,h:13, x:14, top:4,  delay:0,   dur:3.2, rot:0,   drot:0,   dx:5  },
+      { shape:'circle',  color:'radial-gradient(circle at 35% 35%, #a3c75a, #2f5a28 55%, #152810)', w:10,h:10, x:42, top:9,  delay:0.6, dur:3.6, rot:0,   drot:0,   dx:-5 },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #6b4a30, #0f0500 60%, #000)',    w:16,h:16, x:64, top:3,  delay:1.3, dur:3.4, rot:0,   drot:0,   dx:7  },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #5a3c28, #0a0300 60%, #000)',    w:13,h:13, x:86, top:10, delay:2.1, dur:3.8, rot:0,   drot:0,   dx:-6 },
+      { shape:'sparkle', color:'rgba(255,215,0,0.95)',                                              w:11,h:11, x:28, top:6,  delay:0.4, dur:2.8, rot:0,   drot:180, dx:4  },
+      { shape:'sparkle', color:'rgba(255,215,0,0.85)',                                              w:8, h:8,  x:72, top:12, delay:1.9, dur:3.1, rot:20,  drot:200, dx:-3 },
+      { shape:'leaf',    color:'#3d6b35',                                                           w:16,h:22, x:6,  top:5,  delay:0.8, dur:4.3, rot:18,  drot:165, dx:8  },
+      { shape:'leaf',    color:'#4a7c3f',                                                           w:13,h:18, x:50, top:7,  delay:2.3, dur:4.6, rot:-28, drot:152, dx:-7 },
+      { shape:'circle',  color:'rgba(255,252,245,0.65)',                                            w:9, h:9,  x:34, top:15, delay:1.0, dur:3.9, rot:0,   drot:0,   dx:3  },
     ],
   },
   {
@@ -129,18 +127,17 @@ const PRODUCTS: ReadonlyArray<{
       ['Build',  'The fruit is pressed the same morning and the seeds are left in. They are texture, and they are proof it did not come from a bottle.'],
       ['Finish', 'Tropical, layered and built for heat. Every sip reaches a different depth, and the last one is the sweetest of them.'],
     ],
-    /* passion fruit seeds (golden), green tea leaves, boba pearls (dark) */
+    /* passion fruit seeds with amber glow, dark boba pearls, gold sparkles */
     particles: [
-      { shape:'circle', color:'#c8a820', w:10,h:10, x:15, top:4,  delay:0,   dur:1.7, rot:0, drot:0, dx:5  },
-      { shape:'circle', color:'#e4c030', w:8, h:8,  x:38, top:8,  delay:0.5, dur:1.6, rot:0, drot:0, dx:-4 },
-      { shape:'circle', color:'#d4b025', w:11,h:11, x:60, top:3,  delay:1.0, dur:1.8, rot:0, drot:0, dx:6  },
-      { shape:'circle', color:'#b89010', w:7, h:7,  x:82, top:10, delay:1.5, dur:1.6, rot:0, drot:0, dx:-5 },
-      { shape:'circle', color:'rgba(60,30,10,.90)',  w:9, h:9,  x:25, top:12, delay:0.3, dur:1.9, rot:0, drot:0, dx:4  },
-      { shape:'circle', color:'rgba(40,20,5,.85)',   w:7, h:7,  x:55, top:16, delay:1.2, dur:1.7, rot:0, drot:0, dx:-3 },
-      { shape:'leaf',   color:'#4a7c3f', w:12,h:17, x:10, top:6,  delay:0.7, dur:2.0, rot:25,  drot:160, dx:7  },
-      { shape:'leaf',   color:'#5a9e3a', w:10,h:15, x:45, top:5,  delay:1.4, dur:2.2, rot:-20, drot:150, dx:-6 },
-      { shape:'leaf',   color:'#3d6b35', w:13,h:18, x:72, top:9,  delay:0.2, dur:1.9, rot:40,  drot:165, dx:8  },
-      { shape:'circle', color:'rgba(255,240,200,.85)', w:6,h:6, x:68,top:14, delay:0.8, dur:2.0, rot:0, drot:0, dx:-4 },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #fde68a, #b45309 55%, #7c2d00)', w:14,h:14, x:12, top:4,  delay:0,   dur:3.3, rot:0,   drot:0,   dx:6  },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #fcd34d, #92400e 55%, #4a1800)', w:11,h:11, x:40, top:8,  delay:0.7, dur:3.7, rot:0,   drot:0,   dx:-5 },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #fef08a, #ca8a04 50%, #713f00)', w:13,h:13, x:66, top:3,  delay:1.4, dur:3.5, rot:0,   drot:0,   dx:7  },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #6b4a30, #0f0500 60%, #000)',    w:16,h:16, x:86, top:10, delay:2.2, dur:3.0, rot:0,   drot:0,   dx:-6 },
+      { shape:'sparkle', color:'rgba(255,215,0,0.95)',                                              w:13,h:13, x:22, top:5,  delay:0.3, dur:2.8, rot:0,   drot:185, dx:5  },
+      { shape:'sparkle', color:'rgba(255,220,50,0.88)',                                             w:9, h:9,  x:54, top:13, delay:1.8, dur:3.2, rot:18,  drot:195, dx:-4 },
+      { shape:'leaf',    color:'#4a7c3f',                                                           w:15,h:21, x:8,  top:6,  delay:1.0, dur:4.4, rot:22,  drot:162, dx:8  },
+      { shape:'leaf',    color:'#5a9e3a',                                                           w:12,h:17, x:48, top:5,  delay:2.5, dur:4.1, rot:-18, drot:148, dx:-7 },
+      { shape:'circle',  color:'rgba(255,245,210,0.70)',                                            w:8, h:8,  x:76, top:14, delay:0.8, dur:3.8, rot:0,   drot:0,   dx:-3 },
     ],
   },
   {
@@ -155,18 +152,17 @@ const PRODUCTS: ReadonlyArray<{
       ['Build',  'Three densities stacked cold: fruit, then milk, then matcha. Pour them out of order and you get a brown cup, so we do not.'],
       ['Finish', 'Bright, then grassy, then round. It shifts as it settles, which is why it reaches you unstirred and stays that way.'],
     ],
-    /* matcha leaves (green), strawberry dots (red/pink), cream circles */
+    /* strawberry spheres with sheen, matcha leaves, gold sparkles, cream foam */
     particles: [
-      { shape:'leaf',   color:'#4a7c3f', w:13,h:19, x:10, top:3,  delay:0,   dur:2.1, rot:20,  drot:165, dx:7  },
-      { shape:'leaf',   color:'#5a9e3a', w:11,h:16, x:35, top:8,  delay:0.5, dur:2.3, rot:-30, drot:150, dx:-8 },
-      { shape:'leaf',   color:'#3d6b35', w:14,h:20, x:60, top:4,  delay:1.0, dur:2.0, rot:40,  drot:170, dx:9  },
-      { shape:'leaf',   color:'#6aab42', w:10,h:15, x:80, top:11, delay:1.6, dur:2.4, rot:-15, drot:155, dx:-6 },
-      { shape:'circle', color:'#e8325a', w:11,h:11, x:20, top:5,  delay:0.3, dur:1.7, rot:0,   drot:0,   dx:5  },
-      { shape:'circle', color:'#f06080', w:9, h:9,  x:48, top:9,  delay:0.8, dur:1.6, rot:0,   drot:0,   dx:-4 },
-      { shape:'circle', color:'#c02050', w:12,h:12, x:68, top:6,  delay:1.3, dur:1.8, rot:0,   drot:0,   dx:6  },
-      { shape:'circle', color:'rgba(240,96,128,.85)', w:8,h:8, x:85,top:14, delay:1.9, dur:1.6, rot:0, drot:0, dx:-5 },
-      { shape:'circle', color:'rgba(255,230,235,.90)', w:7,h:7, x:30,top:14, delay:0.6, dur:1.9, rot:0, drot:0, dx:3  },
-      { shape:'circle', color:'rgba(255,220,230,.80)', w:5,h:5, x:55,top:17, delay:1.5, dur:2.0, rot:0, drot:0, dx:-3 },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #fca5a5, #e8325a 55%, #881337)', w:16,h:16, x:10, top:3,  delay:0,   dur:3.3, rot:0,   drot:0,   dx:7  },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #fbcfe8, #c02050 55%, #9f0030)', w:12,h:12, x:42, top:9,  delay:0.7, dur:3.7, rot:0,   drot:0,   dx:-5 },
+      { shape:'circle',  color:'radial-gradient(circle at 30% 30%, #fda4af, #be185d 55%, #831843)', w:14,h:14, x:68, top:4,  delay:1.5, dur:3.5, rot:0,   drot:0,   dx:6  },
+      { shape:'sparkle', color:'rgba(255,215,0,0.95)',                                              w:12,h:12, x:25, top:6,  delay:0.4, dur:2.9, rot:0,   drot:180, dx:4  },
+      { shape:'sparkle', color:'rgba(255,200,100,0.88)',                                            w:8, h:8,  x:80, top:12, delay:2.1, dur:3.3, rot:15,  drot:195, dx:-5 },
+      { shape:'leaf',    color:'#4a7c3f',                                                           w:15,h:21, x:6,  top:5,  delay:0.9, dur:4.3, rot:20,  drot:160, dx:9  },
+      { shape:'leaf',    color:'#3d6b35',                                                           w:13,h:18, x:55, top:7,  delay:2.4, dur:4.6, rot:-30, drot:152, dx:-8 },
+      { shape:'circle',  color:'rgba(255,235,242,0.70)',                                            w:9, h:9,  x:34, top:14, delay:1.2, dur:3.8, rot:0,   drot:0,   dx:3  },
+      { shape:'circle',  color:'rgba(240,252,240,0.60)',                                            w:7, h:7,  x:86, top:6,  delay:1.8, dur:4.0, rot:0,   drot:0,   dx:-3 },
     ],
   },
 ];
@@ -196,6 +192,7 @@ export default function Home() {
   const categoryEl       = useRef<HTMLParagraphElement>(null);
 
   const copyHeadEl     = useRef<HTMLDivElement>(null);
+  const progressEl     = useRef<HTMLDivElement>(null);
   const rafId          = useRef<number>(0);
   const targetScrollY  = useRef(0);
   const smoothScrollY  = useRef(0);
@@ -253,7 +250,7 @@ export default function Home() {
         ghostEl.current.textContent = String(next + 1).padStart(2, '0');
       if (noteEl.current) {
         noteEl.current.innerHTML = p.notes
-          .map(([label, text]) => `<div class="product-note-item"><h3>${label}</h3><p>${text}</p></div>`)
+          .map(([label, text], i) => `<div class="product-note-item" style="--note-i:${i}"><h3>${label}</h3><p>${text}</p></div>`)
           .join('');
         noteEl.current.scrollLeft = 0;
       }
@@ -365,7 +362,7 @@ export default function Home() {
         document.querySelectorAll<HTMLElement>('.parallax-photo').forEach((el, n) => {
           const r = el.parentElement?.getBoundingClientRect();
           if (!r) return;
-          const p = (window.innerHeight - r.top) * 0.06 * (n % 2 ? -0.6 : 1);
+          const p = (window.innerHeight - r.top) * 0.075 * (n % 2 ? -0.55 : 1);
           el.style.transform =
             `translate3d(0,${Math.max(-42, Math.min(42, p))}px,0) scale(1.04)`;
         });
@@ -376,7 +373,7 @@ export default function Home() {
     function tick() {
       const diff = targetScrollY.current - smoothScrollY.current;
       if (Math.abs(diff) > 0.05) {
-        smoothScrollY.current += diff * 0.1;
+        smoothScrollY.current += diff * 0.055;
         applyParallax(smoothScrollY.current);
       }
       rafId.current = requestAnimationFrame(tick);
@@ -387,6 +384,16 @@ export default function Home() {
     function onScroll() {
       const y = window.scrollY;
       targetScrollY.current = y;
+
+      /* scroll progress bar */
+      if (progressEl.current) {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const prog = maxScroll > 0 ? Math.min(1, y / maxScroll) : 0;
+        progressEl.current.style.transform = `scaleX(${prog})`;
+      }
+
+      /* hero scroll cue fades out once user starts scrolling */
+      document.querySelector('.hero-scroll')?.classList.toggle('is-scrolled', y > 80);
 
       /* product series scrub */
       if (productScrollEl.current) {
@@ -438,6 +445,9 @@ export default function Home() {
   /* ═══════════════════════════════════ RENDER ══════════════════════════════ */
   return (
     <>
+      {/* ── Scroll progress bar ─────────────────────────────────────────────── */}
+      <div className="scroll-progress" ref={progressEl} aria-hidden="true" />
+
       {/* ── MASTHEAD ────────────────────────────────────────────────────────── */}
       <header className="masthead">
         <div className="brand">
