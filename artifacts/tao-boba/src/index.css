@@ -139,13 +139,13 @@ p     { margin: 0 }
   padding: 0 clamp(48px, 7vw, 110px);
 }
 .kicker {
-  font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
-  color: var(--tan); margin-bottom: 28px; display: block;
+  font-size: 9px; letter-spacing: .36em; text-transform: uppercase;
+  color: var(--tan); margin-bottom: 34px; display: block;
 }
 .hero h1 {
   font-weight: 300;
-  font-size: clamp(46px, 5.6vw, 82px);
-  line-height: .98; letter-spacing: -.055em;
+  font-size: clamp(50px, 5.9vw, 90px);
+  line-height: .97; letter-spacing: -.058em;
   max-width: 8ch;
 }
 .hero-copy {
@@ -207,8 +207,9 @@ p     { margin: 0 }
 .wave {
   position: absolute; left: 50%; transform: translateX(-50%);
   font-family: Baskerville, Georgia, serif;
-  font-size: 38px; color: var(--tan); line-height: 1;
-  background: var(--paper-2); padding: 0 8px;
+  font-size: 54px; color: var(--tan); line-height: 1;
+  background: var(--paper-2); padding: 0 14px;
+  letter-spacing: .06em;
 }
 .wave.w1 { top: 14% }
 .wave.w2 { top: 56% }
@@ -229,15 +230,15 @@ p     { margin: 0 }
 }
 .ed-copy h2 {
   font-weight: 300;
-  font-size: clamp(30px, 3vw, 45px);
-  line-height: 1.05; letter-spacing: -.035em;
+  font-size: clamp(38px, 3.8vw, 62px);
+  line-height: 1.03; letter-spacing: -.04em;
 }
 .ed-sub {
   font-family: Baskerville, Georgia, serif;
-  font-size: 18px; letter-spacing: .12em;
-  color: var(--tan); margin-top: 12px; display: block;
+  font-size: 20px; letter-spacing: .10em;
+  color: var(--tan); margin-top: 16px; display: block;
 }
-.rule { width: 32px; height: 1px; background: var(--ink); margin: 30px 0 34px }
+.rule { width: 52px; height: 1px; background: var(--ink); margin: 34px 0 42px }
 .ed-copy p {
   font-size: 14px; line-height: 2.05; color: var(--muted);
   max-width: 40ch;
@@ -291,8 +292,14 @@ p     { margin: 0 }
   width: 30px; height: 1px; background: var(--ink);
 }
 .series-rail span {
-  display: none;
+  display: block;
+  font-size: 11px; font-style: italic;
+  letter-spacing: .08em;
+  color: #bfae9e;
+  margin-top: 2px;
+  font-family: Baskerville, Georgia, serif;
 }
+.series-rail li.active span { color: var(--muted); }
 
 /* Center copy — split into head (title) and body (notes) */
 .product-copy-head {
@@ -308,23 +315,23 @@ p     { margin: 0 }
   color: #a59b8f; margin: 0 0 10px; display: block;
 }
 .product-category {
-  font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--ink); opacity: .55; font-weight: 500;
-  margin: 0 0 18px; display: block;
+  font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--ink); opacity: .70; font-weight: 500;
+  margin: 0 0 20px; display: block;
 }
 .product-title {
   font-weight: 300;
-  font-size: 58px;
-  line-height: 1.02; letter-spacing: -.02em; max-width: 14ch;
+  font-size: clamp(52px, 5.5vw, 88px);
+  line-height: 1.01; letter-spacing: -.025em; max-width: 14ch;
 }
 .product-note {
-  margin-top: 56px; max-width: 46ch;
-  display: grid; gap: 30px;
+  margin-top: 68px; max-width: 46ch;
+  display: grid; gap: 38px;
 }
 .product-note-item h3 {
-  font-size: 12px; letter-spacing: .08em;
+  font-size: 10px; letter-spacing: .18em;
   text-transform: uppercase; font-weight: 500;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
 .product-note-item p {
   font-size: 14px; line-height: 2.0; color: var(--muted);
@@ -463,9 +470,21 @@ p     { margin: 0 }
 }
 .word-band span { display: inline-block; margin-right: .48em }
 
-/* Ghost glyph — Baskerville number */
+/* Ghost glyph — Baskerville number, layered behind cup for depth */
 .ghost-glyph {
-  display: none;
+  position: absolute;
+  top: -0.12em; right: 48px;
+  font-family: Baskerville, Georgia, serif;
+  font-size: clamp(180px, 19vw, 300px);
+  font-weight: 400;
+  line-height: 0.85;
+  color: rgba(23,22,19,0.042);
+  letter-spacing: -.06em;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity .6s ease;
+  display: none; /* shown via desktop media query override below */
 }
 
 /* ══════════════════════════════════════════════ LOWER STORY ════════════
@@ -543,7 +562,9 @@ p     { margin: 0 }
   padding: 10vh var(--gutter) 11vh;
 }
 .closing-rule {
-  width: 1px; height: 56px; background: var(--line); margin-bottom: 40px;
+  width: 1px; height: 72px;
+  background: linear-gradient(to bottom, transparent, var(--ink) 35%, var(--ink) 65%, transparent);
+  margin-bottom: 56px;
 }
 .closing .kicker { margin-bottom: 28px }
 .closing-headline {
@@ -557,17 +578,19 @@ p     { margin: 0 }
   color: var(--muted); margin: 0 0 44px;
 }
 .closing-cta {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
-  color: var(--ink); border-bottom: 1px solid currentColor;
-  padding-bottom: 4px; transition: opacity .25s ease;
+  display: inline-flex; align-items: center; gap: 14px;
+  font-size: 9px; letter-spacing: .32em; text-transform: uppercase;
+  color: var(--ink); border: 1px solid currentColor;
+  padding: 18px 44px;
+  transition: background .35s ease, color .35s ease;
+  margin-top: 8px;
 }
-.closing-cta:hover { opacity: .5 }
+.closing-cta:hover { background: var(--ink); color: var(--paper); opacity: 1; }
 
 /* ══════════════════════════════════════════════ FOOTER ═════════════════ */
 .site-footer {
   background: #f3ece2; color: var(--ink);
-  padding: 5vh var(--gutter) 3vh;
+  padding: 7vh var(--gutter) 4vh;
   border-top: 1px solid var(--line);
 }
 .footer-top {
@@ -586,9 +609,9 @@ p     { margin: 0 }
 }
 .footer-bottom {
   display: flex; justify-content: space-between;
-  margin-top: 5vh; padding-top: 20px;
-  border-top: 1px solid rgba(0,0,0,.06);
-  font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
+  margin-top: 6vh; padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,.08);
+  font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
   color: #71695f;
 }
 .footer-bottom a:hover { color: var(--ink) }
@@ -915,6 +938,23 @@ p     { margin: 0 }
 
   .series-rail span {
     display: none;
+  }
+
+  /* Ghost glyph — large Baskerville number layered behind the cup */
+  .ghost-glyph {
+    display: block;
+    position: absolute;
+    top: 52px;
+    right: 80px;
+    font-family: Baskerville, Georgia, serif;
+    font-size: clamp(200px, 22vw, 340px);
+    line-height: 0.82;
+    color: rgba(23,22,19,0.038);
+    letter-spacing: -.08em;
+    z-index: 1;
+    user-select: none;
+    pointer-events: none;
+    transition: opacity .7s ease;
   }
 
   /* Product description */
