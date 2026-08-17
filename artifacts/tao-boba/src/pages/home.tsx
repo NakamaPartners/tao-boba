@@ -66,16 +66,16 @@ const PRODUCTS: ReadonlyArray<{
     ],
   },
   {
-    name:  'Thai Tea',
-    short: 'Thai Tea',
+    name:  'Classic Milk Tea',
+    short: 'Milk Tea',
     category: 'Milk Tea Series',
     photo: cup2,
     tint:  '#f7ede0',
     tone:  '#c85a0a',
     notes: [
-      ['Flavor', 'Thai tea steeped strong, with star anise and cardamom carried the whole way through, then poured over ice and cut with condensed milk.'],
-      ['Build',  'The tea goes in first and the milk falls through it, so the cup reaches you in two tones and you decide when the two of them meet.'],
-      ['Finish', 'Sweet at the front, spiced at the back, a little tannic once the ice starts working. Best drunk inside the first ten minutes.'],
+      ['Flavor', 'Black tea brewed full and poured over ice, then finished with fresh milk so the creaminess arrives last and lingers.'],
+      ['Build',  'Tea first, milk second — the cup comes to you in two tones and the two of them find each other as you drink.'],
+      ['Finish', 'Smooth, clean, and just sweet enough. The kind of drink that does not ask anything of you.'],
     ],
     /* orange tea swirls, cream floats, spice dots */
     particles: [
