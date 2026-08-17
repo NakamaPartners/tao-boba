@@ -334,24 +334,24 @@ p     { margin: 0 }
      sides/bottom fog, top stays open. Tune horizontal% for side fog,
      vertical% for bottom fog, centre Y for top/bottom balance. */
   mask-image: radial-gradient(
-    ellipse 56% 72% at 50% 40%,
+    ellipse 68% 84% at 50% 40%,
     black              0%,
-    black             44%,
-    rgba(0,0,0,0.90)  55%,
-    rgba(0,0,0,0.68)  66%,
-    rgba(0,0,0,0.36)  77%,
-    rgba(0,0,0,0.10)  88%,
-    transparent       96%
+    black             55%,
+    rgba(0,0,0,0.85)  65%,
+    rgba(0,0,0,0.55)  75%,
+    rgba(0,0,0,0.20)  86%,
+    rgba(0,0,0,0.05)  93%,
+    transparent       98%
   );
   -webkit-mask-image: radial-gradient(
-    ellipse 56% 72% at 50% 40%,
+    ellipse 68% 84% at 50% 40%,
     black              0%,
-    black             44%,
-    rgba(0,0,0,0.90)  55%,
-    rgba(0,0,0,0.68)  66%,
-    rgba(0,0,0,0.36)  77%,
-    rgba(0,0,0,0.10)  88%,
-    transparent       96%
+    black             55%,
+    rgba(0,0,0,0.85)  65%,
+    rgba(0,0,0,0.55)  75%,
+    rgba(0,0,0,0.20)  86%,
+    rgba(0,0,0,0.05)  93%,
+    transparent       98%
   );
   image-rendering: -webkit-optimize-contrast;
 }
@@ -935,24 +935,24 @@ p     { margin: 0 }
     margin: 0 auto;
     filter: contrast(1.04) saturate(1.08);
     mask-image: radial-gradient(
-      ellipse 56% 72% at 50% 40%,
+      ellipse 68% 84% at 50% 40%,
       black              0%,
-      black             44%,
-      rgba(0,0,0,0.90)  55%,
-      rgba(0,0,0,0.68)  66%,
-      rgba(0,0,0,0.36)  77%,
-      rgba(0,0,0,0.10)  88%,
-      transparent       96%
+      black             55%,
+      rgba(0,0,0,0.85)  65%,
+      rgba(0,0,0,0.55)  75%,
+      rgba(0,0,0,0.20)  86%,
+      rgba(0,0,0,0.05)  93%,
+      transparent       98%
     );
     -webkit-mask-image: radial-gradient(
-      ellipse 56% 72% at 50% 40%,
+      ellipse 68% 84% at 50% 40%,
       black              0%,
-      black             44%,
-      rgba(0,0,0,0.90)  55%,
-      rgba(0,0,0,0.68)  66%,
-      rgba(0,0,0,0.36)  77%,
-      rgba(0,0,0,0.10)  88%,
-      transparent       96%
+      black             55%,
+      rgba(0,0,0,0.85)  65%,
+      rgba(0,0,0,0.55)  75%,
+      rgba(0,0,0,0.20)  86%,
+      rgba(0,0,0,0.05)  93%,
+      transparent       98%
     );
   }
 
