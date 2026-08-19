@@ -714,18 +714,12 @@ p     { margin: 0 }
 [data-reveal][data-delay="2"] { transition-delay: .34s }
 [data-reveal][data-delay="3"] { transition-delay: .50s }
 
-/* Image containers: curtain-wipe reveal (clip-path) instead of fade-up */
+/* Image containers: fade-up same as other reveal elements (clip-path wipe was silently broken) */
 .ed-photo[data-reveal],
 .campaign-crop[data-reveal] {
-  clip-path: inset(0 0 100% 0);
-  transform: none;
   transition:
     opacity  1.3s cubic-bezier(.16, 1, .3, 1),
-    clip-path 1.3s cubic-bezier(.16, 1, .3, 1);
-}
-.ed-photo[data-reveal].revealed,
-.campaign-crop[data-reveal].revealed {
-  clip-path: inset(0 0 0% 0);
+    transform 1.3s cubic-bezier(.16, 1, .3, 1);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
